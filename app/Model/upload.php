@@ -18,17 +18,13 @@ use App\Http\Requests;
 
 class upload extends Eloquent
 {
-    protected $connection="mongodb";
-    protected $collection="addedusers";
+    protected $connection = "mongodb";
+    protected $collection = "addedusers";
 
 
-    public function savedReports()
-    {
-        return $this->embedsMany('App/Model/file');
-    }
 
 
-    public static function upload($inset)
+    public static function upload()
     {
         $name = Input::get('username');
         $files = Input::file('images');
@@ -44,13 +40,13 @@ class upload extends Eloquent
                     $file->move($destinationPath, $filename);
                     $success = $user->savedReports()->create(array("filePath" => $name));
                     if ($success) {
-                        return array("code" => "0", "status" => "Successfully added");
+                        return Redirect::to('upload')->with('success', 'Upload successfully');
+
 
                     } else {
                         return array("code" => "1", "status" => "error");
                     }
                 }
-                return Redirect::to('upload')->with('success', 'Upload successfully');
 
 
                 //

@@ -149,6 +149,12 @@ class addUser extends Eloquent
         return $this->embedsMany('App\Model\savedtests');
     }
 
+    public function savedReports()
+    {
+        return $this->embedsMany('App\Model\file');
+    }
+
+
     public static function addanswers($input)
 
     {
