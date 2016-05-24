@@ -72,7 +72,7 @@ class addUser extends Eloquent
         $device_model = $model->deviceType = $input['deviceType'];
         $model->appVersion = $input['appVersion'];
         $model->uniqueDeviceID = $input['uniqueDeviceID'];
-        $model->pushNotificationID = $input['pushNotificationID'];
+        $push=$model->pushNotificationID = $input['pushNotificationID'];
         $uniqueID = $model->usrSessionHdl = uniqid();
         $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email'];
         $array_plt = ['android', 'ios', 'webApp'];
@@ -115,10 +115,14 @@ class addUser extends Eloquent
 
             }
             if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
+               /* $user->delete();
+                $model->save();*/
                 return array("status" => "success", "resultCode" => "1", "userType"=>"Free access","message" => "User already present","sessionHandle"=>$userHandle);
 
 
             } else {
+                /*$user->delete();
+                $model->save();*/
                 return array("status" => "success", "resultCode" => "1", "userType"=>"Corporate access","message" => "User already present","sessionHandle"=>$userHandle);
             }
 
