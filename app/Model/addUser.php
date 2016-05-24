@@ -115,14 +115,19 @@ class addUser extends Eloquent
 
             }
             if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
-               /* $user->delete();
-                $model->save();*/
+
+                $new=$model::where('userId','=',$emailId)->first();
+                $new->pushNotificationID=$push;
+                $new->save();
+
                 return array("status" => "success", "resultCode" => "1", "userType"=>"Free access","message" => "User already present","sessionHandle"=>$userHandle);
 
 
             } else {
-                /*$user->delete();
-                $model->save();*/
+                $new=$model::where('userId','=',$emailId)->first();
+                $new->pushNotificationID=$push;
+                $new->save();
+
                 return array("status" => "success", "resultCode" => "1", "userType"=>"Corporate access","message" => "User already present","sessionHandle"=>$userHandle);
             }
 
