@@ -7,7 +7,7 @@
  */
 
 // API access key from Google API's Console
-define( 'API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs' );
+define( 'API_ACCESS_KEY', '' );
 $registrationIds = array( $_GET['id'] );
 
 // prep the bundle
