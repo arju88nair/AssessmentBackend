@@ -46,7 +46,7 @@ class addUser extends Eloquent
     public static function getUser()
     {
         $model = new self();
-        $all= $model::all();
+        $all = $model::all();
         foreach ($all as $tst) {
             $tests = $tst["savedtests"];
             unset($tst->savedtests);
@@ -68,11 +68,11 @@ class addUser extends Eloquent
         $authenticationType = $model->auth_type = $input['authType'];
         $snsHandle = $model->snsHandle = $input['password'];
         $platform = $model->clientPlf = $input['clientPlf'];
-        $model->imageUrl=$input['imageUrl'];
+        $model->imageUrl = $input['imageUrl'];
         $device_model = $model->deviceType = $input['deviceType'];
         $model->appVersion = $input['appVersion'];
         $model->uniqueDeviceID = $input['uniqueDeviceID'];
-        $push=$model->pushNotificationID = $input['pushNotificationID'];
+        $push = $model->pushNotificationID = $input['pushNotificationID'];
         $uniqueID = $model->usrSessionHdl = uniqid();
         $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email'];
         $array_plt = ['android', 'ios', 'webApp'];
@@ -99,36 +99,36 @@ class addUser extends Eloquent
 
             if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
                 $model->save();
-                return array("status" => "success", "resultCode" => "11", "userType"=>"Free access","message" => "New user created", "sessionHandle" => $uniqueID);
+                return array("status" => "success", "resultCode" => "11", "userType" => "Free access", "message" => "New user created", "sessionHandle" => $uniqueID);
 
 
             } else {
                 $model->save();
-                return array("status" => "success", "resultCode" => "12", "userType"=>"Corporate access","message" => "New user created", "sessionHandle" => $uniqueID);
+                return array("status" => "success", "resultCode" => "12", "userType" => "Corporate access", "message" => "New user created", "sessionHandle" => $uniqueID);
             }
 
 
         } else {
             foreach ($users as $user) {
 
-               $userHandle=  $user->usrSessionHdl;
+                $userHandle = $user->usrSessionHdl;
 
             }
             if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
 
-                $new=$model::where('userId','=',$emailId)->first();
-                $new->pushNotificationID=$push;
+                $new = $model::where('userId', '=', $emailId)->first();
+                $new->pushNotificationID = $push;
                 $new->save();
 
-                return array("status" => "success", "resultCode" => "1", "userType"=>"Free access","message" => "User already present","sessionHandle"=>$userHandle);
+                return array("status" => "success", "resultCode" => "1", "userType" => "Free access", "message" => "User already present", "sessionHandle" => $userHandle);
 
 
             } else {
-                $new=$model::where('userId','=',$emailId)->first();
-                $new->pushNotificationID=$push;
+                $new = $model::where('userId', '=', $emailId)->first();
+                $new->pushNotificationID = $push;
                 $new->save();
 
-                return array("status" => "success", "resultCode" => "1", "userType"=>"Corporate access","message" => "User already present","sessionHandle"=>$userHandle);
+                return array("status" => "success", "resultCode" => "1", "userType" => "Corporate access", "message" => "User already present", "sessionHandle" => $userHandle);
             }
 
         }
@@ -188,5 +188,7 @@ class addUser extends Eloquent
 
 
     }
+
+
 
 }
