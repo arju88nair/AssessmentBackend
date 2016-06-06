@@ -32,11 +32,27 @@ class FileController extends Controller {
 
 
 
-       /* foreach($files as $file) {
+        foreach($files as $file) {
             $destinationPath = public_path() .'/uploads/';
             $filename = $file->getClientOriginalName();
             $file->move($destinationPath, $filename);
         }
-        return Redirect::to('upload')->with('success', 'Upload successfully');*/
+        return Redirect::to('upload')->with('success', 'Upload successfully');
+    }
+
+
+    public function download(Request $request){
+
+        if(!$request->has('sessionHandle')){
+            return array ("code" => "1", "status" => "error", "message" => "Session handle field can't be found") ;
+        }
+        if(!$request->has('testId')){
+            return array ("code" => "1", "status" => "error", "message" => "Test Id can't be found") ;
+        }
+
+
+        return upload::download($request->all());
+
+
     }
 }

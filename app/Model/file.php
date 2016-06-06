@@ -11,7 +11,7 @@ class file extends Eloquent
 {
     //
     protected $connection="mongodb";
-    protected $collection="file";
+    protected $collection="files";
     protected $fillable=['filePath'];
 
 }

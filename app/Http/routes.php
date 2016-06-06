@@ -36,5 +36,6 @@ Route::post('apply/multiple_upload','FIleController@upload_file');
 
 Route::post('deleteTest','TestController@deleteTests');
 
+Route::post('downloadFile','FileController@download');
 
-/*Route::get('push','pushController');*/
+
