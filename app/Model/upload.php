@@ -69,18 +69,25 @@ class upload extends Eloquent
 
         $model = new self();
         $handle = $input['sessionHandle'];
+        $id=$input['testId'];
         $user = $model::where('usrSessionHdl', "=", $handle)->first();
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "User can't be found");
         } else {
             $reports = $user->savedReports;
+
+
+
             foreach ($reports as $item) {
+
                 $file = $item['filePath'];
+
                 $arr = explode("@", $file, 2);
                 $first = $arr[0];
-                if (!isset($first) || count($first) == 0) {
-                    return array("code" => "1", "status" => "error", "message" => "Report can't be found");
-                } else {
+
+                if ($first == $id) {
+
+
                     $name = 'report';
                     $headers = array(
                         'Content-Type: application/pdf',
@@ -88,12 +95,15 @@ class upload extends Eloquent
                     $destinationPath = public_path() . '/uploads/' . $file;
                     return $destinationPath;
                     return response()->download($destinationPath, $file, $headers);
-                }
 
 
             }
+
         }
+
+                return array("code" => "01", "status" => "error", "message" => "Report can't be found");
+
 
     }
 
-}
+}}

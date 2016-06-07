@@ -24,8 +24,10 @@ class FileController extends Controller {
 
     public function index()
     {
-        return view('form');
+        return View::make('form');
     }
+
+
     public function upload_file(Request $request)
     {
         return upload::upload($request->all());
@@ -37,7 +39,7 @@ class FileController extends Controller {
             $filename = $file->getClientOriginalName();
             $file->move($destinationPath, $filename);
         }
-        return Redirect::to('upload')->with('success', 'Upload successfully');
+        return View::make('successfile');
     }
 
 

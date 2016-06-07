@@ -32,10 +32,16 @@ Route::post('submitUserResponses','userController@addAnswers');
 Route::get('upload', 'FileController@index');
 
 
-Route::post('apply/multiple_upload','FIleController@upload_file');
+Route::post('apply/multiple_upload','FileController@upload_file');
 
 Route::post('deleteTest','TestController@deleteTests');
 
 Route::post('downloadFile','FileController@download');
 
+Route::get('loginAdmin','userController@login');
 
+Route::post('addAdmin','userController@admin');
+
+Route::post('dashbaord','userController@getdetails');
+
+Route::get('testDetails','userController@testDetails');
