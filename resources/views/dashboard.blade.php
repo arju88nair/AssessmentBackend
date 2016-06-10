@@ -42,7 +42,8 @@
             <tr>
                 <th>Test Name</th>
                 <th>Description</th>
-                <th>Expiry Date</th>
+                <th>Date</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
@@ -52,7 +53,8 @@
                 <tr>
                     <td><a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>" ><?=$page['testName']?></a></td>
                     <td><?=$page['shortDescription']?></td>
-                    <td><?=$page['expiryDate']?></td>
+                    <td><?=$page['updated_at']?></td>
+                    <td><?=$page['testStatus']?></td>
 
                 </tr>
 

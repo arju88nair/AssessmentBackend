@@ -145,5 +145,10 @@ class userController extends Controller
         return View::make('addTest');
     }
 
+    public function saveTest(Request $request)
+    {
+        return questions::addTest($request->all());
+
+    }
 
 }

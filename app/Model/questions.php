@@ -231,6 +231,7 @@ class questions extends Eloquent
         $model=$test::find($a);
         $testId = $model->testName = $input['tName'];
         $model->ImageUrl = $input['ImageUrl'];
+        $model->testStatus=$_POST['status'];
         $duration = $model->testDuration = $input['tDuration'];
         $model->skipFlag =$_POST['flag'];
         $weight = $model->testType = $input['Weightage'];
@@ -295,7 +296,6 @@ class questions extends Eloquent
     {
 
         $model = new self();
-        return $model;
         $testId = $model->testName = $input['tName'];
         $model->ImageUrl = $input['ImageUrl'];
         $duration = $model->testDuration = $input['tDuration'];
@@ -310,7 +310,6 @@ class questions extends Eloquent
         /*        print_r(array_chunk($options,4));*/
         $chunk= array_chunk($options,4);
         $answers=$_POST['qAnswer'];
-
         $mFlag=$_POST['Mflag'];
         $qURL=$_POST['QURL'];
         $weightage=$_POST['weightage'];

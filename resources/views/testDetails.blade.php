@@ -57,6 +57,8 @@
 
     <p><strong>Skipping Allowed</strong> : <?=$testFlag?></p>
 
+    <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>
+
     <p><strong>Summary </strong>: <?=$tests['shortDescription']?> </p>
 
     <p><strong>Description</strong> : <?=$tests['testDescription']?> </p>

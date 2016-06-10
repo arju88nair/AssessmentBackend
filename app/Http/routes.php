@@ -61,9 +61,10 @@ Route::get('edit','userController@edit');
 
 Route::get('addTest','userController@addTest');
 
-
-
 Route::post('saveEdit','userController@saveEdit');
+
+Route::post('saveTest','userController@saveTest');
+
 
 
 

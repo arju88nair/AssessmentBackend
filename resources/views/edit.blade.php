@@ -86,6 +86,15 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="status" >Test Status:</label>
+            <select name="status"  class="form-control">
+                <option vale="Active">Active</option>
+                <option value="Disable">Disable</option>
+
+            </select>
+        </div>
+
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Corporate URL:</label>
