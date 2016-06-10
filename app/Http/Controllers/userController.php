@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\coupon;
 use DateTime;
 use App\Model\addUser;
+use App\Model\invite;
 use App\Model\admin;
 use App\Model\questions;
 use Illuminate\Http\Request;
@@ -95,5 +96,54 @@ class userController extends Controller
     public function testDetails(Request $request){
         return admin::testDetails($request->all());
     }
+
+
+    public function invite(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        if(!$request->has('invitees'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Invitees array can't be found");
+        }
+        if(!$request->has('testId'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Test Id can't be found");
+        }
+
+        return invite::invite($request->all());
+    }
+
+
+
+    public  function delete(Request $request)
+    {
+        return admin::deleteTest($request->all());
+    }
+
+
+    public function dashboard(Request $request){
+        return admin::dashboard($request->all());
+    }
+
+    public function edit(Request $request)
+    {
+        return admin::edit($request->all());
+    }
+
+        public function saveEdit(Request $request)
+    {
+        return questions::saveEdit($request->all());
+    }
+
+
+    public function addTest(Request $request)
+    {
+        return View::make('addTest');
+    }
+
 
 }

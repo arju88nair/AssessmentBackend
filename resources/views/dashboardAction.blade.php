@@ -49,20 +49,20 @@
             <?php foreach( $test as $page ): ?>
 
 
-                <tr>
-                    <td><a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>" ><?=$page['testName']?></a></td>
-                    <td><?=$page['shortDescription']?></td>
-                    <td><?=$page['expiryDate']?></td>
+            <tr>
+                <td><a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>" ><?=$page['testName']?></a></td>
+                <td><?=$page['shortDescription']?></td>
+                <td><?=$page['expiryDate']?></td>
 
-                </tr>
+            </tr>
 
 
             <?php endforeach ?>
-           {{-- <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-            </tr>--}}
+            {{-- <tr>
+                 <td>John</td>
+                 <td>Doe</td>
+                 <td>john@example.com</td>
+             </tr>--}}
 
             </tbody>
         </table>

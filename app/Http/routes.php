@@ -11,9 +11,15 @@
 |
 */
 
+
+/*API Routes*/
+
 Route::post('user', 'userController@index');
+
 Route::post('coupon','userController@coupon');
+
 Route::get('getcoupon','userController@getC');
+
 Route::get('getuser','userController@getuser');
 
 Route::post('login','userController@addUser');
@@ -26,9 +32,6 @@ Route::post('addTests','TestController@addTests');
 
 Route::post('submitUserResponses','userController@addAnswers');
 
-
-
-
 Route::get('upload', 'FileController@index');
 
 
@@ -38,10 +41,33 @@ Route::post('deleteTest','TestController@deleteTests');
 
 Route::post('downloadFile','FileController@download');
 
+Route::post('invite','userController@invite');
+
+//   Admin routes
+
 Route::get('loginAdmin','userController@login');
 
 Route::post('addAdmin','userController@admin');
 
-Route::post('dashbaord','userController@getdetails');
+Route::post('dashboard','userController@getdetails');
+
+Route::get('dashboardAction','userController@dashboard');
 
 Route::get('testDetails','userController@testDetails');
+
+Route::get('delete','userController@delete');
+
+Route::get('edit','userController@edit');
+
+Route::get('addTest','userController@addTest');
+
+
+
+Route::post('saveEdit','userController@saveEdit');
+
+
+
+
+
+
+

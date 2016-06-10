@@ -78,8 +78,42 @@ class admin extends Eloquent
 
 
     public static function testDetails($input){
-        return $_GET['action'] ;
+
+        $id= $_GET['action'] ;
+        $fulltest = questions::find($id);
+        return View::Make('testDetails')->with('tests',$fulltest);
     }
+
+    public static function deleteTest($input)
+    {
+        $id=$_GET['action'] ;
+        $delete = questions::find($id)->delete();
+
+        if($delete){
+            $test=questions::all();
+            return  redirect('dashboardAction')->with('test',$test);
+
+        }
+        else{
+            return "Please try again";
+        }
+    }
+
+
+    public static function dashboard($input){
+        $test=questions::all();
+        return  View::Make('dashboardAction')->with('test',$test);
+
+    }
+
+
+    public static function edit($input){
+        $id= $_GET['action'] ;
+        $fulltest = questions::find($id);
+        return View::Make('edit')->with('tests',$fulltest);
+
+    }
+
 
 
 

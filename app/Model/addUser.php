@@ -236,5 +236,54 @@ class addUser extends Eloquent
         }
     }
 
+
+
+    public function invitees(){
+        return $this->embedsMany('App\Model\invitees');
+    }
+
+
+
+
+   /* public static function invite($input)
+    {
+        $model= new self();
+        $userHandle=$input['sessionHandle'];
+        $user=$model::where('usrSessionHdl','=',$userHandle)->first();
+
+        $invitees=$input['invitees'];
+        if(!isset($user) || count($user)==0){
+            return array("code" => "1", "status" => "error", "message" => "User can't be found");
+        }
+
+        foreach($invitees as $item){
+            $array=array();
+            $main=array();
+
+            $array['name']=$item['name'];
+            $array['emailId']=$item['emailId'];
+
+
+
+
+
+            $saved=$user->invitees()->create($array);
+
+        }
+        if(!isset($saved) || count($saved)==0){
+            return array("code" => "1", "status" => "error", "message" => "User can't be found");
+
+        }
+        else{
+            return array("code" => "0", "status" => "success", "message" => "Invitees saved");
+        }
+
+
+
+
+
+
+    }*/
+
 }
 

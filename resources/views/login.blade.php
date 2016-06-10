@@ -99,6 +99,7 @@
 <body>
 
 <div class="login">
+
     <h1>Login</h1>
     <form method="post" action="{{ action('userController@getdetails') }}" accept-charset="UTF-8">
         <input type="text" name="u" placeholder="Username" required="required" />

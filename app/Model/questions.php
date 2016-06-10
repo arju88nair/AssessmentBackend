@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Request;
 use Jenssegers\Mongodb\Schema\Blueprint;
 use App\Model\coupon;
 use App\Model\addUser;
+use View;
+use Redirect;
+use Input;
+
 
 class questions extends Eloquent
 {
@@ -220,5 +224,138 @@ class questions extends Eloquent
 
     }
 
+    public static function saveEdit($input)
+    {
+        $a=$_POST['_id'];
+        $test = new self();
+        $model=$test::find($a);
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->skipFlag =$_POST['flag'];
+        $weight = $model->testType = $input['Weightage'];
+        $model->corporateUrl = $input['CURL'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->expiryDate = $input['date'];
+        $questionTitle=$_POST['Qtitle'];
+        $options=$_POST['qOption'];
+/*        print_r(array_chunk($options,4));*/
+        $chunk= array_chunk($options,4);
+        $answers=$_POST['qAnswer'];
+
+        $mFlag=$_POST['Mflag'];
+        $qURL=$_POST['QURL'];
+        $weightage=$_POST['weightage'];
+        $answer=array_chunk($answers,1);
+        $array=array();
+        $saved = $model->save();
+        if ($saved) {
+
+
+            foreach ($chunk as $items) {
+                $array["options"] = $items;
+                foreach ($questionTitle as $item) {
+
+
+                    $array["questiontitle"] = $item;
+
+                    foreach ($answer as $ans) {
+                        $array["solutionkey"] = $ans;
+
+                    }
+                    foreach ($mFlag as $flag) {
+                        $array["multipleType"] = $flag;
+
+                    }
+                    foreach ($qURL as $URL) {
+                        $array["questionImageUrl"] = $URL;
+
+                    }
+                    foreach ($weightage as $weight) {
+                        $array["weightage"] = $weight;
+
+                    }
+
+
+                }
+                $saved = $model->questions()->create($array);
+            }
+
+            $test=questions::all();
+            return  View::Make('dashboardAction')->with('test',$test);
+        }
+        else{
+            return "Failed";
+    }
+
+    }
+
+    public static function addTest($input)
+    {
+
+        $model = new self();
+        return $model;
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->skipFlag =$_POST['flag'];
+        $weight = $model->testType = $input['Weightage'];
+        $model->corporateUrl = $input['CURL'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->expiryDate = $input['date'];
+        $questionTitle=$_POST['Qtitle'];
+        $options=$_POST['qOption'];
+        /*        print_r(array_chunk($options,4));*/
+        $chunk= array_chunk($options,4);
+        $answers=$_POST['qAnswer'];
+
+        $mFlag=$_POST['Mflag'];
+        $qURL=$_POST['QURL'];
+        $weightage=$_POST['weightage'];
+        $answer=array_chunk($answers,1);
+        $array=array();
+        $saved = $model->save();
+        if ($saved) {
+
+
+            foreach ($chunk as $items) {
+                $array["options"] = $items;
+                foreach ($questionTitle as $item) {
+
+
+                    $array["questiontitle"] = $item;
+
+                    foreach ($answer as $ans) {
+                        $array["solutionkey"] = $ans;
+
+                    }
+                    foreach ($mFlag as $flag) {
+                        $array["multipleType"] = $flag;
+
+                    }
+                    foreach ($qURL as $URL) {
+                        $array["questionImageUrl"] = $URL;
+
+                    }
+                    foreach ($weightage as $weight) {
+                        $array["weightage"] = $weight;
+
+                    }
+
+
+                }
+                $saved = $model->questions()->create($array);
+            }
+
+            $test=questions::all();
+            return  View::Make('dashboardAction')->with('test',$test);
+        }
+        else{
+            return "Failed";
+        }
+
+    }
 
 }
