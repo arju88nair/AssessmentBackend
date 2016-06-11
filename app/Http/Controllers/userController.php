@@ -7,6 +7,7 @@ use DateTime;
 use App\Model\addUser;
 use App\Model\invite;
 use App\Model\admin;
+use App\Model\assistance;
 use App\Model\questions;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
@@ -149,6 +150,17 @@ class userController extends Controller
     {
         return questions::addTest($request->all());
 
+    }
+
+
+    public function assistanceRequest(Request $request)
+    {
+        return assistance::requestAssistance($request ->all());
+    }
+
+    public function suggestInvitees(Request $request)
+    {
+        return invite::getInvitees($request ->all());
     }
 
 }

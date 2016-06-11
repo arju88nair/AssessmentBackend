@@ -57,4 +57,25 @@ class FileController extends Controller {
 
 
     }
+
+
+
+    public function requestReport(Request $request)
+    {
+        if(!$request->has('sessionHandle')){
+            return array ("code" => "1", "status" => "error", "message" => "Session handle field can't be found") ;
+        }
+        if(!$request->has('testId')){
+            return array ("code" => "1", "status" => "error", "message" => "Test Id can't be found") ;
+        }
+        if(!$request->has('testName')){
+            return array ("code" => "1", "status" => "error", "message" => "Test Name can't be found") ;
+        }
+
+
+        return upload::request($request->all());
+
+    }
+
+
 }

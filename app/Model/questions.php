@@ -81,7 +81,7 @@ class questions extends Eloquent
             return array("status" => "error", "resultcode" => "1", "message" => "Incorrect session recieved");
         } else {
             $model = new self();
-            $dashboard = $model::all();
+            $dashboard = $model::where('testStatus', "=", "Active")->get();
             $array = array();
             $main = array();
             foreach ($dashboard as $item) {
@@ -116,6 +116,7 @@ class questions extends Eloquent
             foreach ($testIDs as $ids) {
 
                 $test = $model::where('_id', "=", $ids)->first();
+
 
                 $test->count = "5";
                 $test->groupCount = "20";
@@ -250,7 +251,15 @@ class questions extends Eloquent
         $weightage=$_POST['weightage'];
         $answer=array_chunk($answers,1);
         $array=array();
+
+
+        foreach ($model->questions as $question){
+            $model->questions()->dissociate($question);
+
+        }
+
         $saved = $model->save();
+
         if ($saved) {
 
 
@@ -300,6 +309,8 @@ class questions extends Eloquent
         $model->ImageUrl = $input['ImageUrl'];
         $duration = $model->testDuration = $input['tDuration'];
         $model->skipFlag =$_POST['flag'];
+        $model->testStatus=$_POST['status'];
+
         $weight = $model->testType = $input['Weightage'];
         $model->corporateUrl = $input['CURL'];
         $model->shortDescription = $input['Summary'];

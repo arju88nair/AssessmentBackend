@@ -34,7 +34,6 @@ Route::post('submitUserResponses','userController@addAnswers');
 
 Route::get('upload', 'FileController@index');
 
-
 Route::post('apply/multiple_upload','FileController@upload_file');
 
 Route::post('deleteTest','TestController@deleteTests');
@@ -42,6 +41,15 @@ Route::post('deleteTest','TestController@deleteTests');
 Route::post('downloadFile','FileController@download');
 
 Route::post('invite','userController@invite');
+
+Route::post('requestReport','FileController@requestReport');
+
+Route::post('requestAssistance','userController@assistanceRequest');
+
+Route::post('suggestInvitees','userController@suggestInvitees');
+
+
+
 
 //   Admin routes
 
