@@ -76,6 +76,15 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-sm-2" for="owner">Owner:</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="owner" placeholder="Enter Owner Name"
+                       value="<?=$tests['ownerName']?>">
+            </div>
+        </div>
+
+        <div class="form-group">
 
             <div class="col-sm-10">
                 <input type="hidden" class="form-control" name="_id" placeholder="Enter Image URL"

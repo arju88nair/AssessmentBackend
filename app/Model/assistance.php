@@ -27,8 +27,13 @@ class assistance extends Eloquent
         $model = new self();
         $model->SessionHandle = $input['sessionHandle'];
         $model->testId = $input['testId'];
-        $model->testId = $input['testName'];
+        $model->testName = $input['testName'];
         $model->status = 'Pending';
+        $user = addUser::where('usrSessionHdl', '=', $input['sessionHandle'])->first();
+        if (!isset($user) || count($user) == 0) {
+
+            return array("code" => "1", "status" => "error", "message" => "User couldn't be found");
+        }
         $userNew = $model::where('SessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
         $userPending = $model::where('SessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->where('status', '=', 'Pending')->first();
         $userDone = $model::where('SessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->where('status', '=', 'Coaching completed')->first();

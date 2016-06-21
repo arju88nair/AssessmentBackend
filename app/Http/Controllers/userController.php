@@ -163,4 +163,12 @@ class userController extends Controller
         return invite::getInvitees($request ->all());
     }
 
+
+    public function viewUsers(Request $request)
+    {
+        return admin::viewUsers($request->all());
+    }
+
+
+
 }

@@ -28,8 +28,7 @@ class invite extends Eloquent
         $model = new self();
         $userHandle = $input['sessionHandle'];
         $user = addUser::where('usrSessionHdl', '=', $userHandle)->first();
-        $name = $user->name;
-        $email = $user->userId;
+        $name = $input['name'];
         $model->name = $name;
         $model->sessionHandle = $userHandle;
         $model->testId = $input['testId'];

@@ -55,6 +55,8 @@
     ?>
     <p><strong>Test Duration</strong> : <?=$tests['testDuration']?> Minutes</p>
 
+    <p><strong>Test Owner</strong> : <?=$tests['ownerName']?></p>
+
     <p><strong>Skipping Allowed</strong> : <?=$testFlag?></p>
 
     <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>

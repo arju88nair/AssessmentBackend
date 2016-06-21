@@ -7,21 +7,12 @@
  */
 
 // API access key from Google API's Console
-define( 'API_ACCESS_KEY', '' );
+define( 'API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs' );
 $registrationIds = array( $_GET['id'] );
 
 // prep the bundle
-$msg = array
-(
-    'message' 	=> 'here is a message. message',
-    'title'		=> 'This is a title. title',
-    'subtitle'	=> 'This is a subtitle. subtitle',
-    'tickerText'	=> 'Ticker text here...Ticker text here...Ticker text here',
-    'vibrate'	=> 1,
-    'sound'		=> 1,
-    'largeIcon'	=> 'large_icon',
-    'smallIcon'	=> 'small_icon'
-);
+$msg =array('message' => 'Hello Rishikesh,your report is ready for download!');
+
 $fields = array
 (
     'registration_ids' 	=> $registrationIds,

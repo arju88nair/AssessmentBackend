@@ -19,22 +19,29 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="http://localhost/Laravel/Assessment/public/addTest">Add tests</a></li>
+            <li><a href="http://localhost/Laravel/Assessment/public/viewUsers">View users</a></li>
+
 
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://localhost/Laravel/Assessment/public/loginAdmin"><span class="glyphicon glyphicon-bell"></span>   Notifications <span class="badge"><?=count($report)+count($assistance)?></span></a></li>
 
-            <li><a href="http://localhost/Laravel/Assessment/public/loginAdmin"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+            <li><a href="http://localhost/Laravel/Assessment/public/loginAdmin"><span class="glyphicon glyphicon-log-out"></span>   Logout</a></li>
         </ul>
     </div>
 </nav>
 
 <div class="container">
 
-    <h1>Active Tests</h1>
+    <h1 style="text-align: center">Tests</h1>
+
+
+    <h4>Group count : <?=count($users)?></h4>
+
+
     <div class="list-group">
-
-
 
 
         <table class="table table-striped">
@@ -44,35 +51,77 @@
                 <th>Description</th>
                 <th>Date</th>
                 <th>Status</th>
+                <th>Owner</th>
+                <th>Questions</th>
+                <th>Attended</th>
+                <th>Invited</th>
+
+
             </tr>
             </thead>
             <tbody>
             <?php foreach( $test as $page ): ?>
 
 
-                <tr>
-                    <td><a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>" ><?=$page['testName']?></a></td>
-                    <td><?=$page['shortDescription']?></td>
-                    <td><?=$page['updated_at']?></td>
-                    <td><?=$page['testStatus']?></td>
+            <tr>
+                <td>
+                    <a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>"><?=$page['testName']?></a>
+                </td>
+                <td><?=$page['shortDescription']?></td>
+                <td><?=$page['updated_at']?></td>
+                <td><?=$page['testStatus']?></td>
+                <td><?=$page['ownerName']?></td>
 
-                </tr>
+                <td><?=count($page['questions'])?></td>
+
+                <?php foreach ($users as $items): ?>
+                <?php $array = array(); ?>
+                <?php
+                    $saved = $items['savedtests'];
+                    ?>
+                <?php foreach ($saved as $item): ?>
+                <?php
+                        array_push($array, $item['testId']);
+                        $count = 0;
+                        foreach ($array as $arr) {
+                            if ($arr == $page['_id']) {
+                                $count++;
+                            }
+                        }
+
+                        ?>
+
+                <?php endforeach ?>
+                <?php endforeach ?>
+                <td><?=$count?></td>
+                <?php foreach ($invitee as $invite): ?>
+                <?php
+
+                    $inv_count = 0;
+                    if ($invite['testId'] == $page['_id']) {
+                        $inv_count++;
+                    }
+
+                    ?>
+
+
+                <?php endforeach ?>
+
+                <td><?=$inv_count?></td>
+
+
+            </tr>
 
 
             <?php endforeach ?>
-           {{-- <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-            </tr>--}}
+            {{-- <tr>
+                 <td>John</td>
+                 <td>Doe</$item>
+                 <td>john@example.com</td>
+             </tr>--}}
 
             </tbody>
         </table>
-
-
-
-
-
 
 
     </div>

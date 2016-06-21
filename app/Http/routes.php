@@ -73,6 +73,8 @@ Route::post('saveEdit','userController@saveEdit');
 
 Route::post('saveTest','userController@saveTest');
 
+Route::get('viewUsers','userController@viewUsers');
+
 
 
 

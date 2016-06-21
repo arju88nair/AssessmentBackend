@@ -285,5 +285,21 @@ class addUser extends Eloquent
 
     }*/
 
+    public static function getAnswers(){
+
+        $model=new self();
+        $all= $model::all();
+        return $all;
+        $array=array();
+        foreach($all as $item){
+           if(count($item['savedtests']) != 0){
+               array_push($array,$item);
+           }
+
+
+
+        }
+        return $array;
+    }
 }
 

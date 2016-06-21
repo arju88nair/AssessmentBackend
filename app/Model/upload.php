@@ -115,6 +115,8 @@ class upload extends Eloquent
         $model->Name = $name;
         $model->testId = $input['testId'];
         $model->testName = $input['testName'];
+/*        $model->testName = $input['keys'];*/
+
         $model->status = 'Pending';
         $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
         if (!isset($dup) || count($dup) == 0) {

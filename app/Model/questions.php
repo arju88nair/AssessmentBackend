@@ -40,14 +40,7 @@ class questions extends Eloquent
         $question = $model->questions = $input['questions'];
         $date = $model->expiryDate = $input['expiryDate'];
         return $question;
-        /* $save = $model->save();
-         if ($save) {
-             return array("code" => "0", "message" => "Successfully added");
-         } else {
 
-             return array("code" => "1", "message" => "Please try again");
-
-         }*/
 
 
     }
@@ -154,6 +147,7 @@ class questions extends Eloquent
         $model->ImageUrl = $input['ImageUrl'];
         $duration = $model->testDuration = $input['duration'];
         $model->skipFlag = $input['skipFlag'];
+        $model->ownerName = $input['owner'];
         $weight = $model->testType = $input['weightage'];
         $model->corporateUrl = $input['corporateURL'];
         $model->shortDescription = $input['description'];
@@ -237,6 +231,7 @@ class questions extends Eloquent
         $model->skipFlag =$_POST['flag'];
         $weight = $model->testType = $input['Weightage'];
         $model->corporateUrl = $input['CURL'];
+        $model->ownerName = $input['owner'];
         $model->shortDescription = $input['Summary'];
         $description = $model->testDescription = $input['description'];
         $model->expiryDate = $input['date'];
@@ -292,8 +287,13 @@ class questions extends Eloquent
                 $saved = $model->questions()->create($array);
             }
 
+            $invitee=invite::all();
+            $users= addUser::getAnswers();
             $test=questions::all();
-            return  View::Make('dashboardAction')->with('test',$test);
+
+
+            return  Redirect::to('dashboardAction')->with('test',$test)->with('invitee',$invitee)->with('users',$users);
+
         }
         else{
             return "Failed";
@@ -310,7 +310,7 @@ class questions extends Eloquent
         $duration = $model->testDuration = $input['tDuration'];
         $model->skipFlag =$_POST['flag'];
         $model->testStatus=$_POST['status'];
-
+        $model->ownerName = $input['owner'];
         $weight = $model->testType = $input['Weightage'];
         $model->corporateUrl = $input['CURL'];
         $model->shortDescription = $input['Summary'];
@@ -359,8 +359,13 @@ class questions extends Eloquent
                 $saved = $model->questions()->create($array);
             }
 
+            $invitee=invite::all();
+            $users= addUser::getAnswers();
             $test=questions::all();
-            return  View::Make('dashboardAction')->with('test',$test);
+
+
+            return  Redirect::to('dashboardAction')->with('test',$test)->with('invitee',$invitee)->with('users',$users);
+
         }
         else{
             return "Failed";
