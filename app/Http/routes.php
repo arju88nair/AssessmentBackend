@@ -48,6 +48,12 @@ Route::post('requestAssistance','userController@assistanceRequest');
 
 Route::post('suggestInvitees','userController@suggestInvitees');
 
+Route::post('getFeeds','DashboardController@getFeeds');
+
+Route::post('addFeeds','DashboardController@addFeeds');
+
+
+
 
 
 
@@ -74,6 +80,21 @@ Route::post('saveEdit','userController@saveEdit');
 Route::post('saveTest','userController@saveTest');
 
 Route::get('viewUsers','userController@viewUsers');
+
+Route::get('userTestDetails','userController@userTestDetails');
+
+Route::get('addFeed','userController@addFeed');
+
+Route::post('saveFeed','DashboardController@saveFeed');
+
+Route::post('saveEditFeed','DashboardController@saveEditFeed');
+
+Route::get('deleteFeed','DashboardController@deleteFeed');
+
+Route::get('test','DashboardController@test');
+
+
+
 
 
 

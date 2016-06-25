@@ -109,9 +109,8 @@ class questions extends Eloquent
             foreach ($testIDs as $ids) {
 
                 $test = $model::where('_id', "=", $ids)->first();
-
-
-                $test->count = "5";
+                $testcount=savedtests::where('testId','=',$ids)->get();
+                $test->count = count($testcount);
                 $test->groupCount = "20";
                 $questions = $test["questions"];
                 unset($test->questions);
@@ -119,7 +118,7 @@ class questions extends Eloquent
 
                 array_push($array, $test);
             }
-            $count = addUser::count();
+            $count = savedtests::count();
             $resultArray = array();
             $resultArray['globalCount'] = $count;
             $resultArray['tests'] = $array;
@@ -160,8 +159,8 @@ class questions extends Eloquent
                 $array = array();
                 $queImage = $item['queImage'];
                 $array['questionImageUrl'] = $queImage;
-                $multi = $item['mulitpletype'];
-                $array['multipleType'] = $multi;
+                $multi = $item['skipFlag'];
+                $array['skipFlag'] = $multi;
                 $title = $item['questiontitle'];
                 $array['questiontitle'] = $title;
                 /*$aa = $item['answerkeyA'];
@@ -270,7 +269,7 @@ class questions extends Eloquent
 
                     }
                     foreach ($mFlag as $flag) {
-                        $array["multipleType"] = $flag;
+                        $array["skipFlag"] = $flag;
 
                     }
                     foreach ($qURL as $URL) {
@@ -287,12 +286,21 @@ class questions extends Eloquent
                 $saved = $model->questions()->create($array);
             }
 
-            $invitee=invite::all();
-            $users= addUser::getAnswers();
-            $test=questions::all();
 
 
-            return  Redirect::to('dashboardAction')->with('test',$test)->with('invitee',$invitee)->with('users',$users);
+            $invitee = invite::all();
+            $users=addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::all();
+            $assistance = assistance::all();
+
+
+            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+/*            return  Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);*/
+
+
 
         }
         else{
@@ -342,7 +350,7 @@ class questions extends Eloquent
 
                     }
                     foreach ($mFlag as $flag) {
-                        $array["multipleType"] = $flag;
+                        $array["skipFlag"] = $flag;
 
                     }
                     foreach ($qURL as $URL) {
@@ -359,12 +367,15 @@ class questions extends Eloquent
                 $saved = $model->questions()->create($array);
             }
 
-            $invitee=invite::all();
-            $users= addUser::getAnswers();
-            $test=questions::all();
+            $invitee = invite::all();
+            $users=addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::all();
+            $assistance = assistance::all();
 
 
-            return  Redirect::to('dashboardAction')->with('test',$test)->with('invitee',$invitee)->with('users',$users);
+            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
         }
         else{

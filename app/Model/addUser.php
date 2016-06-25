@@ -160,11 +160,11 @@ class addUser extends Eloquent
     }
 
 
-    public function savedtests()
+    /*public function savedtests()
     {
 
         return $this->embedsMany('App\Model\savedtests');
-    }
+    }*/
 
     public function savedReports()
     {
@@ -172,7 +172,7 @@ class addUser extends Eloquent
     }
 
 
-    public static function addanswers($input)
+   /* public static function addanswers($input)
 
     {
         $model = new self();
@@ -181,11 +181,12 @@ class addUser extends Eloquent
         $user = $model::where('usrSessionHdl', '=', $session)->first();
         $keys = $input['keys'];
         $id = $input['testId'];
+        $name=$input['testName'];
         $score = $input['overallScore'];
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
         } else {
-            $test = $user->savedtests()->create(array("testId" => $id, "score" => $score, "tests" => $keys));
+            $test = $user->savedtests()->create(array("testId" => $id,"testName"=>$name, "score" => $score, "tests" => $keys));
             if ($test) {
                 return array("code" => "0", "status" => "Successfully added");
 
@@ -195,7 +196,7 @@ class addUser extends Eloquent
         }
 
 
-    }
+    }*/
 
 
     public static function upload($input)
@@ -285,21 +286,40 @@ class addUser extends Eloquent
 
     }*/
 
-    public static function getAnswers(){
 
-        $model=new self();
-        $all= $model::all();
-        return $all;
-        $array=array();
-        foreach($all as $item){
-           if(count($item['savedtests']) != 0){
-               array_push($array,$item);
-           }
+    public static function gcm($file,$id){
+
+        define( 'API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs' );
+        $registrationIds = array($id);
+
+// prep the bundle
+        $msg =array('message' => 'Hello Rishikesh,your report is ready for download!',"url"=>$file);
+
+        $fields = array
+        (
+            'registration_ids' 	=> $registrationIds,
+            'data'			=> $msg
+        );
+
+        $headers = array
+        (
+            'Authorization: key=' . API_ACCESS_KEY,
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://android.googleapis.com/gcm/send' );
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+        $result = curl_exec($ch );
+        curl_close( $ch );
+        return $result;
 
 
-
-        }
-        return $array;
     }
+
 }
 

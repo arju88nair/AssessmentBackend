@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\coupon;
+use App\Model\savedtests;
 use DateTime;
 use App\Model\addUser;
 use App\Model\invite;
@@ -78,7 +79,24 @@ class userController extends Controller
 
     }
     public function addAnswers(Request $request){
-        return addUser::addanswers($request->all());
+
+        if(!$request->has('sessionHandle')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"Session Handle can't be found");
+        }
+        if(!$request->has('overallScore')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"Score can't be found");
+        }
+        if(!$request->has('testName')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"testName can't be found");
+        }
+        if(!$request->has('testId')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"testId can't be found");
+        }
+        if(!$request->has('keys')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"keys can't be found");
+        }
+
+        return savedtests::addanswers($request->all());
     }
 
     public function login(Request $request){
@@ -170,5 +188,15 @@ class userController extends Controller
     }
 
 
+    public function userTestDetails(Request $request)
+    {
+        return admin::userTestDetails($request->all());
+    }
+
+
+    public function addFeed(Request $request)
+    {
+        return admin::addFeed($request->all());
+    }
 
 }

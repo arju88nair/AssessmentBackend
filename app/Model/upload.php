@@ -25,11 +25,9 @@ class upload extends Eloquent
     public static function upload()
     {
         $model = new self();
-        $name = Input::get('username');
-        $sId = Input::get('userHandle');
-        $id = Input::get('testId');
+        $sId = Input::get('sessionHandle');
+        $user = $model::where('sessionHandle', '=', $sId)->first();
         $files = Input::file('images');
-        $user = $model::where('sessionHandle', '=', $sId)->where('Name', '=', $name)->where('testId', '=', $id)->first();
         if (!isset($user) || count($user) == 0) {
             return "No user found";
         }
@@ -40,9 +38,7 @@ class upload extends Eloquent
             foreach ($files as $file) {
                 $destinationPath = public_path() . '/uploads/';
                 $filename = $file->getClientOriginalName();
-                $name = Input::get('testId') . "@" . $filename;
-
-
+                $name = $user['Name'] . "@" . $filename;
                 $file->move($destinationPath, $name);
                 $pathToFile = $destinationPath . $name;
                 $user->status = "File Sent";
@@ -51,8 +47,19 @@ class upload extends Eloquent
 
                 /*                $success = $user->savedReports()->create(array("filePath" => $name));*/
                 if ($success) {
-                    /* return response()->download($pathToFile);*/
-                    return Redirect::to('upload')->with('success', 'Upload successfully');
+                    $addUser = addUser::where('usrSessionHdl', '=', $sId)->first();
+                    return $addUser;
+                    $id = $addUser['pushNotificationID'];
+                    $invitee = invite::all();
+                    $users = addUser::all();
+                    $savedtests = savedtests::getAnswers();
+                    $test = questions::all();
+                    $report = upload::all();
+                    $assistance = assistance::all();
+                    return addUser::gcm($pathToFile, $id);
+
+
+                    return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
 
                 } else {
@@ -80,7 +87,7 @@ class upload extends Eloquent
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "User can't be found");
         } else {
-            $file=$user['filePath'];
+            $file = $user['filePath'];
 
             $name = 'report';
             $headers = array(
@@ -93,9 +100,6 @@ class upload extends Eloquent
 
 
             return response()->download($destinationPath, $file, $headers);
-
-
-
 
 
         }
@@ -115,7 +119,7 @@ class upload extends Eloquent
         $model->Name = $name;
         $model->testId = $input['testId'];
         $model->testName = $input['testName'];
-/*        $model->testName = $input['keys'];*/
+        /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';
         $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();

@@ -54,13 +54,14 @@ class admin extends Eloquent
         } else {
 
             $invitee = invite::all();
-            $users = addUser::getAnswers();
+            $users=addUser::all();
+            $savedtests = savedtests::getAnswers();
             $test = questions::all();
             $report = upload::all();
             $assistance = assistance::all();
 
 
-            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance);
+            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
         }
         /* if ($name == $user->name && $pwd == $user->password) {
@@ -94,11 +95,15 @@ class admin extends Eloquent
 
         if ($delete) {
             $invitee = invite::all();
-            $users = addUser::getAnswers();
+            $users=addUser::all();
+            $savedtests = savedtests::getAnswers();
             $test = questions::all();
+            $report = upload::all();
+            $assistance = assistance::all();
 
 
-            return Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users);
+            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
         } else {
             return "Please try again";
         }
@@ -108,11 +113,15 @@ class admin extends Eloquent
     public static function dashboard($input)
     {
         $invitee = invite::all();
-        $users = addUser::getAnswers();
+        $users=addUser::all();
+        $savedtests = savedtests::getAnswers();
         $test = questions::all();
+        $report = upload::all();
+        $assistance = assistance::all();
 
 
-        return View::Make('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users);
+        return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
 
     }
 
@@ -126,15 +135,56 @@ class admin extends Eloquent
     }
 
 
-    public function viewUsers()
+    public static function viewUsers()
     {
-        $users = addUser::getAnswers();
-        return View::Make('viewUsers')->with('test', $test)->with('invitee', $invitee)->with('users', $users);
-
+        $report = upload::all();
+        $assistance = assistance::all();
+        $users = savedtests::all();
+        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
 
 
     }
 
+    public static function userTestDetails($input)
+    {
+        $id = $_GET['qId'];
+        $uId= $_GET['uId'];
+        $fulltest = questions::find($id);
+        $report = upload::where('testId','=',$id)->first();
+        $assistance = assistance::where('testId','=',$id)->first();
+        $users = addUser::find($uId);
+        $test=savedtests::where('testId','=',$id)->first();
 
+        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest',$fulltest)->with('itema',$test);
+
+    }
+
+
+    public static function addFeed($input){
+        $feed=feeds::all();
+        $invitee = invite::all();
+        $users=addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::all();
+        $assistance = assistance::all();
+
+
+        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed',$feed);
+
+
+    }
+
+    public static function test(){
+        $invitee = invite::all();
+        $users=addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::all();
+        $assistance = assistance::all();
+
+
+        return View::Make('index')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+    }
 }
 

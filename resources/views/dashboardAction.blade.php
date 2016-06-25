@@ -19,10 +19,16 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="http://localhost/Laravel/Assessment/public/addTest">Add tests</a></li>
+            <li><a href="http://localhost/Laravel/Assessment/public/viewUsers">View users</a></li>
+
 
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://localhost/Laravel/Assessment/public/loginAdmin"><span
+                            class="glyphicon glyphicon-bell"></span> Notifications <span
+                            class="badge"><?=count($report) + count($assistance)?></span></a></li>
+
 
             <li><a href="http://localhost/Laravel/Assessment/public/loginAdmin"><span
                             class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -51,7 +57,6 @@
                 <th>Owner</th>
                 <th>Questions</th>
                 <th>Attended</th>
-                <th>Invited</th>
 
 
             </tr>
@@ -67,44 +72,24 @@
                 <td><?=$page['shortDescription']?></td>
                 <td><?=$page['updated_at']?></td>
                 <td><?=$page['testStatus']?></td>
-                <td><?=$page['ownerName']?></td>
+                <td><?=$page['_id']?></td>
 
                 <td><?=count($page['questions'])?></td>
+                <?php $count = 0;?>
+                <?php $inv_count = 0;?>
 
-                <?php foreach ($users as $items): ?>
+
+                <?php foreach ($savedtests as $items): ?>
                 <?php $array = array(); ?>
+
                 <?php
-                    $saved = $items['savedtests'];
+                    if ($items['testId'] == $page['id']) {
+                        $count++;
+                    }
                     ?>
-                <?php foreach ($saved as $item): ?>
-                <?php
-                        array_push($array, $item['testId']);
-                        $count = 0;
-                        foreach ($array as $arr) {
-                            if ($arr == $page['_id']) {
-                                $count++;
-                            }
-                        }
 
-                        ?>
-
-                <?php endforeach ?>
                 <?php endforeach ?>
                 <td><?=$count?></td>
-                <?php foreach ($invitee as $invite): ?>
-                <?php
-
-                    $inv_count = 0;
-                    if ($invite['testId'] == $page['_id']) {
-                        $inv_count++;
-                    }
-
-                    ?>
-
-
-                <?php endforeach ?>
-
-                <td><?=$inv_count?></td>
 
 
             </tr>
