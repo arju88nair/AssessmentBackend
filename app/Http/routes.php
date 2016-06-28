@@ -91,7 +91,7 @@ Route::post('saveEditFeed','DashboardController@saveEditFeed');
 
 Route::get('deleteFeed','DashboardController@deleteFeed');
 
-Route::get('test','DashboardController@test');
+Route::post('test','DashboardController@test');
 
 
 

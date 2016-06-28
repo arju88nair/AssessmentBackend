@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -41,11 +42,15 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Active Feeds</div>
+                    Active Feeds
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Active Feeds</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a
+                            href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">Active Feeds</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">Active Feeds</li>
             </ol>
             <div class="clearfix">
@@ -58,7 +63,8 @@
             <h1>Active Feeds</h1>
             <br><br>
 
-            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Add new feed
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Add new
+                feed
                 item
             </button>
 
@@ -69,21 +75,32 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <img src="<?=$page["feedImage"]?>" class="img-rounded" alt="Cinque Terre" width="60" height="60">
-                            <a style="margin-left: 40%;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
+                            <img src="<?=$page["feedImage"]?>" class="img-rounded" alt="Cinque Terre" width="60"
+                                 height="60">
+                            <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
                                href="#<?= $page['_id']?>"><?= $page['feedTitle']?></a>
-                            <p style="font-size: 60%;color: grey;margin-top: 2.5%;float: right;"><strong>Added date:</strong><?= $page['updated_at']?></p>
+
+                            <p style="font-size: 60%;color: grey;margin-top: 2.5%;float: right;"><strong>Added
+                                    date:</strong><?= $page['updated_at']?></p>
                         </h4>
                     </div>
                     <div id="<?= $page['_id']?>" class="panel-collapse collapse">
                         <div class="panel-body"><?= $page['feedContent']?></div>
                         <div class="panel-footer"><a style="margin-left: 0%"
-                                                     href="#<?= $page['feedSource']?>"><?= $page['feedSourceTag']?></a>
+                                                     href="<?= $page['feedSource']?>"><?= $page['feedSourceTag']?></a>
+
+                            <a style="margin-left: 4%"
+                               href="<?= $page['feedAudio']?>">Audio</a>
 
                             <?php $id = $page['_id']?>
-                            <a style="margin-left: 87%" href="#<?php echo '' . $id . '';?>" class="btn btn-primary"
-                               role="button" data-toggle="modal" data-target="#myModal2" data-title="<?= $page['feedTitle']?>"  data-image="<?= $page['feedImage']?>" data-source="<?= $page['feedSource']?>" data-content="<?= $page['feedContent']?>" data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>" data-idtag="<?= $page['_id']?>">Edit feed</a>
-                            <a style="margin-left: 80%;margin-top: -5%"
+                            <a style="margin-left: 63%;margin-top: 0%" href="#<?php echo '' . $id . '';?>"
+                               class="btn btn-primary"
+                               role="button" data-toggle="modal" data-target="#myModal2"
+                               data-title="<?= $page['feedTitle']?>" data-image="<?= $page['feedImage']?>"
+                               data-source="<?= $page['feedSource']?>" data-content="<?= $page['feedContent']?>"
+                               data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>" data-audio="<?= $page['feedAudio']?>"
+                               data-idtag="<?= $page['_id']?>">Edit feed</a>
+                            <a style="margin-left: 84%;margin-top: -5%"
                                href="http://localhost/Laravel/Assessment/public/deleteFeed?action=<?=$page['_id']?>"
                                class="btn btn-danger" role="button">Delete feed</a>
 
@@ -106,6 +123,7 @@
                         </div>
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveFeed') }}"
+                                  enctype="multipart/form-data"
                                   accept-charset="UTF-8">
                                 <div class="form-group">
                                     <label for="usr">Feed title:</label>
@@ -114,6 +132,10 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Image Large:</label>
                                     <input type="text" class="form-control" name="feedImage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="usr">Feed Audio:</label>
+                                    <input type="file" class="form-control" name="images[]">
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Image Small:</label>
@@ -170,8 +192,13 @@
                                     <input type="text" class="form-control" name="feedImage_lw" id="feedImage_lw">
                                 </div>
                                 <div class="form-group">
+                                    <label for="usr">Feed Audio:</label>
+                                    <input type="file" class="form-control" name="images[]">
+                                </div>
+                                <div class="form-group">
                                     <label for="comment">Feed content:</label>
-                                    <textarea class="form-control" rows="5" name="feedContent" id="feedContent"></textarea>
+                                    <textarea class="form-control" rows="5" name="feedContent" id="feedContent"
+                                              id="feedContent"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Source URL:</label>
@@ -199,7 +226,6 @@
 
 
         </div>
-
 
 
         <!--END CONTENT-->
@@ -264,10 +290,12 @@
 
 
 </script>
+<script>var text = document.getElementById("infoartist").value;
+    text = text.replace(/\r?\n/g, '<br />');</script>
 <script>
 
     $('#myModal2').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) ;// Button that triggered the modal
+        var button = $(event.relatedTarget);// Button that triggered the modal
         var title = button.data('title');
         var image = button.data('image');
         var image_lw = button.data('image_lw');
@@ -275,6 +303,7 @@
         var content = button.data('content');
         var sourceTag = button.data('sourcetag');
         var idTag = button.data('idtag');
+        var audio=button.data('audio');
 
         // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -287,7 +316,7 @@
         modal.find('#feedContent').val(content);
         modal.find('#sourceTitle').val(sourceTag);
         modal.find('#idTag').val(idTag);
-
+        modal.find('#disabledInput').val(audio);
 
     })
 

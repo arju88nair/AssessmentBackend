@@ -76,7 +76,7 @@
         <!--BEGIN CONTENT-->
 
 
-        <div style="float: right;width:30%; height:auto;margin-right: 2%" class="container">
+        <div style="float: right;width:40%; height:auto;margin-right: 2%" class="container">
 
 
             <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle" alt="Cinque Terre"
@@ -185,7 +185,7 @@
             <?php foreach( $fulltest['questions'] as $item ): ?>
 
 
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div class="panel-heading">Question Title: <?=$item['questiontitle']?></div>
             </div>
             <ul class="list-group">

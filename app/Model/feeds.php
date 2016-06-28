@@ -16,52 +16,43 @@ class feeds extends Eloquent
 {
     //
 
-    protected $connection="mongodb";
-    protected $collection="newsFeed";
+    protected $connection = "mongodb";
+    protected $collection = "newsFeed";
 
 
+    public static function addFeed($input)
+    {
+        $model = new self();
+        $model->feedTitle = $input['feedTitle'];
+        $model->feedImage = $input['feedImage'];
+        $model->feedImage_lw = $input['feedImage_lw'];
+        $model->feedContent = $input['feedContent'];
+        $model->feedSource = $input['sourceUrl'];
+        $model->feedSourceTag = $input['sourceTitle'];
+        $isSaved = $model->save();
+        if ($isSaved) {
+            return array("code" => "0", "status" => "Successfully added");
+        } else {
+            return array("code" => "1", "status" => "error");
 
-  public static function addFeed($input)
-  {
-      $model=new self();
-      $model->feedTitle=$input['feedTitle'];
-      $model->feedImage=$input['feedImage'];
-      $model->feedImage_lw=$input['feedImage_lw'];
-      $model->feedContent=$input['feedContent'];
-      $model->feedSource=$input['sourceUrl'];
-      $model->feedSourceTag=$input['sourceTitle'];
-      $isSaved=$model->save();
-      if($isSaved)
-      {
-          return array("code" => "0", "status" => "Successfully added");
-      }
-      else{
-          return array("code" => "1", "status" => "error");
+        }
 
-      }
-
-  }
-
-
-
-
+    }
 
 
     public static function getFeed($input)
     {
-        $model=new self();
-        $id=$input['sessionHandle'];
-        $user=addUser::where('usrSessionHdl','=',$id)->get();
-        if(!isset($user)||count($user)==0)
-        {
-            return array("resultCode" => "1", "status" => "error","message"=>"User can't be found");
+        $model = new self();
+        $id = $input['sessionHandle'];
+        $user = addUser::where('usrSessionHdl', '=', $id)->get();
+        if (!isset($user) || count($user) == 0) {
+            return array("resultCode" => "1", "status" => "error", "message" => "User can't be found");
 
 
-        }
-        else{
-            $feed=$model::all();
+        } else {
+            $feed = $model::all();
 
-            return array("status" => "success", "resultCode" => "1", "userFeed" => $feed, );
+            return array("status" => "success", "resultCode" => "1", "userFeed" => $feed,);
 
         }
     }
@@ -69,31 +60,69 @@ class feeds extends Eloquent
 
     public static function saveFeed($input)
     {
-        $model=new self();
-        $model->feedTitle=$input['feedTitle'];
-        $model->feedImage=$input['feedImage'];
-        $model->feedImage_lw=$input['feedImage_lw'];
-        $model->feedContent=$input['feedContent'];
-        $model->feedSource=$input['sourceUrl'];
-        $model->feedSourceTag=$input['sourceTitle'];
-        $isSaved=$model->save();
-        if($isSaved)
-        {
-            $feed=feeds::all();
-            $invitee = invite::all();
-            $users=addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::all();
-            $assistance = assistance::all();
+        $model = new self();
+        $model->feedTitle = $input['feedTitle'];
+        $model->feedImage = $input['feedImage'];
+        $model->feedImage_lw = $input['feedImage_lw'];
+        $model->feedContent = $input['feedContent'];
+        $model->feedSource = $input['sourceUrl'];
+        $model->feedSourceTag = $input['sourceTitle'];
+        $files = Input::file('images');
+        if (!Input::hasFile('images')) {
+            $model->feedAudio = "";
+            $isSaved = $model->save();
+            if ($isSaved) {
+                $feed = feeds::all();
+                $invitee = invite::all();
+                $users = addUser::all();
+                $savedtests = savedtests::getAnswers();
+                $test = questions::all();
+                $report = upload::all();
+                $assistance = assistance::all();
 
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed',$feed);
+                return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+
+            } else {
+                return array("code" => "1", "status" => "error");
+
+            }
 
         }
-        else{
-            return array("code" => "1", "status" => "error");
+        if (Input::hasFile('images')) {
+            foreach ($files as $file) {
+                $destinationPath = public_path() . '/audio/';
+                $filename = $file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+                $allowed = array('mp3', 'wav');
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if (!in_array($ext, $allowed)) {
+                    return 'Incorrect file extension';
+                }
+                if (in_array($ext, $allowed)) {
+                    $path = $destinationPath . $filename;
+                    $model->feedAudio = $path;
 
+                    $isSaved = $model->save();
+                    if ($isSaved) {
+                        $feed = feeds::all();
+                        $invitee = invite::all();
+                        $users = addUser::all();
+                        $savedtests = savedtests::getAnswers();
+                        $test = questions::all();
+                        $report = upload::all();
+                        $assistance = assistance::all();
+
+
+                        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+
+                    } else {
+                        return array("code" => "1", "status" => "error");
+
+                    }
+
+                }
+            }
         }
 
     }
@@ -102,33 +131,28 @@ class feeds extends Eloquent
     public static function deleteFeed($input)
     {
 
-        $model=new self();
-        $id=$_GET['action'];
-        $isSaved= $model::find($id)->delete();
-        if($isSaved){
+        $model = new self();
+        $id = $_GET['action'];
+        $isSaved = $model::find($id)->delete();
+        if ($isSaved) {
 
-            $feed=feeds::all();
+            $feed = feeds::all();
             $invitee = invite::all();
-            $users=addUser::all();
+            $users = addUser::all();
             $savedtests = savedtests::getAnswers();
             $test = questions::all();
             $report = upload::all();
             $assistance = assistance::all();
 
 
-            return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed',$feed);
+            return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
 
-        }
-
-        else{
+        } else {
             return array("code" => "1", "status" => "error");
 
 
         }
-
-
-
 
 
     }
@@ -137,32 +161,74 @@ class feeds extends Eloquent
     public static function saveEditFeed($input)
 
     {
-        $id=$input['id'];
-        $model=self::find($id);
-        $model->feedTitle=$input['feedTitle'];
-        $model->feedImage=$input['feedImage'];
-        $model->feedImage_lw=$input['feedImage_lw'];
-        $model->feedContent=$input['feedContent'];
-        $model->feedSource=$input['sourceUrl'];
-        $model->feedSourceTag=$input['sourceTitle'];
-        $isSaved=$model->save();
-        if($isSaved)
-        {
-            $feed=feeds::all();
-            $invitee = invite::all();
-            $users=addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::all();
-            $assistance = assistance::all();
+
+        $id = $input['id'];
+        $model = self::find($id);
+        $model->feedTitle = $input['feedTitle'];
+        $model->feedImage = $input['feedImage'];
+        $model->feedImage_lw = $input['feedImage_lw'];
+        $model->feedContent = $input['feedContent'];
+        $model->feedSource = $input['sourceUrl'];
+        $model->feedSourceTag = $input['sourceTitle'];
+        $files = Input::file('images');
+        if (!Input::hasFile('images')) {
+            return"no";
+            $model->feedAudio = "";
+            $isSaved = $model->save();
+            if ($isSaved) {
+                $feed = feeds::all();
+                $invitee = invite::all();
+                $users = addUser::all();
+                $savedtests = savedtests::getAnswers();
+                $test = questions::all();
+                $report = upload::all();
+                $assistance = assistance::all();
 
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed',$feed);
+                return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+
+            } else {
+                return array("code" => "1", "status" => "error");
+
+            }
 
         }
-        else{
-            return array("code" => "1", "status" => "error");
+        if (Input::hasFile('images')) {
+            return "hi";
+            foreach ($files as $file) {
+                $destinationPath = public_path() . '/audio/';
+                $filename = $file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+                $allowed = array('mp3', 'wav');
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if (!in_array($ext, $allowed)) {
+                    return 'Incorrect file extension';
+                }
+                if (in_array($ext, $allowed)) {
+                    $path = $destinationPath . $filename;
+                    $model->feedAudio = $path;
 
+
+                    $isSaved = $model->save();
+                    if ($isSaved) {
+                        $feed = feeds::all();
+                        $invitee = invite::all();
+                        $users = addUser::all();
+                        $savedtests = savedtests::getAnswers();
+                        $test = questions::all();
+                        $report = upload::all();
+                        $assistance = assistance::all();
+
+
+                        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+
+                    } else {
+                        return array("code" => "1", "status" => "error");
+
+                    }
+
+                }
+            }
         }
     }
 

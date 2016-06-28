@@ -57,7 +57,7 @@
             <h1 style="text-align: center">Tests</h1>
 
 
-            <h4>Group count : <?=count($users)?></h4>
+            <h4>Number Of Tests : <?=count($test)?></h4>
 
 
             <div class="list-group">

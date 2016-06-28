@@ -161,7 +161,15 @@ class userController extends Controller
 
     public function addTest(Request $request)
     {
-        return View::make('addTest');
+        $fulltest = questions::all();
+        $invitee = invite::all();
+        $users = addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::all();
+        $assistance = assistance::all();
+        return View::Make('addTest')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
     }
 
     public function saveTest(Request $request)
