@@ -26,6 +26,9 @@ class upload extends Eloquent
     {
         $model = new self();
         $sId = Input::get('sessionHandle');
+        $tName=Input::get('testName');
+        $tScore=Input::get('Score');
+        $tId=Input::get('testId');
         $user = $model::where('sessionHandle', '=', $sId)->first();
         $files = Input::file('images');
         if (!isset($user) || count($user) == 0) {
@@ -48,7 +51,7 @@ class upload extends Eloquent
                 /*                $success = $user->savedReports()->create(array("filePath" => $name));*/
                 if ($success) {
                     $addUser = addUser::where('usrSessionHdl', '=', $sId)->first();
-                    return $addUser;
+                    $nameUser = $addUser['name'];
                     $id = $addUser['pushNotificationID'];
                     $invitee = invite::all();
                     $users = addUser::all();
@@ -56,7 +59,10 @@ class upload extends Eloquent
                     $test = questions::all();
                     $report = upload::all();
                     $assistance = assistance::all();
-                    return addUser::gcm($pathToFile, $id);
+                    $string = "/var/www/html/Assessment/public";
+                    $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
+                    $gcm = addUser::gcm($path, $id, $nameUser,$tName,$tScore,$tId);
+                    return $gcm;
 
 
                     return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
@@ -118,7 +124,10 @@ class upload extends Eloquent
         $name = $user['name'];
         $model->Name = $name;
         $model->testId = $input['testId'];
+        $model->score = $input['score'];
         $model->testName = $input['testName'];
+        $model->imageUrl = $user['imageUrl'];
+        $model->_uId = $user['_id'];
         /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';

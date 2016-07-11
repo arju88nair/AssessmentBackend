@@ -43,4 +43,10 @@ class DashboardController extends Controller
     {
         return admin::test($request->all());
     }
+
+
+    public function notification(Request $request)
+    {
+        return admin::notification($request->all());
+    }
 }

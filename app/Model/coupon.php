@@ -21,6 +21,7 @@ class coupon extends Eloquent
         $name=$model->Name=$input['institutionName'];
         $coupon=$model->Coupon=$input['coupon'];
         $date=$model->Date=$input['expiryDate'];
+        $model->imageUrl=$input['imageUrl'];
 
         $coupon_name=$model::where('Coupon', '=', $coupon)->where('Name', '=', $name)->get();
 /*        echo $coupon_name;*/

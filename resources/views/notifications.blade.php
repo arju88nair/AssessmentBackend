@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Active Feeds</title>
+    <title>Notifications</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -44,7 +44,7 @@
                     Notifications</div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="hidden"><a href="#">Notifications</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="active">Notifications</li>
             </ol>
@@ -53,6 +53,31 @@
         </div>
         <!--END TITLE & BREADCRUMB PAGE-->
         <!--BEGIN CONTENT-->
+        <div class="container">
+
+            <h2 style="text-align: center">Pending report uploads</h2>
+
+            <?php
+
+            foreach ($report as $item) {
+                echo '<div class="list-group">
+         <a href="userTestDetails?uId=' . $item['_uId'] . '&qId=' . $item['testId'] . '" class="list-group-item"><img style="margin-left:1.3% " src=' . $item["imageUrl"] . ' class="img-circle" alt="Cinque Terre" width="48" height="48"><br><p>' . $item["Name"] . '</p><h4 style="margin-top:-4.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
+     </div>';
+
+            }
+
+
+            ?>
+
+
+            {{-- <div class="list-group">
+                 <a href="#" class="list-group-item">First item<p style="text-align: right">ghjkl;</p></a>
+                 <a href="#" class="list-group-item">Second item</a>
+                 <a href="#" class="list-group-item">Third item</a>
+             </div>
+         --}}
+
+        </div>
 
 
 

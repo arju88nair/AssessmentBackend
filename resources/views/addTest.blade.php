@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -32,7 +33,7 @@
             var maxField = 20; //Input fields increment limitation
             var addButton = $('.add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
-            var fieldHTML = '<div> <div class="form-group"> <label class="control-label col-sm-2" for="email">Question Title:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title" value=""> </div> <br> <label for="sel1">Multiple-choice:</label> <select name="Mflag[]" class="form-control"> <option vale="False">False</option> <option value="True">True</option> </select> <br> <label class="control-label col-sm-2" for="email">Question Image URL:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL" value=""> </div> <br> <br> <br> <label class="control-label col-sm-2" for="email">Question weightage:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <br> <br> <label class="control-label col-sm-2" for="email">Answer key:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key" value=""> </div> </div> <br><a href="javascript:void(0);" class="remove_button btn btn-warning "  title="Remove field">Remove Field</a> <br> <hr> <br> </div>'; //New input field html
+            var fieldHTML = '<div> <div class="form-group"> <label class="control-label col-sm-2" for="email">Question Title:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title" value=""> </div> <br><br> <br> <label for="sel1" class="control-label col-sm-2">Multiple-choice:</label>  <div class="col-sm-10" style="width:60%"><select name="Mflag[]" class="form-control"> <option vale="False">False</option> <option value="True">True</option> </select> </div><br><br> <br> <label class="control-label col-sm-2" for="email">Question Image URL:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL" value=""> </div> <br> <br> <br> <label class="control-label col-sm-2" for="email">Question Axis Type:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="axisType[]" placeholder="Enter Question Axis Type" value=""> </div><br> <br> <br> <label class="control-label col-sm-2" for="email">Question weightage:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div><br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div><br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <br> <br> <label class="control-label col-sm-2" for="email">Answer key:</label> <div class="col-sm-10"  style="width:60%"> <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key" value=""> </div> </div> <br><a href="javascript:void(0);" class="remove_button btn btn-warning "  title="Remove field">Remove Field</a> <br> <hr style="border-color:#ffa07a"> <br> </div>'; //New input field html
             var x = 1; //Initial field counter is 1
             var addButton = $('.add_button');
             $(addButton).click(function () {
@@ -49,7 +50,7 @@
         });
     </script>
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -62,11 +63,14 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Add New Test</div>
+                    Add New Test
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Add New Test</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">Add New Test</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">Add New Test</li>
             </ol>
             <div class="clearfix">
@@ -79,8 +83,6 @@
         <div class="container">
 
 
-
-
             <h1>Add new test</h1>
             <hr>
             <hr>
@@ -89,7 +91,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Test Name:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="tName" placeholder="Enter Test Name"
                                value="">
                     </div>
@@ -99,7 +101,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Image URL:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="ImageUrl" placeholder="Enter Image URL"
                                value="">
                     </div>
@@ -109,7 +111,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Test Duration:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="tDuration" placeholder="Enter Test Duration"
                                value="">
                     </div>
@@ -117,32 +119,36 @@
 
 
                 <div class="form-group">
-                    <label for="sel1">Skip Flag:</label>
-                    <select name="flag" class="form-control">
-                        <option vale="False">False</option>
-                        <option value="True">True</option>
+                    <label for="sel1" class="control-label col-sm-2">Test Type:</label>
 
-                    </select>
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="flag" class="form-control">
+                            <option value="Linear">Linear</option>
+                            <option value="Non-Linear">Non-Linear</option>
+
+                        </select>
+                    </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="status" >Test Status:</label>
-                    <select name="status"  class="form-control">
-                        <option vale="Active">Active</option>
-                        <option value="Disable">Disable</option>
+                    <label for="status" class="control-label col-sm-2">Test Status:</label>
 
-                    </select>
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="status" class="form-control">
+                            <option value="Active">Active</option>
+                            <option value="Disable">Disable</option>
+
+                        </select>
+                    </div>
                 </div>
-
 
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Corporate URL:</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="CURL" placeholder="Enter Corporate URL"
-                               value="">
+                    <div class="col-sm-10" style="width:60%">
+                        <input type="text" class="form-control" name="CURL" placeholder="Enter Corporate URL" value="">
                     </div>
                 </div>
 
@@ -150,38 +156,43 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="owner">Owner:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="owner" placeholder="Enter Owner Name"
                                value="">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Weightage</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="Weightage" placeholder="Enter Weightage"
-                               value="">
+                <div class="form-group">
+                    <label for="comment" class="control-label col-sm-2">Summary:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5" name="Summary"></textarea>
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="comment">Summary:</label>
-                    <textarea class="form-control" rows="5" name="Summary"></textarea>
+                    <label for="comment" class="control-label col-sm-2">Description:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5" name="description"></textarea>
+                    </div>
                 </div>
 
-
                 <div class="form-group">
-                    <label for="comment">Description:</label>
-                    <textarea class="form-control" rows="5" name="description"></textarea>
+                    <label for="comment" class="control-label col-sm-2">Result Description:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5" maxlength="60" name="resultDescription"></textarea>
+                    </div>
                 </div>
 
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Expiry Date:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="date" placeholder="Enter Expiry Date"
                                value="">
                     </div>
@@ -195,28 +206,45 @@
                 <h3>Questions </h3>
                 <br>
 
+{{--
                 <div class="field_wrapper">
                     <div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Question Title:</label>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title"
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="Qtitle[]"
+                                       placeholder="Enter question title"
+                                       value="">
+                            </div>
+                            <br><br> <br>
+                            <label for="sel1" class="control-label col-sm-2">Multiple-choice:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="Mflag[]" class="form-control">
+                                    <option vale="False">False</option>
+                                    <option value="True">True</option>
+
+                                </select>
+                            </div>
+
+                            <br><br> <br>
+                            <label class="control-label col-sm-2" for="email">Question Image URL:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="QURL[]"
+                                       placeholder="Enter Question Image URL"
                                        value="">
                             </div>
                             <br>
-                            <label for="sel1">Multiple-choice:</label>
-                            <select name="Mflag[]" class="form-control">
-                                <option vale="False">False</option>
-                                <option value="True">True</option>
-
-                            </select>
-
                             <br>
-                            <label class="control-label col-sm-2" for="email">Question Image URL:</label>
+                            <br>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL"
+                            <label class="control-label col-sm-2" for="email">Question Axis Type:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="axisType[]"
+                                       placeholder="Enter Question Axis Type"
                                        value="">
                             </div>
                             <br>
@@ -226,15 +254,16 @@
 
                             <label class="control-label col-sm-2" for="email">Question weightage:</label>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage"
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="weightage[]"
+                                       placeholder="Enter Question weightage"
                                        value="">
                             </div>
                             <br>
                             <br>
                             <br>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-10" style="width:60%">
                                 <label class="control-label col-sm-2" for="email">Option:</label>
                                 <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
                                        value="">
@@ -242,7 +271,8 @@
                             <br>
                             <br>
                             <br>
-                            <div class="col-sm-10">
+
+                            <div class="col-sm-10" style="width:60%">
                                 <label class="control-label col-sm-2" for="email">Option:</label>
                                 <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
                                        value="">
@@ -250,7 +280,8 @@
                             <br>
                             <br>
                             <br>
-                            <div class="col-sm-10">
+
+                            <div class="col-sm-10" style="width:60%">
                                 <label class="control-label col-sm-2" for="email">Option:</label>
                                 <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
                                        value="">
@@ -258,7 +289,26 @@
                             <br>
                             <br>
                             <br>
-                            <div class="col-sm-10">
+
+                            <div class="col-sm-10" style="width:60%">
+                                <label class="control-label col-sm-2" for="email">Option:</label>
+                                <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
+                                       value="">
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <label class="control-label col-sm-2" for="email">Option:</label>
+                                <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
+                                       value="">
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+
+                            <div class="col-sm-10" style="width:60%">
                                 <label class="control-label col-sm-2" for="email">Option:</label>
                                 <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
                                        value="">
@@ -270,7 +320,8 @@
                             <br>
 
                             <label class="control-label col-sm-2" for="email">Answer key:</label>
-                            <div class="col-sm-10">
+
+                            <div class="col-sm-10" style="width:60%">
                                 <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key"
                                        value="">
                             </div>
@@ -281,12 +332,14 @@
                         <br>
                     </div>
                 </div>
+--}}
 
 
                 <button type="submit" class="btn btn-primary">Save</button>
 
-                <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info" title="Add field">Add new field</a>
-                <a href="http://localhost/Laravel/Assessment/public/dashboardAction" class="btn btn-default" role="button">Cancel</a>
+                <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info" title="Add field">Add
+                    new field</a>
+                <a href="dashboardAction" class="btn btn-default" role="button">Cancel</a>
 
             </form>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add New Test</title>
+    <title>Edit Test</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -28,15 +29,17 @@
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
     <script type="text/javascript">
         $(document).ready(function () {
-            document.getElementById("skip").value ='<?php echo $tests['skipFlag'];?>';
-            document.getElementById("status").value ='<?php echo $tests['testStatus'];?>';
+            document.getElementById("skip").value = '<?php echo $tests['testType'];?>';
+            document.getElementById("status").value = '<?php echo $tests['testStatus'];?>';
             var maxField = 20; //Input fields increment limitation
             var addButton = $('.add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
-            var fieldHTML = '<div> <div class="form-group"> <label class="control-label col-sm-2" for="email">Question Title:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title" value=""> </div> <br> <label for="sel1">Multiple-choice:</label> <select name="Mflag[]" class="form-control"> <option vale="False">False</option> <option value="True">True</option> </select> <br> <label class="control-label col-sm-2" for="email">Question Image URL:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL" value=""> </div> <br> <br> <br> <label class="control-label col-sm-2" for="email">Question weightage:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <br> <br> <label class="control-label col-sm-2" for="email">Answer key:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key" value=""> </div> </div> <br><a href="javascript:void(0);" class="remove_button btn btn-warning "  title="Remove field">Remove Field</a> <br> <hr> <br> </div>'; //New input field html
+            var fieldHTML = '<div> <div class="form-group"> <label class="control-label col-sm-2" for="email">Question Title:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title" value=""> </div> <br><br> <br> <label for="sel1" class="control-label col-sm-2">Multiple-choice:</label>  <div class="col-sm-10" style="width:60%"><select name="Mflag[]" class="form-control"> <option vale="False">False</option> <option value="True">True</option> </select> </div><br><br> <br> <label class="control-label col-sm-2" for="email">Question Image URL:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL" value=""> </div> <br> <br> <br> <label class="control-label col-sm-2" for="email">Question Axis Type:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="axisType[]" placeholder="Enter Question Axis Type" value=""> </div><br> <br> <br> <label class="control-label col-sm-2" for="email">Question weightage:</label> <div class="col-sm-10" style="width:60%"> <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div><br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div><br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10" style="width:60%"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <br> <br> <label class="control-label col-sm-2" for="email">Answer key:</label> <div class="col-sm-10"  style="width:60%"> <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key" value=""> </div> </div> <br><a href="javascript:void(0);" class="remove_button btn btn-warning "  title="Remove field">Remove Field</a> <br> <hr style="border-color:#ffa07a"> <br> </div>'; //New input field html
             var x = 1; //Initial field counter is 1
             var addButton = $('.add_button');
             $(addButton).click(function () {
+                window.scrollTo(0, document.body.scrollHeight);
+
                 if (x < maxField) { //Check maximum number of input fields
                     x++; //Increment field counter
                     $(wrapper).append(fieldHTML); // Add field html
@@ -50,7 +53,7 @@
         });
     </script>
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -63,11 +66,14 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                   Edit Test</div>
+                    Edit Test
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Edit Test</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">Edit Test</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">Edit Test</li>
             </ol>
             <div class="clearfix">
@@ -81,11 +87,12 @@
             <h1><?=$tests['testName']?></h1>
             <hr>
             <hr>
-            <form class="form-horizontal" role="form"  method="post" action="{{ action('userController@saveEdit') }}" accept-charset="UTF-8">
+            <form class="form-horizontal" role="form" method="post" action="{{ action('userController@saveEdit') }}"
+                  accept-charset="UTF-8">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Test Name:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="tName" placeholder="Enter Test Name"
                                value="<?=$tests['testName']?>">
                     </div>
@@ -95,22 +102,22 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Image URL:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="ImageUrl" placeholder="Enter Image URL"
                                value="<?=$tests['ImageUrl']?>">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label class="control-label col-sm-2" for="owner">Owner:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="owner" placeholder="Enter Owner Name"
                                value="<?=$tests['ownerName']?>">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
 
                     <div class="col-sm-10">
                         <input type="hidden" class="form-control" name="_id" placeholder="Enter Image URL"
@@ -122,68 +129,82 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Test Duration:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="tDuration" placeholder="Enter Test Duration"
                                value="<?=$tests['testDuration']?>">
                     </div>
                 </div>
 
 
-
                 <div class="form-group">
-                    <label for="sel1"  >Skip Flag:</label>
-                    <select name="flag"  class="form-control" id="skip">
-                        <option vale="False">False</option>
-                        <option value="True">True</option>
+                    <label for="sel1" class="control-label col-sm-2">Test Status:</label>
 
-                    </select>
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="status" class="form-control" id="status">
+                            <option value="Active">Active</option>
+                            <option value="Disable">Disable</option>
+
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="status" >Test Status:</label>
-                    <select name="status"  class="form-control" id="status">
-                        <option vale="Active">Active</option>
-                        <option value="Disable">Disable</option>
+                    <label for="status" class="control-label col-sm-2">Test Type:</label>
 
-                    </select>
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="type" class="form-control " id="skip">
+                            <option value="Linear">Linear</option>
+                            <option value="Non-Linear">Non-Linear</option>
+
+                        </select>
+                    </div>
                 </div>
 
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Corporate URL:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="CURL" placeholder="Enter Corporate URL"
                                value="<?=$tests['corporateUrl']?>">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Weightage</label>
+                    <label for="comment" class="control-label col-sm-2">Summary:</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="Weightage" placeholder="Enter Weightage"
-                               value="<?=$tests['corporateUrl']?>">
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5"
+                                  name="Summary"><?=$tests['shortDescription']?></textarea>
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="comment">Summary:</label>
-                    <textarea class="form-control" rows="5" name="Summary"><?=$tests['shortDescription']?></textarea>
+                    <label for="comment" class="control-label col-sm-2">Description:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5"
+                                  name="description"><?=$tests['testDescription']?></textarea>
+                    </div>
+
                 </div>
 
 
                 <div class="form-group">
-                    <label for="comment">Description:</label>
-                    <textarea class="form-control" rows="5" name="description"><?=$tests['testDescription']?></textarea>
+                    <label for="comment" class="control-label col-sm-2">Result Description:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <textarea class="form-control" rows="5"
+                                  name="resultDescription"><?=$tests['resultDescription']?></textarea>
+                    </div>
                 </div>
 
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Expiry Date:</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="width:60%">
                         <input type="text" class="form-control" name="date" placeholder="Enter Expiry Date"
                                value="<?=$tests['expiryDate']?>">
                     </div>
@@ -193,62 +214,100 @@
                 <hr>
                 <br>
                 <br>
-                <h3>Questions </h3>
+
+                <h3>Questions </h3>  <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info"
+                                        title="Add field">Add new question</a>
+
                 <br>
 
-                <?php foreach( $tests['questions'] as $item ): ?>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Question Title:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title"
-                               value="<?=$item['questiontitle']?>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="sel1" >Skip question:</label>
-                    <select name="Mflag[]"  class="form-control">
-                        <option vale="False">False</option>
-                        <option value="True">True</option>
+                <div id="test">
+                    <?php $i = 1; ?>
+                    <?php foreach( $tests['questions'] as $item ): ?>
 
-                    </select>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Question Image URL:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL"
-                               value="<?=$item['questionImageUrl']?>">
+                    <div id="<?=$item['_id']?>" >
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Question Number <?= $i ?>:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="Qtitle[]"
+                                       placeholder="Enter question title"
+                                       value="<?=$item['questiontitle']?>">
+                            </div>
+                        </div> <?php $i++ ?>
+
+
+                        <div class="form-group">
+                            <label for="sel1" class="control-label col-sm-2">Skip question:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="Mflag[]" class="form-control">
+                                    <option vale="False">False</option>
+                                    <option value="True">True</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Question Image URL:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="QURL[]"
+                                       placeholder="Enter Question Image URL"
+                                       value="<?=$item['questionImageUrl']?>">
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Question Axis Type</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="axisType[]"
+                                       placeholder="Enter Question Axis Type"
+                                       value="<?=$item['axisType']?>">
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Question weightage:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="weightage[]"
+                                       placeholder="Enter Question weightage"
+                                       value="<?=$item['weightage']?>">
+                            </div>
+                        </div>
+                        <?php foreach ($item['options'] as $items): ?>
+                        <div class="form-group">
+                            <div class="col-sm-10" style="width:60%">
+                                <label class="control-label col-sm-2" for="email">Option:</label>
+                                <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
+                                       value="<?=$items?>">
+                            </div>
+                        </div>
+                        <?php endforeach ?>
+                        <?php foreach ($item['solutionkey'] as $keys): ?>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Answer key:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key"
+                                       value="<?=$keys?>">
+                            </div>
+                        </div>
+                        <br>
+                        <?php endforeach ?>
+                        <a href="javascript:void(0);" class=" btn btn-warning second" id="<?=$item['_id']?>"
+                           title="Remove field" onClick="remove(this.id);">Remove Field</a>
+
+                        <hr style="border-color:#ffa07a">
                     </div>
+
+                        <?php endforeach ?>
+
                 </div>
-                <br>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Question weightage:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage"
-                               value="<?=$item['weightage']?>">
-                    </div>
-                </div>
-                <?php foreach ($item['options'] as $items): ?>
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <label class="control-label col-sm-2" for="email">Option:</label>
-                        <input type="text" class="form-control" name="qOption[]" placeholder="Enter options"
-                               value="<?=$items?>">
-                    </div>
-                </div>
-                <?php endforeach ?>
-                <?php foreach ($item['solutionkey'] as $keys): ?>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Answer key:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key"
-                               value="<?=$keys?>">
-                    </div>
-                </div>
-                <hr>
-                <br>
-                <?php endforeach ?>
-                <?php endforeach ?>
 
                 <div class="field_wrapper">
                 </div>
@@ -258,9 +317,10 @@
 
                 <button type="submit" class="btn btn-primary">Save</button>
 
-                <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info" title="Add field">Add new field</a>
+                <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info" title="Add field">Add
+                    new question</a>
 
-                <a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$tests['_id']?>"class="btn btn-default" role="button">Cancel</a>
+                <a href="testDetails?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Cancel</a>
 
             </form>
 
@@ -328,6 +388,19 @@
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-145464-12', 'auto');
     ga('send', 'pageview');
+
+
+</script>
+<script>
+    function remove(id) {
+        alert(this.id);
+    }
+
+    $(".second").click(function () {
+
+        $('#' + this.id).remove();
+
+    });
 
 
 </script>

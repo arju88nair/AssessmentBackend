@@ -166,7 +166,7 @@ class userController extends Controller
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
-        $report = upload::all();
+        $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
         return View::Make('addTest')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
@@ -206,5 +206,12 @@ class userController extends Controller
     {
         return admin::addFeed($request->all());
     }
+
+    public function enterVoucher(Request $request)
+    {
+        return addUser::enterVoucher($request->all());
+
+    }
+
 
 }

@@ -92,7 +92,8 @@ class feeds extends Eloquent
         if (Input::hasFile('images')) {
             foreach ($files as $file) {
                 $destinationPath = public_path() . '/audio/';
-                $filename = $file->getClientOriginalName();
+                $filename_original = $file->getClientOriginalName();
+                $filename = preg_replace('/\s+/', '', $filename_original);
                 $file->move($destinationPath, $filename);
                 $allowed = array('mp3', 'wav');
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -100,7 +101,9 @@ class feeds extends Eloquent
                     return 'Incorrect file extension';
                 }
                 if (in_array($ext, $allowed)) {
-                    $path = $destinationPath . $filename;
+                    $pathToFile = $destinationPath . $filename;
+					 $string = "/var/www/html/Assessment/public";
+                    $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
 
                     $isSaved = $model->save();
@@ -172,8 +175,6 @@ class feeds extends Eloquent
         $model->feedSourceTag = $input['sourceTitle'];
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
-            return"no";
-            $model->feedAudio = "";
             $isSaved = $model->save();
             if ($isSaved) {
                 $feed = feeds::all();
@@ -194,10 +195,11 @@ class feeds extends Eloquent
 
         }
         if (Input::hasFile('images')) {
-            return "hi";
+            $files = Input::file('images');
             foreach ($files as $file) {
                 $destinationPath = public_path() . '/audio/';
-                $filename = $file->getClientOriginalName();
+                $filename_original = $file->getClientOriginalName();
+                $filename = preg_replace('/\s+/', '', $filename_original);
                 $file->move($destinationPath, $filename);
                 $allowed = array('mp3', 'wav');
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);

@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -26,8 +27,14 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+    <style>
+
+        a {
+            color: #428bca;
+        }
+    </style>
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -40,11 +47,14 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Test Details</div>
+                    Test Details
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Test Details</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">Test Details</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">Test Details</li>
             </ol>
             <div class="clearfix">
@@ -58,8 +68,8 @@
             <h1><?=$tests['testName']?>
                 <hr>
                 <hr>
-                <a href="http://localhost/Laravel/Assessment/public/edit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
-                <a href="http://localhost/Laravel/Assessment/public/delete?action=<?=$tests['_id']?>"class="btn btn-danger" role="button">Delete</a>
+                <a href="edit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
+                <a href="delete?action=<?=$tests['_id']?>" class="btn btn-danger" role="button">Delete</a>
             </h1>
             <img class="img-responsive" src=<?=$tests['ImageUrl']?> alt="Chania">
             <br>
@@ -77,7 +87,7 @@
 
             <p><strong>Test Owner</strong> : <?=$tests['ownerName']?></p>
 
-            <p><strong>Skipping Allowed</strong> : <?=$testFlag?></p>
+            <p><strong>Test Type</strong> : <?=$tests['testType']?></p>
 
             <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>
 
@@ -92,26 +102,36 @@
             <p><strong>Test Id</strong> : <?=$tests['_id']?> </p>
 
             <p><strong>Status</strong> :Active</p>
+            <?php $i = 1?>
 
             <h3>Questions </h3>
             </br>
             <br>
-
             <?php foreach( $tests['questions'] as $item ): ?>
 
 
-            <p><b>Question Title</b> : <?=$item['questiontitle']?></p>
-            <?php foreach ($item['options'] as $items): ?>
+            <p><b>Question <?=$i?></b> : <?=$item['questiontitle']?></p>
             <br>
 
-            <p><span class="glyphicon glyphicon-minus"></span> <?=$items?></p>
+            <p>Axis Title : <?=$item['axisType']?></p>
             <br>
+
+            <p>Weightage : <?=$item['weightage']?></p>
+
+            <?php foreach ($item['options'] as $items): ?>
+            <br>
+            <?php if ($items != "") {
+                echo "<p><span class=\"glyphicon glyphicon-minus\"></span> $items</p>";
+            }
+            ?>
             <?php endforeach ?>
+            <br>
             <?php foreach ($item['solutionkey'] as $keys): ?>
             <p>Answer : <?=$keys?> </p>
             <br>
             <br>
             <?php endforeach ?>
+            <?php $i++?>
             <?php endforeach ?>
 
 
@@ -122,7 +142,7 @@
         <!--BEGIN FOOTER-->
         <div id="footer">
             <div class="copyright">
-                <a href="http://themifycloud.com">2016 © Assessment</a></div>
+                <a href="">2016 © Assessment</a></div>
         </div>
         <!--END FOOTER-->
     </div>

@@ -13,6 +13,9 @@
 .text-uppercase {
   text-transform: uppercase;
 }
+th {
+    white-space: nowrap;
+}
 .text-justify {
   text-align: justify;
 }
@@ -57,7 +60,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #999999;
+  color: #428bca;
   text-decoration: none;
 }
 a:hover,

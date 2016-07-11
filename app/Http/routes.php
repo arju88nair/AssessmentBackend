@@ -52,6 +52,9 @@ Route::post('getFeeds','DashboardController@getFeeds');
 
 Route::post('addFeeds','DashboardController@addFeeds');
 
+Route::post('enterVoucher','userController@enterVoucher');
+
+
 
 
 
@@ -92,6 +95,8 @@ Route::post('saveEditFeed','DashboardController@saveEditFeed');
 Route::get('deleteFeed','DashboardController@deleteFeed');
 
 Route::post('test','DashboardController@test');
+
+Route::get('notification','DashboardController@notification');
 
 
 

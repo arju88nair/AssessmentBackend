@@ -57,7 +57,7 @@ class admin extends Eloquent
             $users = addUser::all();
             $savedtests = savedtests::getAnswers();
             $test = questions::all();
-            $report = upload::all();
+            $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
 
 
@@ -89,7 +89,7 @@ class admin extends Eloquent
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
-        $report = upload::all();
+        $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
         return View::Make('testDetails')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
@@ -105,11 +105,11 @@ class admin extends Eloquent
             $users = addUser::all();
             $savedtests = savedtests::getAnswers();
             $test = questions::all();
-            $report = upload::all();
+            $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
 
 
-            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+            return Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
         } else {
             return "Please try again";
@@ -123,10 +123,8 @@ class admin extends Eloquent
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
-        $report = upload::all();
+        $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
-
-
         return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
 
@@ -142,7 +140,7 @@ class admin extends Eloquent
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
-        $report = upload::all();
+        $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
         return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
@@ -182,7 +180,7 @@ class admin extends Eloquent
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
-        $report = upload::all();
+        $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
 
 
@@ -196,13 +194,29 @@ class admin extends Eloquent
 
         if (isset($_POST['sb'])) {
 
-            $path =  public_path() . '/uploads/';
+            $path = public_path() . '/uploads/';
 
             $file = $_FILES['filetoupload']['name'];
 
             move_uploaded_file($_FILES['filetoupload']['tmp_name'], "$path/$file");
 
         }
+
+    }
+
+
+    public static function notification()
+    {
+        $feed = feeds::all();
+        $invitee = invite::all();
+        $users = addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::where('status', '=', 'Pending')->get();
+        $assistance = assistance::all();
+
+
+        return View::Make('notifications')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
     }
 }

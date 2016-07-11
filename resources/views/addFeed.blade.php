@@ -29,7 +29,7 @@
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -47,7 +47,7 @@
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
                 <li><i class="fa fa-home"></i>&nbsp;<a
-                            href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            href="dashboardAction">Home</a>&nbsp;&nbsp;<i
                             class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="hidden"><a href="#">Active Feeds</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
                 </li>
@@ -87,7 +87,7 @@
                     <div id="<?= $page['_id']?>" class="panel-collapse collapse">
                         <div class="panel-body"><?= $page['feedContent']?></div>
                         <div class="panel-footer"><a style="margin-left: 0%"
-                                                     href="<?= $page['feedSource']?>"><?= $page['feedSourceTag']?></a>
+                                                     href="<?= $page['feedSource']?>">Source</a>
 
                             <a style="margin-left: 4%"
                                href="<?= $page['feedAudio']?>">Audio</a>
@@ -98,10 +98,11 @@
                                role="button" data-toggle="modal" data-target="#myModal2"
                                data-title="<?= $page['feedTitle']?>" data-image="<?= $page['feedImage']?>"
                                data-source="<?= $page['feedSource']?>" data-content="<?= $page['feedContent']?>"
-                               data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>" data-audio="<?= $page['feedAudio']?>"
+                               data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>"
+                               data-audio="<?= $page['feedAudio']?>"
                                data-idtag="<?= $page['_id']?>">Edit feed</a>
                             <a style="margin-left: 84%;margin-top: -5%"
-                               href="http://localhost/Laravel/Assessment/public/deleteFeed?action=<?=$page['_id']?>"
+                               href="deleteFeed?action=<?=$page['_id']?>"
                                class="btn btn-danger" role="button">Delete feed</a>
 
                         </div>
@@ -178,6 +179,7 @@
                         </div>
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
+                                  enctype="multipart/form-data"
                                   accept-charset="UTF-8">
                                 <div class="form-group">
                                     <label for="usr">Feed title:</label>
@@ -192,8 +194,8 @@
                                     <input type="text" class="form-control" name="feedImage_lw" id="feedImage_lw">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Audio:</label>
-                                    <input type="file" class="form-control" name="images[]">
+                                    <label for="inputPassword" >Audio</label>
+                                    <input class="form-control" name="disabledInput" id="disabledInput" type="text"  disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="comment">Feed content:</label>
@@ -303,7 +305,7 @@
         var content = button.data('content');
         var sourceTag = button.data('sourcetag');
         var idTag = button.data('idtag');
-        var audio=button.data('audio');
+        var audio = button.data('audio');
 
         // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).

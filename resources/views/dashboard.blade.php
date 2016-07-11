@@ -27,7 +27,7 @@
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -43,7 +43,7 @@
                     Dashboard</div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="hidden"><a href="#">Dashboard</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="active">Dashboard</li>
             </ol>
@@ -68,7 +68,7 @@
                     <tr>
                         <th>Test Name</th>
                         <th>Description</th>
-                        <th>Date</th>
+                        <th>Expiry date</th>
                         <th>Status</th>
                         <th>Owner</th>
                         <th>Questions</th>
@@ -84,10 +84,10 @@
 
                     <tr>
                         <td>
-                            <a href="http://localhost/Laravel/Assessment/public/testDetails?action=<?=$page['_id']?>"><?=$page['testName']?></a>
+                            <a href="testDetails?action=<?=$page['_id']?>"><?=$page['testName']?></a>
                         </td>
                         <td><?=$page['shortDescription']?></td>
-                        <td><?=$page['updated_at']?></td>
+                        <td><?=$page['expiryDate']?></td>
                         <td><?=$page['testStatus']?></td>
                         <td><?=$page['ownerName']?></td>
 

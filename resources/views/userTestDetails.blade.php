@@ -49,7 +49,7 @@
         });
     </script>
 </head>
-<body>
+<body style="overflow-x: hidden">
 <div>
 
 
@@ -65,7 +65,7 @@
                     View User</div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="http://localhost/Laravel/Assessment/public/dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                 <li class="active">View User</li>
             </ol>
@@ -193,7 +193,6 @@
                 <li class="list-group-item"><span class="glyphicon glyphicon-minus"></span> <?=$items?></li>
                 <?php endforeach ?>
                 <?php
-                $hi = $itema['keys'][$count]['answer'][0];
 
                 $num = 1;
 
@@ -227,7 +226,6 @@
             </ul>
 
 
-            <p>Choice:<?=$itema['keys'][$count]['answer'][0]?></p>
             <?php $count++;?>
 
 
@@ -247,6 +245,10 @@
 
                             {!! Form::file('images[]', array('multiple'=>true)) !!}
                             {{ Form::hidden('sessionHandle',$users['usrSessionHdl']) }}
+                            {{ Form::hidden('testName',$fulltest['testName']) }}
+                            {{ Form::hidden('testId',$fulltest['_id']) }}
+
+
 
                             <hr>
 
