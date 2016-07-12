@@ -150,7 +150,9 @@ class userController extends Controller
 
     public function edit(Request $request)
     {
-        return admin::edit($request->all());
+/*        return admin::edit($request->all());*/
+        return questions::saveEdit($request->all());
+
     }
 
         public function saveEdit(Request $request)
@@ -177,6 +179,12 @@ class userController extends Controller
         return questions::addTest($request->all());
 
     }
+    public function addEdit(Request $request)
+    {
+        return admin::addEdit($request->all());
+
+    }
+
 
 
     public function assistanceRequest(Request $request)
@@ -207,6 +215,15 @@ class userController extends Controller
         return admin::addFeed($request->all());
     }
 
+    public function newEdit(Request $request){
+        return admin::edit($request->all());
+    }
+
+    public function saveNewEdit(Request $request)
+    {
+        return questions::newEdit($request->all());
+
+    }
     public function enterVoucher(Request $request)
     {
         return addUser::enterVoucher($request->all());

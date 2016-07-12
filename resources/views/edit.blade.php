@@ -224,7 +224,7 @@
                     <?php $i = 1; ?>
                     <?php foreach( $tests['questions'] as $item ): ?>
 
-                    <div id="<?=$item['_id']?>" >
+                    <div id="<?=$item['_id']?>">
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Question Number <?= $i ?>:</label>
 
@@ -305,7 +305,7 @@
                         <hr style="border-color:#ffa07a">
                     </div>
 
-                        <?php endforeach ?>
+                    <?php endforeach ?>
 
                 </div>
 
@@ -315,12 +315,189 @@
                 <br>
 
 
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add more
+                    question
+                </button>
 
-                <a href="javascript:void(0);" id="btn btn-primary" class="add_button btn btn-info" title="Add field">Add
-                    new question</a>
 
                 <a href="testDetails?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Cancel</a>
+
+                <!-- Beginning of the modal-->
+
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add a new question</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" method="post"
+                                      action="{{ action('userController@saveTest') }}">
+
+                                    <div class="field_wrapper">
+                                        <div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="email">Question
+                                                    Title:</label>
+
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Qtitle[]"
+                                                           placeholder="Enter question title"
+                                                           value="">
+                                                </div>
+                                                <br><br><br><br>
+
+                                                <label for="sel1"
+                                                       class="col-sm-2 control-label">Multiple-choice:</label>
+
+                                                <div class="col-sm-10">
+                                                    <select name="Mflag[]" class="form-control">
+                                                        <option vale="False">False</option>
+                                                        <option value="True">True</option>
+
+                                                    </select>
+                                                </div>
+
+                                                <br><br> <br><br>
+
+                                                <label class="col-sm-2 control-label" for="email">Image URL:</label>
+
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="QURL[]"
+                                                           placeholder="Enter Question Image URL"
+                                                           value="">
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <label class="col-sm-2 control-label" for="email"> Axis Type:</label>
+
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="axisType[]"
+                                                           placeholder="Enter Question Axis Type"
+                                                           value="">
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <label class="col-sm-2 control-label" for="email"> weightage:</label>
+
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="weightage[]"
+                                                           placeholder="Enter Question weightage"
+                                                           value="">
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <hr>
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 1:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 2:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 3:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 4:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 5:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div>
+                                                    <label class="col-sm-2 control-label" for="email">Option 6:</label>
+
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="qOption[]"
+                                                               placeholder="Enter options"
+                                                               value="">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <hr>
+                                                <label class="col-sm-2 control-label" for="email">Answer key:</label>
+
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="qAnswer[]"
+                                                           placeholder="Enter answer key"
+                                                           value="">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- End of the modal-->
+
 
             </form>
 

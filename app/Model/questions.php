@@ -306,6 +306,78 @@ class questions extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+            $fulltest=$model::where('testName','=',$testId)->first();
+            return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+            /*            return  Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);*/
+
+
+        } else {
+            return "Failed";
+        }
+
+    }
+
+    public static function newEdit($input)
+    {
+        $a = $_POST['_id'];
+        $test = new self();
+        $model = $test::find($a);
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $model->testStatus = $_POST['status'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->testType = $_POST['type'];
+        $model->corporateUrl = $input['CURL'];
+        $model->ownerName = $input['owner'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->resultDescription=$input['resultDescription'];
+        $model->expiryDate = $input['date'];
+        $questionTitle = $_POST['Qtitle'];
+        $options = $_POST['qOption'];
+        /*        print_r(array_chunk($options,4));*/
+        $chunk = array_chunk($options, 6);
+        $answers = $_POST['qAnswer'];
+        $qAxis=$_POST['axisType'];
+        $mFlag = $_POST['Mflag'];
+        $qURL = $_POST['QURL'];
+        $weightage = $_POST['weightage'];
+        $answer = array_chunk($answers, 1);
+        $array = array();
+
+
+        foreach ($model->questions as $question) {
+            $model->questions()->dissociate($question);
+
+        }
+
+        $saved = $model->save();
+
+        if ($saved) {
+
+            $i = 0;
+            foreach ($chunk as $items) {
+                $array["options"] = $items;
+                //  $array["questiontitle"] = array();
+                $array["solutionkey"] = $answer[$i];
+                $array["axisType"] = $qAxis[$i];
+                $array["skipFlag"] = $mFlag[$i];
+                $array["questionImageUrl"] = $qURL[$i];
+                $array["weightage"] = $weightage[$i];
+                $array["questiontitle"] = $questionTitle[$i];
+                $i++;
+
+                $saved = $model->questions()->create($array);
+            }
+
+
+            $invitee = invite::all();
+            $users = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
 
 
             return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
@@ -318,6 +390,7 @@ class questions extends Eloquent
         }
 
     }
+
 
     public static function addTest($input)
     {
@@ -378,9 +451,9 @@ class questions extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
-
-
-            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+            $fulltest=$model::where('testName','=',$testId)->first();
+            $full_id=$fulltest['_id'];
+            return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('full_id',$full_id);
 
         } else {
             return "Failed";

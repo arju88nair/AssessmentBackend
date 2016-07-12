@@ -68,7 +68,7 @@
             <h1><?=$tests['testName']?>
                 <hr>
                 <hr>
-                <a href="edit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
+                <a href="newEdit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
                 <a href="delete?action=<?=$tests['_id']?>" class="btn btn-danger" role="button">Delete</a>
             </h1>
             <img class="img-responsive" src=<?=$tests['ImageUrl']?> alt="Chania">

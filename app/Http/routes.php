@@ -76,9 +76,15 @@ Route::get('delete','userController@delete');
 
 Route::get('edit','userController@edit');
 
+Route::get('newEdit','userController@newEdit');
+
 Route::get('addTest','userController@addTest');
 
 Route::post('saveEdit','userController@saveEdit');
+
+Route::get('addEdit','userController@addEdit');
+
+Route::post('saveNewEdit','userController@saveNewEdit');
 
 Route::post('saveTest','userController@saveTest');
 
