@@ -3,12 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Model\coupon;
+use App\Model\savedtests;
 use DateTime;
 use App\Model\addUser;
+use App\Model\invite;
+use App\Model\admin;
+use App\Model\assistance;
+use App\Model\questions;
 use Illuminate\Http\Request;
+use Illuminate\Queue\RedisQueue;
 use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
 use App\Model\Tests;
+use App\Model\upload;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use View;
+use Redirect;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\Model;
+use Date;
+use Jenssegers\Mongodb\Schema\Blueprint;
+
 
 class userController extends Controller
 {
@@ -64,9 +79,164 @@ class userController extends Controller
 
     }
     public function addAnswers(Request $request){
-        return addUser::addanswers($request->all());
+
+        if(!$request->has('sessionHandle')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"Session Handle can't be found");
+        }
+        if(!$request->has('overallScore')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"Score can't be found");
+        }
+        if(!$request->has('testName')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"testName can't be found");
+        }
+        if(!$request->has('testId')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"testId can't be found");
+        }
+        if(!$request->has('keys')){
+            return array("resultCode"=>"0","status"=>"error","message"=>"keys can't be found");
+        }
+
+        return savedtests::addanswers($request->all());
+    }
+
+    public function login(Request $request){
+        return View::make('login');
+    }
+
+
+    public function admin(Request $request){
+        return admin::index($request->all());
+    }
+
+    public function getdetails(Request $request){
+        return admin::login($request->all());
+    }
+
+    public function testDetails(Request $request){
+        return admin::testDetails($request->all());
+    }
+
+
+    public function invite(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        if(!$request->has('invitees'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Invitees array can't be found");
+        }
+        if(!$request->has('testId'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Test Id can't be found");
+        }
+
+        return invite::invite($request->all());
     }
 
 
 
+    public  function delete(Request $request)
+    {
+        return admin::deleteTest($request->all());
+    }
+
+
+    public function dashboard(Request $request){
+        return admin::dashboard($request->all());
+    }
+
+    public function edit(Request $request)
+    {
+/*        return admin::edit($request->all());*/
+        return questions::saveEdit($request->all());
+
+    }
+
+        public function saveEdit(Request $request)
+    {
+        return questions::saveEdit($request->all());
+    }
+
+
+    public function addTest(Request $request)
+    {
+        $fulltest = questions::all();
+        $invitee = invite::all();
+        $users = addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::where('status', '=', 'Pending')->get();
+        $assistance = assistance::all();
+        return View::Make('addTest')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+    }
+
+    public function saveTest(Request $request)
+    {
+        return questions::addTest($request->all());
+
+    }
+    public function addEdit(Request $request)
+    {
+        return admin::addEdit($request->all());
+
+    }
+
+
+
+    public function assistanceRequest(Request $request)
+    {
+        return assistance::requestAssistance($request ->all());
+    }
+
+    public function suggestInvitees(Request $request)
+    {
+        return invite::getInvitees($request ->all());
+    }
+
+
+    public function viewUsers(Request $request)
+    {
+        return admin::viewUsers($request->all());
+    }
+
+
+    public function userTestDetails(Request $request)
+    {
+        return admin::userTestDetails($request->all());
+    }
+
+
+    public function addFeed(Request $request)
+    {
+        return admin::addFeed($request->all());
+    }
+
+    public function newEdit(Request $request){
+        return admin::edit($request->all());
+    }
+
+    public function saveNewEdit(Request $request)
+    {
+        return questions::newEdit($request->all());
+
+    }
+    public function enterVoucher(Request $request)
+    {
+        return addUser::enterVoucher($request->all());
+
+    }
+
+
+    public function userDetails(Request $request)
+    {
+        return admin::userDetails($request->all());
+
+    }
+    public function search(Request $request){
+        return admin::search($request->all());
+    }
 }

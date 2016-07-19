@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Request;
 use Jenssegers\Mongodb\Schema\Blueprint;
 use App\Model\coupon;
 use App\Model\addUser;
+use View;
+use Redirect;
+use Input;
+
 
 class questions extends Eloquent
 {
@@ -36,14 +40,6 @@ class questions extends Eloquent
         $question = $model->questions = $input['questions'];
         $date = $model->expiryDate = $input['expiryDate'];
         return $question;
-        /* $save = $model->save();
-         if ($save) {
-             return array("code" => "0", "message" => "Successfully added");
-         } else {
-
-             return array("code" => "1", "message" => "Please try again");
-
-         }*/
 
 
     }
@@ -72,22 +68,37 @@ class questions extends Eloquent
     {
 
         $sessionHandle = $input['sessionHandle'];
-        $check = addUser::where('usrSessionHdl', '=', $sessionHandle)->get();
+        $check = addUser::where('usrSessionHdl', '=', $sessionHandle)->first();
         if (!isset($check) || count($check) == 0) {
-            return array("status" => "error", "resultcode" => "1", "message" => "Incorrect session recieved");
+            return array("status" => "error", "resultcode" => "1", "message" => "Incorrect session received");
         } else {
             $model = new self();
             $dashboard = $model::all();
             $array = array();
             $main = array();
             foreach ($dashboard as $item) {
-                $Id = $item->_id;
+                $company = $check['corporateName'];
+                if (!isset($company) || count($company) == 0 || $company == '') {
+                    $Id = $item['_id'];
+                    $duration = $item->duration;
+                    $desciption = $item->desription;
+                    unset($item->questions);
+                    unset($item->weightage);
+                    array_push($array, $Id);
+                } else {
 
-                $duration = $item->duration;
-                $desciption = $item->desription;
-                unset($item->questions);
-                unset($item->weightage);
-                array_push($array, $Id);
+                    $company = $check['corporateName'];
+                    $id_company = $item['ownerName'];
+                    if ($id_company == $company) {
+                        $Id = $item['_id'];
+                        $duration = $item->duration;
+                        $desciption = $item->desription;
+                        unset($item->questions);
+                        unset($item->weightage);
+                        array_push($array, $Id);
+                    }
+                }
+
             }
 
             $main['testIds'] = $array;
@@ -112,8 +123,8 @@ class questions extends Eloquent
             foreach ($testIDs as $ids) {
 
                 $test = $model::where('_id', "=", $ids)->first();
-
-                $test->count = "5";
+                $testcount = savedtests::where('testId', '=', $ids)->get();
+                $test->count = count($testcount);
                 $test->groupCount = "20";
                 $questions = $test["questions"];
                 unset($test->questions);
@@ -121,7 +132,7 @@ class questions extends Eloquent
 
                 array_push($array, $test);
             }
-            $count = addUser::count();
+            $count = savedtests::count();
             $resultArray = array();
             $resultArray['globalCount'] = $count;
             $resultArray['tests'] = $array;
@@ -149,6 +160,8 @@ class questions extends Eloquent
         $model->ImageUrl = $input['ImageUrl'];
         $duration = $model->testDuration = $input['duration'];
         $model->skipFlag = $input['skipFlag'];
+        $model->ownerName = $input['owner'];
+        $model->testStatus = $input['testStatus'];
         $weight = $model->testType = $input['weightage'];
         $model->corporateUrl = $input['corporateURL'];
         $model->shortDescription = $input['description'];
@@ -161,8 +174,8 @@ class questions extends Eloquent
                 $array = array();
                 $queImage = $item['queImage'];
                 $array['questionImageUrl'] = $queImage;
-                $multi = $item['mulitpletype'];
-                $array['multipleType'] = $multi;
+                $multi = $item['skipFlag'];
+                $array['skipFlag'] = $multi;
                 $title = $item['questiontitle'];
                 $array['questiontitle'] = $title;
                 /*$aa = $item['answerkeyA'];
@@ -186,9 +199,15 @@ class questions extends Eloquent
                 $array['options'] = $options;
 
                 $keys = $item['solutionkey'];
-                if (isset($item['solutionkey'])) {
+                if ($keys == "" || count($keys) == 0) {
+                    $keys = ["Not Applicable"];
+                    $array['solutionkey'] = $keys;
+
+
+                } else {
                     $array['solutionkey'] = $keys;
                 }
+
                 if (isset($item['weightage'])) {
                     $array['weightage'] = $item['weightage'];
                 }
@@ -216,6 +235,232 @@ class questions extends Eloquent
         } else {
             return array("resultCode" => "1", "status" => "error");
 
+        }
+
+    }
+
+    public static function saveEdit($input)
+    {
+        /*Edit new test*/
+
+        $a = $_POST['_id'];
+        $test = new self();
+        $model = $test::find($a);
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $model->testStatus = $_POST['status'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->testType = $_POST['type'];
+        $model->corporateUrl = $input['CURL'];
+        $model->ownerName = $input['owner'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->resultDescription = $input['resultDescription'];
+        $model->expiryDate = $input['date'];
+        $questionTitle = $_POST['Qtitle'];
+        $options = $_POST['qOption'];
+        /*        print_r(array_chunk($options,4));*/
+        $chunk = array_chunk($options, 6);
+        $answers = $_POST['qAnswer'];
+        $qAxis = $_POST['axisType'];
+        $mFlag = $_POST['Mflag'];
+        $qURL = $_POST['QURL'];
+        $weightage = $_POST['weightage'];
+        $answer = array_chunk($answers, 1);
+        $array = array();
+
+
+        foreach ($model->questions as $question) {
+            $model->questions()->dissociate($question);
+
+        }
+
+        $saved = $model->save();
+
+        if ($saved) {
+
+            $i = 0;
+            foreach ($chunk as $items) {
+                if ($answer[$i] == [""]) {
+                    $array["solutionkey"] = ["Not Applicable"];
+
+                } else {
+                    $array["solutionkey"] = $answer[$i];
+                }
+
+                $array["options"] = $items;
+                //  $array["questiontitle"] = array();
+                $array["axisType"] = $qAxis[$i];
+                $array["skipFlag"] = $mFlag[$i];
+                $array["questionImageUrl"] = $qURL[$i];
+                $array["weightage"] = $weightage[$i];
+                $array["questiontitle"] = $questionTitle[$i];
+                $i++;
+
+                $saved = $model->questions()->create($array);
+            }
+
+
+            $invitee = invite::all();
+            $users = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
+            $fulltest = $model::where('testName', '=', $testId)->first();
+            return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+            /*            return  Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);*/
+
+
+        } else {
+            return "Failed";
+        }
+
+    }
+
+    public static function newEdit($input)
+    {
+
+        /* Edit old test*/
+        $a = $_POST['_id'];
+        $test = new self();
+        $model = $test::find($a);
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $model->testStatus = $_POST['status'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->testType = $_POST['type'];
+        $model->corporateUrl = $input['CURL'];
+        $model->ownerName = $input['owner'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->resultDescription = $input['resultDescription'];
+        $model->expiryDate = $input['date'];
+        $questionTitle = $_POST['Qtitle'];
+        $options = $_POST['qOption'];
+        /*        print_r(array_chunk($options,4));*/
+        $chunk = array_chunk($options, 6);
+        $answers = $_POST['qAnswer'];
+        $qAxis = $_POST['axisType'];
+        $mFlag = $_POST['Mflag'];
+        $qURL = $_POST['QURL'];
+        $weightage = $_POST['weightage'];
+        $answer = array_chunk($answers, 1);
+        $array = array();
+
+
+        foreach ($model->questions as $question) {
+            $model->questions()->dissociate($question);
+
+        }
+
+        $saved = $model->save();
+
+        if ($saved) {
+
+            $i = 0;
+            foreach ($chunk as $items) {
+                $array["options"] = $items;
+                //  $array["questiontitle"] = array();
+                $array["solutionkey"] = $answer[$i];
+                $array["axisType"] = $qAxis[$i];
+                $array["skipFlag"] = $mFlag[$i];
+                $array["questionImageUrl"] = $qURL[$i];
+                $array["weightage"] = $weightage[$i];
+                $array["questiontitle"] = $questionTitle[$i];
+                $i++;
+
+                $saved = $model->questions()->create($array);
+            }
+
+
+            $invitee = invite::all();
+            $users = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
+
+
+            return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+            /*            return  Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);*/
+
+
+        } else {
+            return "Failed";
+        }
+
+    }
+
+
+    public static function addTest($input)
+    {
+
+        $model = new self();
+        $testId = $model->testName = $input['tName'];
+        $model->ImageUrl = $input['ImageUrl'];
+        $duration = $model->testDuration = $input['tDuration'];
+        $model->testType = $_POST['flag'];
+        $model->testStatus = $_POST['status'];
+        $model->ownerName = $input['owner'];
+        $model->corporateUrl = $input['CURL'];
+        $model->shortDescription = $input['Summary'];
+        $description = $model->testDescription = $input['description'];
+        $model->resultDescription = $input['resultDescription'];
+        $model->expiryDate = $input['date'];
+        $questionTitle = $_POST['Qtitle'];
+        $options = $_POST['qOption'];
+        $chunk = array_chunk($options, 6);
+        $answers = $_POST['qAnswer'];
+        $mFlag = $_POST['Mflag'];
+        $qAxis = $_POST['axisType'];
+        $qURL = $_POST['QURL'];
+        $weightage = $_POST['weightage'];
+        $answer = array_chunk($answers, 1);
+        $array = array();
+
+
+        $saved = $model->save();
+        if ($saved) {
+
+
+            $i = 0;
+            foreach ($chunk as $items) {
+                if ($answer[$i] == [""]) {
+                    $array["solutionkey"] = ["Not Applicable"];
+
+                } else {
+                    $array["solutionkey"] = $answer[$i];
+                }
+                $array["solutionkey"] = $answer[$i];
+
+
+                $array["options"] = $items;
+
+                $array["axisType"] = $qAxis[$i];
+                $array["skipFlag"] = $mFlag[$i];
+                $array["questionImageUrl"] = $qURL[$i];
+                $array["weightage"] = $weightage[$i];
+                $array["questiontitle"] = $questionTitle[$i];
+                $i++;
+
+                $saved = $model->questions()->create($array);
+            }
+            $invitee = invite::all();
+            $users = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
+            $fulltest = $model::where('testName', '=', $testId)->first();
+            $full_id = $fulltest['_id'];
+            addUser::testGcm($testId);
+            return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('full_id', $full_id);
+
+        } else {
+            return "Failed";
         }
 
     }
