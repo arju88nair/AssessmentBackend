@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -62,11 +63,14 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    View User</div>
+                    View User
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">View User</li>
             </ol>
             <div class="clearfix">
@@ -76,10 +80,11 @@
         <!--BEGIN CONTENT-->
 
 
-        <div style="float: right;width:40%; height:auto;margin-right: 2%" class="container">
+        <div style="float: right;width:40%; height:auto;margin-right: 2%;margin-top:10%" class="container">
 
 
-            <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle" alt="Cinque Terre"
+            <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle"
+                 alt="Cinque Terre"
                  width="140" height="130">
             <br>
 
@@ -87,69 +92,7 @@
 
             <br>
 
-            <div class="well-lg "
-                 style="display: block; margin: 0 auto;background-color: lightgrey;width:30%; height:20%;border:thin solid grey">
-
-                <h3 style="text-align:center"> <?=$itema['score']?></h3>
-
-
-            </div>
             <br><br>
-
-            <?php
-
-            if (isset($report) || count($report) != 0) {
-
-                if ($report['status'] == "Pending") {
-                    echo "
-          <button style=\" margin-left:8%\"type=\"button\" class=\"btn btn-primary active\" data-toggle=\"modal\" data-target=\"#myModal\">Report Requested</button>
-";
-
-                } else {
-                    echo "
-    <button style=\" margin-left:8%\" type=\"button\" class=\"btn btn-primary disabled\">Report not requested</button>
-
-
-   ";
-
-                }
-
-
-            } else {
-                echo "
-    <button style=\"margin-left:8%\" type=\"button\" class=\"btn btn-primary disabled\">Not requested</button>
-
-
-   ";
-            }
-
-
-            if (isset($assistance) || count($assistance) != 0) {
-                if ($assistance['status'] == "Pending") {
-                    echo "
-          <button style=\"margin-left:8%\" type=\"button\" class=\"btn btn-primary active\">Assistance Requested</button>
-";
-
-                } else {
-                    echo "
-    <button style=\"margin-left:8%\" type=\"button\" class=\"btn btn-primary disabled\">Not requested</button>
-
-
-   ";
-
-                }
-
-            } else {
-                echo "
-    <button styletype=\"button\" class=\"btn btn-primary disabled\">Assistance not requested</button>
-
-
-   ";
-            }
-
-
-
-            ?>
 
 
         </div>
@@ -162,107 +105,43 @@
             <br>
             <br>
 
-            <p><strong>Test Name</strong> : <?=$fulltest['testName']?> </p>
+            <p><strong>User Name</strong> :<?=$users['name']?></p>
 
-            <p><strong>Test Duration</strong> : <?=$fulltest['testDuration']?> Minutes</p>
+            <p><strong>User Email Id</strong> :<?=$users['userId']?></p>
 
-            <p><strong>Submited Date</strong> : <?=$itema['updated_at']?> </p>
+            <p><strong>Authentication Type</strong> :<?=$users['auth_type']?></p>
 
-            <p><strong>Unique answer Id</strong> : <?=$itema['_id']?> </p>
+            <p><strong>Push Notification Id</strong> :<?=$users['pushNotificationID']?></p>
 
-            <p><strong>Summary </strong>: <?=$fulltest['shortDescription']?> </p>
+            <p><strong>Session Handle</strong> :<?=$users['usrSessionHdl']?></p>
 
-            <br>
-            <br>
-            <br>
+            <p><strong>Unique Databsae Id</strong> :<?=$users['_id']?></p>
 
-            <h3>Questions </h3>
-            </br>
-            <br>
-
-            <?php $count = 0; ?>
-
-            <?php foreach( $fulltest['questions'] as $item ): ?>
-
-
-            <div class="panel panel-info">
-                <div class="panel-heading">Question Title: <?=$item['questiontitle']?></div>
-            </div>
-            <ul class="list-group">
-                <?php foreach ($item['options'] as $items): ?>
-                <li class="list-group-item"><span class="glyphicon glyphicon-minus"></span> <?=$items?></li>
-                <?php endforeach ?>
-                <?php
-
-                $num = 1;
-
-                if ($item['solutionkey'][0] == 0) {
-                    $num = 1;
+            <?php
+            if (isset($users['corporateName'])) {
+                if ($users['corporateName'] !== "" || count($users['corporateName']) != 0) {
+                    echo '<p><strong>Corporate Name</strong> :' . $users['corporateName'] . '</p> ';
                 }
-                if ($item['solutionkey'][0] == 1) {
-                    $num = 2;
-                }
-                if ($item['solutionkey'][0] == 2) {
-                    $num = 3;
-                }if ($item['solutionkey'][0] == 3) {
-                    $num = 4;
-                }
+            }
+            ?>
+
+            <br>
+            <br>
+            <br>
+            <?php
+            if (count($test) != 0) {
+                echo '<h3>Attended Tests </h3></br><br>';
+            }
 
 
+            foreach ($test as $item) {
+                echo '<div class="list-group">
+         <a style="width:95%" href="userTestDetails?uId=' . $users['_id'] . '&qId=' . $item['testId'] . '" class="list-group-item"><br><h4 style="margin-top:-0.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
+     </div>';
+            }
+            ?>
+            <br><br>
 
-
-                echo "
-            <script type=\"text/javascript\">
-    $('.list-group-item:nth-child($num)').css('background-color','lightgreen');
-
-
-            </script>
-        ";
-
-
-
-
-                ?>
-            </ul>
-
-
-            <?php $count++;?>
-
-
-            <?php endforeach ?>
-
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Upload report</h4>
-                        </div>
-                        <div class="modal-body">
-                            {!! Form::open(array('url'=>'apply/multiple_upload','method'=>'POST', 'files'=>true)) !!}
-
-                            {!! Form::file('images[]', array('multiple'=>true)) !!}
-                            {{ Form::hidden('sessionHandle',$users['usrSessionHdl']) }}
-                            {{ Form::hidden('testName',$fulltest['testName']) }}
-                            {{ Form::hidden('testId',$fulltest['_id']) }}
-                            {{ Form::hidden('Score',$itema['score']) }}
-
-
-
-
-                            <hr>
-
-                            {!! Form::submit('Submit' ,array('class' => 'btn btn-primary')) !!}
-                            {!! Form::close() !!}                </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
         </div>
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->

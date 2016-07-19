@@ -61,7 +61,7 @@ class feeds extends Eloquent
     public static function saveFeed($input)
     {
         $model = new self();
-        $model->feedTitle = $input['feedTitle'];
+        $title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
         $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
@@ -80,6 +80,7 @@ class feeds extends Eloquent
                 $report = upload::all();
                 $assistance = assistance::all();
 
+                $gcm = addUser::feedGcm($title);
 
                 return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
@@ -102,7 +103,7 @@ class feeds extends Eloquent
                 }
                 if (in_array($ext, $allowed)) {
                     $pathToFile = $destinationPath . $filename;
-					 $string = "/var/www/html/Assessment/public";
+                    $string = "/var/www/html/Assessment/public";
                     $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
 

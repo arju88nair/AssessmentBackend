@@ -39,4 +39,9 @@ class TestController extends Controller
         return questions::deleteTest($request->all());
     }
 
+    public function getDashboard(Request $request)
+    {
+        return  questions::dashboard($request->all());
+    }
+
 }

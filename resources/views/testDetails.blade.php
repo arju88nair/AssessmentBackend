@@ -27,6 +27,14 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+    <script>
+        $(document).ready(function () {
+            $('.panel-collapse.in')
+                    .collapse('hide');
+
+        });
+
+    </script>
     <style>
 
         a {
@@ -107,34 +115,45 @@
             <h3>Questions </h3>
             </br>
             <br>
-            <?php foreach( $tests['questions'] as $item ): ?>
+
+            <div class="panel-group" id="accordion" style="width:95%">
+                <?php foreach( $tests['questions'] as $item ): ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#<?=$item['_id']?>"><p>
+                                    <b>Question <?=$i?></b> : <?=$item['questiontitle']?></p></a>
+
+                            <p style="font-size: 80%;color: grey;margin-top: -1.5%;float: right;margin-left:5%">Axis
+                                Title : <?=$item['axisType']?></p>
+
+                            <p style="font-size: 80%;color: grey;margin-top: -1.5%; margin-left: 79%">Weightage
+                                : <?=$item['weightage']?></p>
 
 
-            <p><b>Question <?=$i?></b> : <?=$item['questiontitle']?></p>
-            <br>
+                        </h4>
+                    </div>
+                    <div id="<?=$item['_id']?>" class="panel-collapse collapse in">
+                        <div class="panel-body"> <?php foreach ($item['options'] as $items): ?>
+                            <br>
+                            <?php if ($items != "") {
+                                echo "<p>option <span class=\"glyphicon glyphicon-minus\"></span>     $items</p>";
+                            }
+                            ?>
+                            <?php endforeach ?>
+                            <br>
+                            <?php foreach ($item['solutionkey'] as $keys): ?>
+                            <p>Answer : <?=$keys?> </p>
+                            <br>
+                            <br>
+                            <?php endforeach ?>
+                            <?php $i++?></div>
+                    </div>
+                </div>
+                <?php endforeach ?>
 
-            <p>Axis Title : <?=$item['axisType']?></p>
-            <br>
-
-            <p>Weightage : <?=$item['weightage']?></p>
-
-            <?php foreach ($item['options'] as $items): ?>
-            <br>
-            <?php if ($items != "") {
-                echo "<p><span class=\"glyphicon glyphicon-minus\"></span> $items</p>";
-            }
-            ?>
-            <?php endforeach ?>
-            <br>
-            <?php foreach ($item['solutionkey'] as $keys): ?>
-            <p>Answer : <?=$keys?> </p>
-            <br>
-            <br>
-            <?php endforeach ?>
-            <?php $i++?>
-            <?php endforeach ?>
-
-
+            </div>
+            <br><br><br>
         </div>
 
 
@@ -202,5 +221,6 @@
 
 
 </script>
+
 </body>
 </html>

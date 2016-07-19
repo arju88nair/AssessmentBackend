@@ -145,28 +145,29 @@ class admin extends Eloquent
 
 
     }
-    public static function addEdit($input)
-    {
-        $tests = $input['tests'];
-        return $tests;
-        $fulltest = questions::find($id);
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-        return View::Make('newEdit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+    /* public static function addEdit($input)
+     {
+         $tests = $input['tests'];
+         return $tests;
+         $fulltest = questions::find($id);
+         $invitee = invite::all();
+         $users = addUser::all();
+         $savedtests = savedtests::getAnswers();
+         $test = questions::all();
+         $report = upload::where('status', '=', 'Pending')->get();
+         $assistance = assistance::all();
+         return View::Make('newEdit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
 
-    }
+     }*/
 
 
     public static function viewUsers()
     {
         $report = upload::all();
         $assistance = assistance::all();
-        $users = savedtests::all();
+        $users = addUser::orderBy('name', 'asc')->get();
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
 
 
@@ -206,15 +207,40 @@ class admin extends Eloquent
     public static function test()
     {
 
-        if (isset($_POST['sb'])) {
-
-            $path = public_path() . '/uploads/';
-
-            $file = $_FILES['filetoupload']['name'];
-
-            move_uploaded_file($_FILES['filetoupload']['tmp_name'], "$path/$file");
-
+        define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
+        $users = addUser::all();
+        $array = array();
+        foreach ($users as $items) {
+            $push = $items['pushNotificationID'];
+            array_push($array, $push);
         }
+        $registrationIds = $array;
+
+// prep the bundle
+        $msg = array('message' => "Blah", "url" => "", "testName" => "", "testScore" => "", "testId" => "", "type" => "Feed");
+
+        $fields = array
+        (
+            'registration_ids' => $registrationIds,
+            'data' => $msg
+        );
+
+        $headers = array
+        (
+            'Authorization: key=' . API_ACCESS_KEY,
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        echo $result;
 
     }
 
@@ -233,5 +259,28 @@ class admin extends Eloquent
         return View::Make('notifications')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
     }
+
+    public static function userDetails()
+    {
+        $id = $_GET['action'];
+        $report = upload::where('status', '=', 'Pending')->get();
+        $assistance = assistance::all();
+        $user = addUser::find($id);
+        $test = savedtests::where('_uId', '=', $id)->get();
+
+        return View::Make('userDetails')->with('test', $test)->with('users', $user)->with('report', $report)->with('assistance', $assistance);
+
+
+    }
+
+    public static function search($input)
+    {
+        $search = $_POST['name'];
+        $users = addUser::where('name', 'like', '%' . $search . '%')->orderBy('name', 'desc')->get();
+        $report = upload::all();
+        $assistance = assistance::all();
+        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
+    }
 }
+
 

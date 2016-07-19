@@ -54,6 +54,11 @@ Route::post('addFeeds','DashboardController@addFeeds');
 
 Route::post('enterVoucher','userController@enterVoucher');
 
+Route::post('getDashboard','TestController@getDashboard');
+
+
+
+
 
 
 
@@ -75,6 +80,8 @@ Route::get('testDetails','userController@testDetails');
 Route::get('delete','userController@delete');
 
 Route::get('edit','userController@edit');
+
+Route::get('userDetails','userController@userDetails');
 
 Route::get('newEdit','userController@newEdit');
 
@@ -103,6 +110,8 @@ Route::get('deleteFeed','DashboardController@deleteFeed');
 Route::post('test','DashboardController@test');
 
 Route::get('notification','DashboardController@notification');
+
+Route::post('search','userController@search');
 
 
 
