@@ -27,6 +27,7 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+<<<<<<< HEAD
     <style>
 
         #double{
@@ -45,6 +46,8 @@
 
 
     </style>
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 </head>
 <body style="overflow-x: hidden">
@@ -81,6 +84,7 @@
 
             <h2 style="text-align: center">View Users</h2>
 
+<<<<<<< HEAD
             <ul id="double" class="list-group"> <span class="code-comment"><!-- Alter ID accordingly --></span>
                 <?php foreach( $users as $item ): ?>
                 <li class="list-group-item well" id="list-group-item" ><img style="margin-left:1.3% " src='<?= $item['imageUrl'] ?>' class="img-circle" alt="Cinque Terre" width="48" height="48"><h4 style="margin-top:-7.5%;text-align:center"><a href="userDetails?action=<?=$item['_id']?>"><?= $item['name'] ?></a></h4></li>
@@ -89,6 +93,27 @@
 
 
             </ul>
+=======
+            <?php
+            foreach ($users as $item) {
+                echo '<div class="list-group">
+         <a href="userTestDetails?uId=' . $item['_uId'] . '&qId=' . $item['testId'] . '" class="list-group-item"><img style="margin-left:1.3% " src=' . $item["imageUrl"] . ' class="img-circle" alt="Cinque Terre" width="48" height="48"><br><p>' . $item["name"] . '</p><h4 style="margin-top:-4.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
+     </div>';
+
+
+            }
+
+
+            ?>
+
+
+            {{-- <div class="list-group">
+                 <a href="#" class="list-group-item">First item<p style="text-align: right">ghjkl;</p></a>
+                 <a href="#" class="list-group-item">Second item</a>
+                 <a href="#" class="list-group-item">Third item</a>
+             </div>
+         --}}
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
         </div>
 

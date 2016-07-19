@@ -145,6 +145,7 @@ class admin extends Eloquent
 
 
     }
+<<<<<<< HEAD
 
     /* public static function addEdit($input)
      {
@@ -161,13 +162,34 @@ class admin extends Eloquent
 
 
      }*/
+=======
+    public static function addEdit($input)
+    {
+        $tests = $input['tests'];
+        return $tests;
+        $fulltest = questions::find($id);
+        $invitee = invite::all();
+        $users = addUser::all();
+        $savedtests = savedtests::getAnswers();
+        $test = questions::all();
+        $report = upload::where('status', '=', 'Pending')->get();
+        $assistance = assistance::all();
+        return View::Make('newEdit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
+
+
+    }
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
     public static function viewUsers()
     {
         $report = upload::all();
         $assistance = assistance::all();
+<<<<<<< HEAD
         $users = addUser::orderBy('name', 'asc')->get();
+=======
+        $users = savedtests::all();
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
 
 
@@ -207,6 +229,7 @@ class admin extends Eloquent
     public static function test()
     {
 
+<<<<<<< HEAD
         define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
         $users = addUser::all();
         $array = array();
@@ -241,6 +264,17 @@ class admin extends Eloquent
         $result = curl_exec($ch);
         curl_close($ch);
         echo $result;
+=======
+        if (isset($_POST['sb'])) {
+
+            $path = public_path() . '/uploads/';
+
+            $file = $_FILES['filetoupload']['name'];
+
+            move_uploaded_file($_FILES['filetoupload']['tmp_name'], "$path/$file");
+
+        }
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
     }
 
@@ -259,6 +293,7 @@ class admin extends Eloquent
         return View::Make('notifications')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
     }
+<<<<<<< HEAD
 
     public static function userDetails()
     {
@@ -284,3 +319,7 @@ class admin extends Eloquent
 }
 
 
+=======
+}
+
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432

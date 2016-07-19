@@ -213,6 +213,24 @@ class userController extends Controller
     public function addFeed(Request $request)
     {
         return admin::addFeed($request->all());
+<<<<<<< HEAD
+=======
+    }
+
+    public function newEdit(Request $request){
+        return admin::edit($request->all());
+    }
+
+    public function saveNewEdit(Request $request)
+    {
+        return questions::newEdit($request->all());
+
+    }
+    public function enterVoucher(Request $request)
+    {
+        return addUser::enterVoucher($request->all());
+
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
     }
 
     public function newEdit(Request $request){

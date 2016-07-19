@@ -241,8 +241,11 @@ class questions extends Eloquent
 
     public static function saveEdit($input)
     {
+<<<<<<< HEAD
         /*Edit new test*/
 
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $a = $_POST['_id'];
         $test = new self();
         $model = $test::find($a);
@@ -255,14 +258,22 @@ class questions extends Eloquent
         $model->ownerName = $input['owner'];
         $model->shortDescription = $input['Summary'];
         $description = $model->testDescription = $input['description'];
+<<<<<<< HEAD
         $model->resultDescription = $input['resultDescription'];
+=======
+        $model->resultDescription=$input['resultDescription'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $model->expiryDate = $input['date'];
         $questionTitle = $_POST['Qtitle'];
         $options = $_POST['qOption'];
         /*        print_r(array_chunk($options,4));*/
         $chunk = array_chunk($options, 6);
         $answers = $_POST['qAnswer'];
+<<<<<<< HEAD
         $qAxis = $_POST['axisType'];
+=======
+        $qAxis=$_POST['axisType'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $mFlag = $_POST['Mflag'];
         $qURL = $_POST['QURL'];
         $weightage = $_POST['weightage'];
@@ -281,6 +292,7 @@ class questions extends Eloquent
 
             $i = 0;
             foreach ($chunk as $items) {
+<<<<<<< HEAD
                 if ($answer[$i] == [""]) {
                     $array["solutionkey"] = ["Not Applicable"];
 
@@ -290,6 +302,18 @@ class questions extends Eloquent
 
                 $array["options"] = $items;
                 //  $array["questiontitle"] = array();
+=======
+				if($answer[$i]==[""]){
+				$array["solutionkey"] = ["Not Applicable"];
+
+			}
+			else{
+				 $array["solutionkey"] = $answer[$i];
+			}
+
+                $array["options"] = $items;
+              //  $array["questiontitle"] = array();
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
                 $array["axisType"] = $qAxis[$i];
                 $array["skipFlag"] = $mFlag[$i];
                 $array["questionImageUrl"] = $qURL[$i];
@@ -307,7 +331,11 @@ class questions extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+<<<<<<< HEAD
             $fulltest = $model::where('testName', '=', $testId)->first();
+=======
+            $fulltest=$model::where('testName','=',$testId)->first();
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
             return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
             /*            return  Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);*/
@@ -321,8 +349,11 @@ class questions extends Eloquent
 
     public static function newEdit($input)
     {
+<<<<<<< HEAD
 
         /* Edit old test*/
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $a = $_POST['_id'];
         $test = new self();
         $model = $test::find($a);
@@ -335,14 +366,22 @@ class questions extends Eloquent
         $model->ownerName = $input['owner'];
         $model->shortDescription = $input['Summary'];
         $description = $model->testDescription = $input['description'];
+<<<<<<< HEAD
         $model->resultDescription = $input['resultDescription'];
+=======
+        $model->resultDescription=$input['resultDescription'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $model->expiryDate = $input['date'];
         $questionTitle = $_POST['Qtitle'];
         $options = $_POST['qOption'];
         /*        print_r(array_chunk($options,4));*/
         $chunk = array_chunk($options, 6);
         $answers = $_POST['qAnswer'];
+<<<<<<< HEAD
         $qAxis = $_POST['axisType'];
+=======
+        $qAxis=$_POST['axisType'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $mFlag = $_POST['Mflag'];
         $qURL = $_POST['QURL'];
         $weightage = $_POST['weightage'];
@@ -408,25 +447,38 @@ class questions extends Eloquent
         $model->corporateUrl = $input['CURL'];
         $model->shortDescription = $input['Summary'];
         $description = $model->testDescription = $input['description'];
+<<<<<<< HEAD
         $model->resultDescription = $input['resultDescription'];
+=======
+        $model->resultDescription=$input['resultDescription'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $model->expiryDate = $input['date'];
         $questionTitle = $_POST['Qtitle'];
         $options = $_POST['qOption'];
         $chunk = array_chunk($options, 6);
         $answers = $_POST['qAnswer'];
         $mFlag = $_POST['Mflag'];
+<<<<<<< HEAD
         $qAxis = $_POST['axisType'];
+=======
+        $qAxis=$_POST['axisType'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $qURL = $_POST['QURL'];
         $weightage = $_POST['weightage'];
         $answer = array_chunk($answers, 1);
         $array = array();
+<<<<<<< HEAD
 
 
+=======
+		
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $saved = $model->save();
         if ($saved) {
 
 
             $i = 0;
+<<<<<<< HEAD
             foreach ($chunk as $items) {
                 if ($answer[$i] == [""]) {
                     $array["solutionkey"] = ["Not Applicable"];
@@ -439,6 +491,21 @@ class questions extends Eloquent
 
                 $array["options"] = $items;
 
+=======
+            foreach ($chunk as $items) {	
+			if($answer[$i]==[""]){
+							$array["solutionkey"] = ["Not Applicable"];
+
+			}
+			else{
+				 $array["solutionkey"] = $answer[$i];
+			}
+			$array["solutionkey"] = $answer[$i];
+
+
+                $array["options"] = $items;
+               
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
                 $array["axisType"] = $qAxis[$i];
                 $array["skipFlag"] = $mFlag[$i];
                 $array["questionImageUrl"] = $qURL[$i];
@@ -454,10 +521,16 @@ class questions extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+<<<<<<< HEAD
             $fulltest = $model::where('testName', '=', $testId)->first();
             $full_id = $fulltest['_id'];
             addUser::testGcm($testId);
             return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('full_id', $full_id);
+=======
+            $fulltest=$model::where('testName','=',$testId)->first();
+            $full_id=$fulltest['_id'];
+            return View::Make('edit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('full_id',$full_id);
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
         } else {
             return "Failed";

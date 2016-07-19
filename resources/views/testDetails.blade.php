@@ -27,6 +27,7 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+<<<<<<< HEAD
     <script>
         $(document).ready(function () {
             $('.panel-collapse.in')
@@ -35,6 +36,8 @@
         });
 
     </script>
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
     <style>
 
         a {
@@ -115,6 +118,7 @@
             <h3>Questions </h3>
             </br>
             <br>
+<<<<<<< HEAD
 
             <div class="panel-group" id="accordion" style="width:95%">
                 <?php foreach( $tests['questions'] as $item ): ?>
@@ -154,6 +158,36 @@
 
             </div>
             <br><br><br>
+=======
+            <?php foreach( $tests['questions'] as $item ): ?>
+
+
+            <p><b>Question <?=$i?></b> : <?=$item['questiontitle']?></p>
+            <br>
+
+            <p>Axis Title : <?=$item['axisType']?></p>
+            <br>
+
+            <p>Weightage : <?=$item['weightage']?></p>
+
+            <?php foreach ($item['options'] as $items): ?>
+            <br>
+            <?php if ($items != "") {
+                echo "<p><span class=\"glyphicon glyphicon-minus\"></span> $items</p>";
+            }
+            ?>
+            <?php endforeach ?>
+            <br>
+            <?php foreach ($item['solutionkey'] as $keys): ?>
+            <p>Answer : <?=$keys?> </p>
+            <br>
+            <br>
+            <?php endforeach ?>
+            <?php $i++?>
+            <?php endforeach ?>
+
+
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         </div>
 
 
@@ -221,6 +255,9 @@
 
 
 </script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 </body>
 </html>

@@ -61,7 +61,11 @@ class feeds extends Eloquent
     public static function saveFeed($input)
     {
         $model = new self();
+<<<<<<< HEAD
         $title = $model->feedTitle = $input['feedTitle'];
+=======
+        $model->feedTitle = $input['feedTitle'];
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         $model->feedImage = $input['feedImage'];
         $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
@@ -80,7 +84,10 @@ class feeds extends Eloquent
                 $report = upload::all();
                 $assistance = assistance::all();
 
+<<<<<<< HEAD
                 $gcm = addUser::feedGcm($title);
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
                 return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
@@ -103,7 +110,11 @@ class feeds extends Eloquent
                 }
                 if (in_array($ext, $allowed)) {
                     $pathToFile = $destinationPath . $filename;
+<<<<<<< HEAD
                     $string = "/var/www/html/Assessment/public";
+=======
+					 $string = "/var/www/html/Assessment/public";
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
                     $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
 

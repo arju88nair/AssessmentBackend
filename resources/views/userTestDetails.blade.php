@@ -90,7 +90,11 @@
             <div class="well-lg "
                  style="display: block; margin: 0 auto;background-color: lightgrey;width:30%; height:20%;border:thin solid grey">
 
+<<<<<<< HEAD
                 <h3 style="text-align:center"> <?=$itema['score']?></h3>
+=======
+                <h3 style="text-align:center"> <?=$itema['score']?>/5</h3>
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
             </div>
@@ -247,8 +251,11 @@
                             {{ Form::hidden('sessionHandle',$users['usrSessionHdl']) }}
                             {{ Form::hidden('testName',$fulltest['testName']) }}
                             {{ Form::hidden('testId',$fulltest['_id']) }}
+<<<<<<< HEAD
                             {{ Form::hidden('Score',$itema['score']) }}
 
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
 

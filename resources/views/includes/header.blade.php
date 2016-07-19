@@ -10,9 +10,13 @@
             <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
             <a id="logo" href="dashboardAction" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Assessment</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
         <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
+<<<<<<< HEAD
             <form id="topbar-search" action="{{ action('userController@search') }}" method="post" class="hidden-sm hidden-xs">
                 <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white" name="name"/></div>
             </form>
+=======
+
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
             <ul class="nav navbar navbar-top-links navbar-right mbn">

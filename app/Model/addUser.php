@@ -222,8 +222,13 @@ class addUser extends Eloquent
 
 
      }*/
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
     public static function upload($input)
     {
         $handle = $input['userHandle'];
@@ -317,7 +322,11 @@ class addUser extends Eloquent
         $registrationIds = array($id);
 
 // prep the bundle
+<<<<<<< HEAD
         $msg = array('message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$testName,"testScore"=>$testScore,"testId"=>$testId,"type"=>"Report");
+=======
+        $msg = array('message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$testName,"testScore"=>$testScore,"testId"=>$testId);
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
         $fields = array
         (
@@ -374,9 +383,12 @@ class addUser extends Eloquent
                 }
 
             }
+<<<<<<< HEAD
 
 
         }
+=======
+>>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
     }
 
@@ -459,7 +471,8 @@ public static function feedGcm($title)
         return $result;
 
 
-    }
+        }
 
+    }
 }
 
