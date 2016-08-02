@@ -12,9 +12,11 @@
     <!--Loading bootstrap css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://www.chartjs.org/assets/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -62,11 +64,14 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    View User</div>
+                    View User
+                </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                </li>
                 <li class="active">View User</li>
             </ol>
             <div class="clearfix">
@@ -79,7 +84,8 @@
         <div style="float: right;width:40%; height:auto;margin-right: 2%" class="container">
 
 
-            <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle" alt="Cinque Terre"
+            <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle"
+                 alt="Cinque Terre"
                  width="140" height="130">
             <br>
 
@@ -174,7 +180,10 @@
 
             <br>
             <br>
-            <br>
+
+
+            <br><br><br>
+
 
             <h3>Questions </h3>
             </br>
@@ -188,9 +197,13 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Question Title: <?=$item['questiontitle']?></div>
             </div>
+            <?php if ($item['questionType'] == "Non-Descriptive") { ?>
             <ul class="list-group">
                 <?php foreach ($item['options'] as $items): ?>
+                <?php if (strlen($items) != 0) { ?>
                 <li class="list-group-item"><span class="glyphicon glyphicon-minus"></span> <?=$items?></li>
+                <?php } ?>
+
                 <?php endforeach ?>
                 <?php
 
@@ -208,23 +221,15 @@
                     $num = 4;
                 }
 
-
-
-
-                echo "
-            <script type=\"text/javascript\">
-    $('.list-group-item:nth-child($num)').css('background-color','lightgreen');
-
-
-            </script>
-        ";
-
-
-
-
+				
                 ?>
             </ul>
+							 <p>Choice:     <?=$itema['keys'][$count]['answer'][0]?></p>
 
+            <?php } else { ?>
+						<p>Answer:     <?=$itema['keys'][$count]['answer'][0]?></p>            <?php } ?>
+
+			<br>
 
             <?php $count++;?>
 
@@ -248,8 +253,6 @@
                             {{ Form::hidden('testName',$fulltest['testName']) }}
                             {{ Form::hidden('testId',$fulltest['_id']) }}
                             {{ Form::hidden('Score',$itema['score']) }}
-
-
 
 
                             <hr>
@@ -325,5 +328,26 @@
 
 
 </script>
+<script>
+
+</script>
+<style>
+
+    .chart-demo {
+        float: left;
+        width: 640px;
+    }
+
+
+</style>
+<style>
+
+    .chart-demo {
+        float: left;
+        width: 640px;
+    }
+
+
+</style>
 </body>
 </html>

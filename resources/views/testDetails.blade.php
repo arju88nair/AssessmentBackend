@@ -124,10 +124,10 @@
                             <a data-toggle="collapse" data-parent="#accordion" href="#<?=$item['_id']?>"><p>
                                     <b>Question <?=$i?></b> : <?=$item['questiontitle']?></p></a>
 
-                            <p style="font-size: 80%;color: grey;margin-top: -1.5%;float: right;margin-left:5%">Axis
+                            <p style="font-size: 80%;color: grey;margin-top: 0.5%;float: right;margin-left:5%">Axis
                                 Title : <?=$item['axisType']?></p>
 
-                            <p style="font-size: 80%;color: grey;margin-top: -1.5%; margin-left: 79%">Weightage
+                            <p style="font-size: 80%;color: grey;margin-top: 1.5%; margin-left: 74%">Weightage
                                 : <?=$item['weightage']?></p>
 
 

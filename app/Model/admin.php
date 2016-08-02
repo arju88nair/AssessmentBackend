@@ -181,9 +181,12 @@ class admin extends Eloquent
         $report = upload::where('testId', '=', $id)->first();
         $assistance = assistance::where('testId', '=', $id)->first();
         $users = addUser::find($uId);
+        $session = $users['usrSessionHdl'];
         $test = savedtests::where('testId', '=', $id)->first();
+        $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
+		
 
-        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test);
+        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores']);
 
     }
 

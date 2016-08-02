@@ -80,6 +80,13 @@
                             <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
                                href="#<?= $page['_id']?>"><?= $page['feedTitle']?></a>
 
+
+                            <?php if ($page['trending'] == "Yes"){ ?>
+                            <span style="color:yellow" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <?php }; ?>
+
+
+
                             <p style="font-size: 60%;color: grey;margin-top: 2.5%;float: right;"><strong>Added
                                     date:</strong><?= $page['updated_at']?></p>
                         </h4>
@@ -92,16 +99,20 @@
                             <a style="margin-left: 4%"
                                href="<?= $page['feedAudio']?>">Audio</a>
 
+                            <p style="margin-left: 16%;margin-top: -1.6%"> <?= $page['category']?></p>
+
                             <?php $id = $page['_id']?>
-                            <a style="margin-left: 63%;margin-top: 0%" href="#<?php echo '' . $id . '';?>"
+                            <a style="margin-left: 72%;margin-top: -3%" href="#<?php echo '' . $id . '';?>"
                                class="btn btn-primary"
                                role="button" data-toggle="modal" data-target="#myModal2"
                                data-title="<?= $page['feedTitle']?>" data-image="<?= $page['feedImage']?>"
                                data-source="<?= $page['feedSource']?>" data-content="<?= $page['feedContent']?>"
                                data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>"
                                data-audio="<?= $page['feedAudio']?>"
+                               data-cat="<?= $page['category']?>"
+                               data-trend="<?= $page['trending']?>"
                                data-idtag="<?= $page['_id']?>">Edit feed</a>
-                            <a style="margin-left: 84%;margin-top: -5%"
+                            <a style="margin-left: 84%;margin-top: -6%"
                                href="deleteFeed?action=<?=$page['_id']?>"
                                class="btn btn-danger" role="button">Delete feed</a>
 
@@ -142,6 +153,38 @@
                                     <label for="usr">Feed Image Small:</label>
                                     <input type="text" class="form-control" name="feedImage_lw">
                                 </div>
+                                <label for="sel1"
+                                       class="">Trending</label>
+
+                                <div class="">
+                                    <select name="trending" class="form-control" id="trend">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <br>
+
+                                <label for="sel1"
+                                       class="">Category</label>
+
+                                <div class="">
+                                    <select name="Category" class="form-control" id="cat">
+                                        <option value="Product Management">Product Management</option>
+										<option value="Agile">Agile</option>
+										<option value="Product Marketing">Product Marketing</option>
+                                        <option value="UX">UX</option>
+                                        <option value="Growth Hacking">Growth Hacking</option>
+                                        <option value="Road Mapping">Road Mapping</option>
+                                        <option value="Sales Enablement">Sales Enablement</option>
+                                        <option value="Career">Career</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Executive Presence">Executive Presence</option>
+
+
+                                    </select>
+                                </div>
+                                <br>
+
                                 <div class="form-group">
                                     <label for="comment">Feed content:</label>
                                     <textarea class="form-control" rows="5" name="feedContent"></textarea>
@@ -193,9 +236,44 @@
                                     <label for="usr">Feed Image Small:</label>
                                     <input type="text" class="form-control" name="feedImage_lw" id="feedImage_lw">
                                 </div>
+                                <label for="sel1"
+                                       class="">Trending</label>
+
+                                <div class="">
+                                    <select name="trending" class="form-control" id="trend">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+
+
+                                    </select>
+                                </div>
+                                <br>
+                                <label for="sel1"
+                                       class="">Category</label>
+
+                                <div class="">
+                                    <select name="Category" class="form-control" id="cat">
+                                         <option value="Product Management">Product Management</option>
+										<option value="Agile">Agile</option>
+										<option value="Product Marketing">Product Marketing</option>
+                                        <option value="UX">UX</option>
+                                        <option value="Growth Hacking">Growth Hacking</option>
+                                        <option value="Road Mapping">Road Mapping</option>
+                                        <option value="Sales Enablement">Sales Enablement</option>
+                                        <option value="Career">Career</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Executive Presence">Executive Presence</option>
+
+
+
+                                    </select>
+                                </div>
+                                <br>
+
                                 <div class="form-group">
-                                    <label for="inputPassword" >Audio</label>
-                                    <input class="form-control" name="disabledInput" id="disabledInput" type="text"  disabled>
+                                    <label for="inputPassword">Audio</label>
+                                    <input class="form-control" name="disabledInput" id="disabledInput" type="text"
+                                           disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="comment">Feed content:</label>
@@ -306,6 +384,9 @@
         var sourceTag = button.data('sourcetag');
         var idTag = button.data('idtag');
         var audio = button.data('audio');
+        var cat = button.data('cat');
+        var trend = button.data('trend');
+
 
         // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -318,6 +399,8 @@
         modal.find('#feedContent').val(content);
         modal.find('#sourceTitle').val(sourceTag);
         modal.find('#idTag').val(idTag);
+        modal.find('#cat').val(cat);
+        modal.find('#trend').val(trend);
         modal.find('#disabledInput').val(audio);
 
     })

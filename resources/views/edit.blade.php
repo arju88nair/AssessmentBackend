@@ -31,6 +31,8 @@
         $(document).ready(function () {
             document.getElementById("skip").value = '<?php echo $tests['testType'];?>';
             document.getElementById("status").value = '<?php echo $tests['testStatus'];?>';
+			document.getElementById("report").value = '<?php echo $tests['reportFlag'];?>';
+            document.getElementById("graph").value = '<?php echo $tests['graphFlag'];?>';
             var maxField = 20; //Input fields increment limitation
             var addButton = $('.add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
@@ -147,6 +149,30 @@
                         </select>
                     </div>
                 </div>
+				
+				<div class="form-group">
+                    <label for="sel1" class="control-label col-sm-2">Report Generation:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="report" class="form-control" id="report">
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+
+                        </select>
+                    </div>
+                </div>
+				
+				<div class="form-group">
+                    <label for="sel1" class="control-label col-sm-2">Graph Generation:</label>
+
+                    <div class="col-sm-10" style="width:60%">
+                        <select name="graph" class="form-control" id="graph">
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+
+                        </select>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label for="status" class="control-label col-sm-2">Test Type:</label>
@@ -236,13 +262,26 @@
                         </div> <?php $i++ ?>
 
 
-                        <div class="form-group">
+                       <div class="form-group">
                             <label for="sel1" class="control-label col-sm-2">Skip question:</label>
 
                             <div class="col-sm-10" style="width:60%">
                                 <select name="Mflag[]" class="form-control">
-                                    <option vale="False">False</option>
-                                    <option value="True">True</option>
+                                    <option vale="False"  <?php if($item["skipFlag"]== "False") echo "selected"; ?>>False</option>
+                                    <option value="True"  <?php if($item["skipFlag"]== "True") echo "selected"; ?>>True</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+
+
+                        <div class="form-group">
+                            <label for="sel1" class="control-label col-sm-2">Question Type:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="QTypes[]" class="form-control" id="qType">
+                                    <option value="Non-Descriptive" <?php if($item["questionType"]== "Non-Descriptive") echo "selected"; ?>>Non-Descriptive</option>
+                                    <option vale="Descriptive" <?php if($item["questionType"]== "Descriptive") echo "selected"; ?>>Descriptive</option>
                                 </select>
                             </div>
                         </div>
@@ -357,6 +396,19 @@
                                                     <select name="Mflag[]" class="form-control">
                                                         <option vale="False">False</option>
                                                         <option value="True">True</option>
+
+                                                    </select>
+                                                </div>
+
+                                                <br><br> <br><br>
+
+                                                <label for="sel1"
+                                                       class="col-sm-2 control-label">Question Type:</label>
+
+                                                <div class="col-sm-10">
+                                                    <select name="QTypes[]" class="form-control">
+                                                        <option value="Non-Descriptive">Non-Descriptive</option>
+                                                        <option vale="Descriptive">Descriptive</option>
 
                                                     </select>
                                                 </div>
