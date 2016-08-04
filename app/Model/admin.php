@@ -186,7 +186,7 @@ class admin extends Eloquent
         $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
 		
 
-        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores']);
+        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores'])->with('userId',$uId)->with('testId',$id);
 
     }
 
@@ -201,7 +201,6 @@ class admin extends Eloquent
         $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
 
-
         return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
 
@@ -209,42 +208,15 @@ class admin extends Eloquent
 
     public static function test()
     {
+		$id = $_GET['id'];
+        $uId = $_GET['uId'];
+		$fulltest = questions::find($id);
+        $test = savedtests::where('testId', '=', $id)->where('_uId','=',$uId)->first();
+        $users = addUser::find($uId);
+        $pdf = \PDF::loadView('index', compact('fulltest'),compact('test'),compact('users'));
 
-        define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
-        $users = addUser::all();
-        $array = array();
-        foreach ($users as $items) {
-            $push = $items['pushNotificationID'];
-            array_push($array, $push);
-        }
-        $registrationIds = $array;
-
-// prep the bundle
-        $msg = array('message' => "Blah", "url" => "", "testName" => "", "testScore" => "", "testId" => "", "type" => "Feed");
-
-        $fields = array
-        (
-            'registration_ids' => $registrationIds,
-            'data' => $msg
-        );
-
-        $headers = array
-        (
-            'Authorization: key=' . API_ACCESS_KEY,
-            'Content-Type: application/json'
-        );
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        curl_close($ch);
-        echo $result;
-
+		/*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
+		return $pdf->stream();		
     }
 
 

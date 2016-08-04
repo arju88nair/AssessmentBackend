@@ -83,7 +83,8 @@
 
         <div style="float: right;width:40%; height:auto;margin-right: 2%" class="container">
 
-
+			<a href="reportPdf?uId=<?=$userId?>&id=<?=$testId?>" class="btn btn-primary btn-block" role="button">Generate Report</a>
+			<br>
             <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle"
                  alt="Cinque Terre"
                  width="140" height="130">

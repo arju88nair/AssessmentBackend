@@ -27,6 +27,7 @@ class savedtests extends Eloquent
         $session = $input['sessionHandle'];
         $model->sessionHandle=$session;
         $user = addUser::where('usrSessionHdl', '=', $session)->first();
+
         $model->keys=$input['keys'];
         $model->testId=$input['testId'];
         $model->testName=$input['testName'];
@@ -36,6 +37,8 @@ class savedtests extends Eloquent
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
         } else {
+			$model->location=$user['userLocation'];
+			$model->email=$user['userId'];
             $model->name=$user['name'];
             $model->_uId=$user['_id'];
 
