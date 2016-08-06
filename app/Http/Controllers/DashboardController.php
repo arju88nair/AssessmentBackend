@@ -49,4 +49,10 @@ class DashboardController extends Controller
     {
         return admin::notification($request->all());
     }
+	
+	
+	public function chartpdf(Request $request)
+	{
+		return admin::chartPdf($request->all());
+	}
 }

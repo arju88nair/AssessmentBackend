@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
     <title>View Users</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>   
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<style>
+
+    
+</style>
 </head>
 <body>
 <h2 style="text-align:center";><?=$fulltest['testName']?> </h2>
@@ -20,7 +25,8 @@
 
 <p><strong>Unique answer Id</strong> : <?=$test['_id']?> </p>
 
-<p><strong>Score</strong> : <?=$test['score']?> </p>
+
+<p><strong>Score</strong> : <?=$test['score']?> /100</p>
 
 
 

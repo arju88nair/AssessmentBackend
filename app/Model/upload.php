@@ -134,7 +134,11 @@ class upload extends Eloquent
         /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';
-        $file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/uploads/appzoy mail@Sample_IPL_report-ilovepdf-compressed.pdf";
+ 		$test = savedtests::where('testId', '=', $input['testId'])->where('_uId','=','576cec60a94ff4271d47d4d8')->first();
+        $users = addUser::find('576cec60a94ff4271d47d4d8');
+			$pdf = \PDF::loadView('chart', compact('user'));
+		$saved=file_put_contents("reports/my_document.pdf", $pdf->output()); 
+		$file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/my_document.pdf";
         $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
         if (!isset($dup) || count($dup) == 0) {
             $isSaved = $model->save();;

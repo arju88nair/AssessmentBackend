@@ -6,6 +6,8 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use Date;
+use Infogram\InfogramRequest;
+use Infogram\RequestSigningSession;
 use Jenssegers\Mongodb\Schema\Blueprint;
 use App\Model\Tests;
 use View;
@@ -185,7 +187,6 @@ class admin extends Eloquent
         $test = savedtests::where('testId', '=', $id)->first();
         $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
 		
-
         return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores'])->with('userId',$uId)->with('testId',$id);
 
     }
@@ -255,6 +256,24 @@ class admin extends Eloquent
         $report = upload::all();
         $assistance = assistance::all();
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
+    }
+	
+	public static function chartPdf($input)
+	{
+       
+		$test = savedtests::where('testId', '=', '579c637ea94ff4550f1122b2')->where('_uId','=','576cec60a94ff4271d47d4d8')->first();
+        $user = addUser::find('579f227da94ff467d85e54ba');
+		
+			$pdf = \PDF::loadView('chart',compact('user'));
+
+		/*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
+		/* return $pdf->stream(); */
+		$saved=file_put_contents("reports/my_document.pdf", $pdf->output()); 
+		if($saved){
+			return "i";
+		}
+		else{return "no";
+		}
     }
 }
 

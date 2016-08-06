@@ -117,6 +117,8 @@ Route::get('notification','DashboardController@notification');
 
 Route::post('search','userController@search');
 
+Route::get('test','DashboardController@chartpdf');
+
 
 
 
