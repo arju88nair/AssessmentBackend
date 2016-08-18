@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Details</title>
+    <title>View Users</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,20 +27,25 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
-    <script>
-        $(document).ready(function () {
-            $('.panel-collapse.in')
-                    .collapse('hide');
-
-        });
-
-    </script>
     <style>
 
-        a {
-            color: #428bca;
+        #double{
+            width:95%;
+            margin-bottom:20px;
+            overflow:hidden;
+            margin: 0 auto;
         }
+        #list-group-item{
+            line-height:3.5em;
+            float:left;
+            display:inline;
+            margin-left: 2%;
+        }
+        #double li  { width:45%;}
+
+
     </style>
+
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -55,114 +60,41 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Test Details
+                    View Users
                 </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
                 <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
                             class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Test Details</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                <li class="hidden"><a href="#">View Users</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
                 </li>
-                <li class="active">Test Details</li>
+                <li class="active">View Users</li>
             </ol>
             <div class="clearfix">
             </div>
         </div>
         <!--END TITLE & BREADCRUMB PAGE-->
         <!--BEGIN CONTENT-->
+
+
         <div class="container">
-            </br>
-            </br>
-            <h1><?=$tests['testName']?>
-                <hr>
-                <hr>
-                <a href="newEdit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
-                <a href="delete?action=<?=$tests['_id']?>" class="btn btn-danger" role="button">Delete</a>
-            </h1>
-            <img class="img-responsive" src=<?=$tests['ImageUrl']?> alt="Chania">
-            <br>
-            <br>
-            <?php
-            $testFlag = $tests['skipFlag'];
 
-            if ($tests['skipFlag'] == 'False') {
-                $testFlag = "No";
-            } else {
-                $testFlag = "Yes";
-            }
-            ?>
-            <p><strong>Test Duration</strong> : <?=$tests['testDuration']?> Minutes</p>
+            <h2 style="text-align: center">View Users</h2>
 
-            <p><strong>Test Owner</strong> : <?=$tests['ownerName']?></p>
+            <ul id="double" class="list-group"> <span class="code-comment"><!-- Alter ID accordingly --></span>
+                <?php foreach( $users as $item ): ?>
+                <li class="list-group-item well" id="list-group-item" ><img style="margin-left:1.3% " src='<?= $item['imageUrl'] ?>' class="img-circle" alt="Cinque Terre" width="48" height="48"><h4 style="margin-top:-7.5%;text-align:center"><a href="userDetails?action=<?=$item['_id']?>"><?= $item['name'] ?></a></h4></li>
 
-            <p><strong>Test Type</strong> : <?=$tests['testType']?></p>
-
-            <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>
-
-            <p><strong>Summary </strong>: <?=$tests['shortDescription']?> </p>
-
-            <p><strong>Description</strong> : <?=$tests['testDescription']?> </p>
-
-            <p><strong>Expiry date</strong> : <?=$tests['expiryDate']?> </p>
-
-            <p><strong>Created at</strong> : <?=$tests['created_at']?> </p>
-
-            <p><strong>Test Id</strong> : <?=$tests['_id']?> </p>
-
-            <p><strong>Status</strong> :Active</p>
-            <?php $i = 1?>
-
-            <h3>Questions </h3>
-            </br>
-            <br>
-
-            <div class="panel-group" id="accordion" style="width:95%">
-                <?php foreach( $tests['questions'] as $item ): ?>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#<?=$item['_id']?>"><p>
-                                    <b>Question <?=$i?></b> : <?=$item['questiontitle']?></p></a>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 0.5%;float: right;margin-left:5%">Axis
-                                Title : <?=$item['axisType']?></p>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 1.5%; margin-left: 65%">Weightage
-                                : <?=$item['weightage']?></p>
-
-
-                        </h4>
-                    </div>
-                    <div id="<?=$item['_id']?>" class="panel-collapse collapse in">
-                        <div class="panel-body"> <?php foreach ($item['options'] as $items): ?>
-                            <br>
-                            <?php if ($items != "") {
-                                echo "<p>option <span class=\"glyphicon glyphicon-minus\"></span>     $items</p>";
-                            }
-                            ?>
-                            <?php endforeach ?>
-                            <br>
-                            <?php foreach ($item['solutionkey'] as $keys): ?>
-                            <p>Answer : <?=$keys?> </p>
-                            <br>
-                            <br>
-                            <?php endforeach ?>
-                            <?php $i++?></div>
-                    </div>
-                </div>
                 <?php endforeach ?>
 
-            </div>
-            <br><br><br>
-        </div>
 
+            </ul>
+
+        </div>
 
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
-        <div id="footer">
-            <div class="copyright">
-                <a href="">2016 © Assessment</a></div>
-        </div>
+
         <!--END FOOTER-->
     </div>
     <!--END PAGE WRAPPER-->
@@ -221,6 +153,5 @@
 
 
 </script>
-
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Details</title>
+    <title>Dashboard | Dashboard</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet"
-          href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
@@ -27,20 +26,6 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
-    <script>
-        $(document).ready(function () {
-            $('.panel-collapse.in')
-                    .collapse('hide');
-
-        });
-
-    </script>
-    <style>
-
-        a {
-            color: #428bca;
-        }
-    </style>
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -55,15 +40,12 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Test Details
-                </div>
+                    Dashboard</div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
-                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
-                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Test Details</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
-                </li>
-                <li class="active">Test Details</li>
+                <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="hidden"><a href="#">Dashboard</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                <li class="active">Dashboard</li>
             </ol>
             <div class="clearfix">
             </div>
@@ -71,92 +53,90 @@
         <!--END TITLE & BREADCRUMB PAGE-->
         <!--BEGIN CONTENT-->
         <div class="container">
-            </br>
-            </br>
-            <h1><?=$tests['testName']?>
-                <hr>
-                <hr>
-                <a href="newEdit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
-                <a href="delete?action=<?=$tests['_id']?>" class="btn btn-danger" role="button">Delete</a>
-            </h1>
-            <img class="img-responsive" src=<?=$tests['ImageUrl']?> alt="Chania">
-            <br>
-            <br>
-            <?php
-            $testFlag = $tests['skipFlag'];
 
-            if ($tests['skipFlag'] == 'False') {
-                $testFlag = "No";
-            } else {
-                $testFlag = "Yes";
-            }
-            ?>
-            <p><strong>Test Duration</strong> : <?=$tests['testDuration']?> Minutes</p>
-
-            <p><strong>Test Owner</strong> : <?=$tests['ownerName']?></p>
-
-            <p><strong>Test Type</strong> : <?=$tests['testType']?></p>
-
-            <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>
-
-            <p><strong>Summary </strong>: <?=$tests['shortDescription']?> </p>
-
-            <p><strong>Description</strong> : <?=$tests['testDescription']?> </p>
-
-            <p><strong>Expiry date</strong> : <?=$tests['expiryDate']?> </p>
-
-            <p><strong>Created at</strong> : <?=$tests['created_at']?> </p>
-
-            <p><strong>Test Id</strong> : <?=$tests['_id']?> </p>
-
-            <p><strong>Status</strong> :Active</p>
-            <?php $i = 1?>
-
-            <h3>Questions </h3>
-            </br>
-            <br>
-
-            <div class="panel-group" id="accordion" style="width:95%">
-                <?php foreach( $tests['questions'] as $item ): ?>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#<?=$item['_id']?>"><p>
-                                    <b>Question <?=$i?></b> : <?=$item['questiontitle']?></p></a>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 0.5%;float: right;margin-left:5%">Axis
-                                Title : <?=$item['axisType']?></p>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 1.5%; margin-left: 65%">Weightage
-                                : <?=$item['weightage']?></p>
+            <h1 style="text-align: center">Tests</h1>
 
 
-                        </h4>
-                    </div>
-                    <div id="<?=$item['_id']?>" class="panel-collapse collapse in">
-                        <div class="panel-body"> <?php foreach ($item['options'] as $items): ?>
-                            <br>
-                            <?php if ($items != "") {
-                                echo "<p>option <span class=\"glyphicon glyphicon-minus\"></span>     $items</p>";
+            <h4>Number Of Tests : <?=count($test)?></h4>
+
+
+            <div class="list-group">
+
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Test Name</th>
+                        <th>Description</th>
+                        <th>Expiry date</th>
+                        <th>Status</th>
+                        <th>Owner</th>
+                        <th>Questions</th>
+                        <th>Attended</th>
+                        <th>Invited</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach( $test as $page ): ?>
+
+
+                    <tr>
+                        <td>
+                            <a href="testDetails?action=<?=$page['_id']?>"><?=$page['testName']?></a>
+                        </td>
+                        <td><?=$page['shortDescription']?></td>
+                        <td><?=$page['expiryDate']?></td>
+                        <td><?=$page['testStatus']?></td>
+                        <td><?=$page['ownerName']?></td>
+
+                        <td><?=count($page['questions'])?></td>
+                        <?php $count = 0;?>
+                        <?php $inv_count = 0;?>
+
+
+                        <?php foreach ($savedtests as $items): ?>
+                <?php $array = array(); ?>
+
+                <?php
+                            if ($items['testId'] == $page['id']) {
+                                $count++;
                             }
                             ?>
-                            <?php endforeach ?>
-                            <br>
-                            <?php foreach ($item['solutionkey'] as $keys): ?>
-                            <p>Answer : <?=$keys?> </p>
-                            <br>
-                            <br>
-                            <?php endforeach ?>
-                            <?php $i++?></div>
-                    </div>
-                </div>
+
                 <?php endforeach ?>
+                        <td><?=$count?></td>
+
+                        <?php foreach ($invitee as $invite): ?>
+                <?php $array = array(); ?>
+
+                <?php
+                            if ($invite['testId'] == $page['id']) {
+                                $inv_count++;
+                            }
+                            ?>
+
+                <?php endforeach ?>
+                        <td><?=$inv_count?></td>
+
+                    </tr>
+
+
+                    <?php endforeach ?>
+                    {{-- <tr>
+                         <td>John</td>
+                         <td>Doe</$item>
+                         <td>john@example.com</td>
+                     </tr>--}}
+
+                    </tbody>
+                </table>
+
 
             </div>
-            <br><br><br>
+
         </div>
-
-
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
         <div id="footer">
@@ -221,6 +201,5 @@
 
 
 </script>
-
 </body>
 </html>

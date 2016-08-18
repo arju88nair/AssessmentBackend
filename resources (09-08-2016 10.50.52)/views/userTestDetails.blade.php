@@ -83,8 +83,8 @@
 
         <div style="float: right;width:40%; height:auto;margin-right: 2%" class="container">
 
-            <a href="reportPdf?uId=<?=$userId?>&id=<?=$testId?>" class="btn btn-primary btn-block" role="button">Generate Report</a>
-            <br>
+			<a href="reportPdf?uId=<?=$userId?>&id=<?=$testId?>" class="btn btn-primary btn-block" role="button">Generate Report</a>
+			<br>
             <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle"
                  alt="Cinque Terre"
                  width="140" height="130">
@@ -194,7 +194,6 @@
 
             <?php foreach( $fulltest['questions'] as $item ): ?>
 
-            <?php $arrayAns=[]; ?>
 
             <div class="panel panel-info">
                 <div class="panel-heading">Question Title: <?=$item['questiontitle']?></div>
@@ -203,7 +202,6 @@
             <ul class="list-group">
                 <?php foreach ($item['options'] as $items): ?>
                 <?php if (strlen($items) != 0) { ?>
-                <?php array_push($arrayAns,$items);?>
                 <li class="list-group-item"><span class="glyphicon glyphicon-minus"></span> <?=$items?></li>
                 <?php } ?>
 
@@ -224,19 +222,15 @@
                     $num = 4;
                 }
 
-
+				
                 ?>
             </ul>
- <?php if ($itema['keys'][$count]['answer'][0] != 'skipped') { ?>  <p>Choice:     <?=$arrayAns[$itema['keys'][$count]['answer'][0]]?></p> <?php } else { ?>
- <p>Choice:     <?=$itema['keys'][$count]['answer'][0]?></p>
- <?php } ?>
-          
-
+							 <p>Choice:     <?=$itema['keys'][$count]['answer'][0]?></p>
 
             <?php } else { ?>
-            <p>Answer:     <?=$itema['keys'][$count]['answer'][0]?></p>            <?php } ?>
+						<p>Answer:     <?=$itema['keys'][$count]['answer'][0]?></p>            <?php } ?>
 
-            <br>
+			<br>
 
             <?php $count++;?>
 

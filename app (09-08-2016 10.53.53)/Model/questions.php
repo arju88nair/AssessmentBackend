@@ -287,7 +287,6 @@ class questions extends Eloquent
             $i = 0;
             foreach ($chunk as $items) {
                 if ($answer[$i] == [""]) {
-
                     $array["solutionkey"] = ["Not Applicable"];
 
                 } else {
@@ -371,16 +370,9 @@ class questions extends Eloquent
 
             $i = 0;
             foreach ($chunk as $items) {
-				if ($answer[$i] == [""]) {
-                    $array["solutionkey"] = ["Not Applicable"];
-
-                } else {
-                    $array["solutionkey"] = $answer[$i];
-                }
-
                 $array["options"] = $items;
                 //  $array["questiontitle"] = array();
-               
+                $array["solutionkey"] = $answer[$i];
                 $array["axisType"] = $qAxis[$i];
                 $array["skipFlag"] = $mFlag[$i];
                 $array["questionType"]=$questionType[$i];
@@ -399,6 +391,7 @@ class questions extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+
 
             return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
@@ -441,6 +434,7 @@ class questions extends Eloquent
         $answer = array_chunk($answers, 1);
         $array = array();
 
+
         $saved = $model->save();
         if ($saved) {
 
@@ -453,6 +447,7 @@ class questions extends Eloquent
                 } else {
                     $array["solutionkey"] = $answer[$i];
                 }
+                $array["solutionkey"] = $answer[$i];
 
 
                 $array["options"] = $items;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Details</title>
+    <title>View User</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,20 +27,28 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
-    <script>
+
+    <script type="text/javascript">
         $(document).ready(function () {
-            $('.panel-collapse.in')
-                    .collapse('hide');
-
+            var maxField = 20; //Input fields increment limitation
+            var addButton = $('.add_button'); //Add button selector
+            var wrapper = $('.field_wrapper'); //Input field wrapper
+            var fieldHTML = '<div> <div class="form-group"> <label class="control-label col-sm-2" for="email">Question Title:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="Qtitle[]" placeholder="Enter question title" value=""> </div> <br> <label for="sel1">Multiple-choice:</label> <select name="Mflag[]" class="form-control"> <option vale="False">False</option> <option value="True">True</option> </select> <br> <label class="control-label col-sm-2" for="email">Question Image URL:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="QURL[]" placeholder="Enter Question Image URL" value=""> </div> <br> <br> <br> <label class="control-label col-sm-2" for="email">Question weightage:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="weightage[]" placeholder="Enter Question weightage" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <div class="col-sm-10"> <label class="control-label col-sm-2" for="email">Option:</label> <input type="text" class="form-control" name="qOption[]" placeholder="Enter options" value=""> </div> <br> <br> <br> <br> <br> <label class="control-label col-sm-2" for="email">Answer key:</label> <div class="col-sm-10"> <input type="text" class="form-control" name="qAnswer[]" placeholder="Enter answer key" value=""> </div> </div> <br><a href="javascript:void(0);" class="remove_button btn btn-warning "  title="Remove field">Remove Field</a> <br> <hr> <br> </div>'; //New input field html
+            var x = 1; //Initial field counter is 1
+            var addButton = $('.add_button');
+            $(addButton).click(function () {
+                if (x < maxField) { //Check maximum number of input fields
+                    x++; //Increment field counter
+                    $(wrapper).append(fieldHTML); // Add field html
+                }
+            });
+            $(wrapper).on('click', '.remove_button', function (e) { //Once remove button is clicked
+                e.preventDefault();
+                $(this).parent('div').remove(); //Remove field html
+                x--; //Decrement field counter
+            });
         });
-
     </script>
-    <style>
-
-        a {
-            color: #428bca;
-        }
-    </style>
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -55,114 +63,89 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Test Details
+                    View User
                 </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
                 <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
                             class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">Test Details</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                <li class="hidden"><a href="#">View User</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
                 </li>
-                <li class="active">Test Details</li>
+                <li class="active">View User</li>
             </ol>
             <div class="clearfix">
             </div>
         </div>
         <!--END TITLE & BREADCRUMB PAGE-->
         <!--BEGIN CONTENT-->
+
+
+        <div style="float: right;width:40%; height:auto;margin-right: 2%;margin-top:10%" class="container">
+
+
+            <img style=" display: block; margin: 0 auto;" src=<?=$users['imageUrl']?> class="img-circle"
+                 alt="Cinque Terre"
+                 width="140" height="130">
+            <br>
+
+            <p style="text-align: center;"><strong> <?=$users['name']?></strong></p>
+
+            <br>
+
+            <br><br>
+
+
+        </div>
         <div class="container">
-            </br>
-            </br>
-            <h1><?=$tests['testName']?>
-                <hr>
-                <hr>
-                <a href="newEdit?action=<?=$tests['_id']?>" class="btn btn-default" role="button">Edit</a>
-                <a href="delete?action=<?=$tests['_id']?>" class="btn btn-danger" role="button">Delete</a>
-            </h1>
-            <img class="img-responsive" src=<?=$tests['ImageUrl']?> alt="Chania">
+            <h1 style="text-align: center">Individual details</h1>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <p><strong>User Name</strong> :<?=$users['name']?></p>
+
+            <p><strong>User Email Id</strong> :<?=$users['userId']?></p>
+
+            <p><strong>Authentication Type</strong> :<?=$users['auth_type']?></p>
+
+            <p><strong>Push Notification Id</strong> :<?=$users['pushNotificationID']?></p>
+
+            <p><strong>Session Handle</strong> :<?=$users['usrSessionHdl']?></p>
+
+            <p><strong>Unique Databsae Id</strong> :<?=$users['_id']?></p>
+
+            <?php
+            if (isset($users['corporateName'])) {
+                if ($users['corporateName'] !== "" || count($users['corporateName']) != 0) {
+                    echo '<p><strong>Corporate Name</strong> :' . $users['corporateName'] . '</p> ';
+                }
+            }
+            ?>
+
+            <br>
             <br>
             <br>
             <?php
-            $testFlag = $tests['skipFlag'];
+            if (count($test) != 0) {
+                echo '<h3>Attended Tests </h3></br><br>';
+            }
 
-            if ($tests['skipFlag'] == 'False') {
-                $testFlag = "No";
-            } else {
-                $testFlag = "Yes";
+
+            foreach ($test as $item) {
+                echo '<div class="list-group">
+         <a style="width:95%" href="userTestDetails?uId=' . $users['_id'] . '&qId=' . $item['testId'] . '" class="list-group-item"><br><h4 style="margin-top:-0.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
+     </div>';
             }
             ?>
-            <p><strong>Test Duration</strong> : <?=$tests['testDuration']?> Minutes</p>
+            <br><br>
 
-            <p><strong>Test Owner</strong> : <?=$tests['ownerName']?></p>
-
-            <p><strong>Test Type</strong> : <?=$tests['testType']?></p>
-
-            <p><strong>Test Status</strong> : <?=$tests['testStatus']?></p>
-
-            <p><strong>Summary </strong>: <?=$tests['shortDescription']?> </p>
-
-            <p><strong>Description</strong> : <?=$tests['testDescription']?> </p>
-
-            <p><strong>Expiry date</strong> : <?=$tests['expiryDate']?> </p>
-
-            <p><strong>Created at</strong> : <?=$tests['created_at']?> </p>
-
-            <p><strong>Test Id</strong> : <?=$tests['_id']?> </p>
-
-            <p><strong>Status</strong> :Active</p>
-            <?php $i = 1?>
-
-            <h3>Questions </h3>
-            </br>
-            <br>
-
-            <div class="panel-group" id="accordion" style="width:95%">
-                <?php foreach( $tests['questions'] as $item ): ?>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#<?=$item['_id']?>"><p>
-                                    <b>Question <?=$i?></b> : <?=$item['questiontitle']?></p></a>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 0.5%;float: right;margin-left:5%">Axis
-                                Title : <?=$item['axisType']?></p>
-
-                            <p style="font-size: 80%;color: grey;margin-top: 1.5%; margin-left: 65%">Weightage
-                                : <?=$item['weightage']?></p>
-
-
-                        </h4>
-                    </div>
-                    <div id="<?=$item['_id']?>" class="panel-collapse collapse in">
-                        <div class="panel-body"> <?php foreach ($item['options'] as $items): ?>
-                            <br>
-                            <?php if ($items != "") {
-                                echo "<p>option <span class=\"glyphicon glyphicon-minus\"></span>     $items</p>";
-                            }
-                            ?>
-                            <?php endforeach ?>
-                            <br>
-                            <?php foreach ($item['solutionkey'] as $keys): ?>
-                            <p>Answer : <?=$keys?> </p>
-                            <br>
-                            <br>
-                            <?php endforeach ?>
-                            <?php $i++?></div>
-                    </div>
-                </div>
-                <?php endforeach ?>
-
-            </div>
-            <br><br><br>
         </div>
-
-
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
-        <div id="footer">
-            <div class="copyright">
-                <a href="">2016 © Assessment</a></div>
-        </div>
+
         <!--END FOOTER-->
     </div>
     <!--END PAGE WRAPPER-->
@@ -221,6 +204,5 @@
 
 
 </script>
-
 </body>
 </html>

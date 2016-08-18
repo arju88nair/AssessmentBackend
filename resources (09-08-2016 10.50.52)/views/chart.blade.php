@@ -106,8 +106,8 @@
 <img src="https://files.slack.com/files-pri/T04T20JQR-F1YF1LH5H/background02.jpg?pub_secret=949481cad8" width="841" height="1190"></div>
     <div style="position:absolute;left:55.76px;top:56.45px" class="cls_003"><span class="cls_003">Product Leadership Influence Report</span></div>
     <div style="position:absolute;left:737.42px;top:56.45px" class="cls_003"><span class="cls_003">Your Score</span></div>
-	<div style="position:absolute;left:55.76px;top:121.94px" class="cls_005"><span class="cls_005">Your Influence Styles Projfile:</span></div>
-<div class="infogram-embed" data-id="8d00e4d4-2f72-4495-86d4-7207cc76aab4" data-type="interactive" style="position:absolute;border:thin solid black" data-title=""></div><script>!function(e,t,n,s){var i="InfogramEmbeds",o=e.getElementsByTagName(t),d=o[0],a=/^http:/.test(e.location)?"http:":"https:";if(/^\/{2}/.test(s)&&(s=a+s),window[i]&&window[i].initialized)window[i].process&&window[i].process();else if(!e.getElementById(n)){var r=e.createElement(t);r.async=1,r.id=n,r.src=s,d.parentNode.insertBefore(r,d)}}(document,"script","infogram-async","//e.infogr.am/js/dist/embed-loader-min.js");</script><div style="padding:8px 0;font-family:Arial!important;font-size:13px!important;line-height:15px!important;text-align:center;border-top:1px solid #dadada;margin:0 30px"><br><a style="color:#989898!important;text-decoration:none!important;" href="http://charts.infogr.am/pie-chart?utm_source=embed_bottom&utm_medium=seo&utm_campaign=pie_chart" target="_blank">Create pie charts</a></div>
+	<div style="position:absolute;left:55.76px;top:121.94px" class="cls_005"><span class="cls_005">Your Influence Styles Profile:</span></div>
+<img src="https://s3-eu-west-1.amazonaws.com/infogram-thumbs-200/416434cb-973e-4cae-abd9-7108dd140a05.jpg" style="position:absolute;width:80%;height:66%;top:156px;left:80px;border:thin solid white">
 
 </div>
 <div style="page-break-before: always;position:absolute;left:50%;margin-left:-420px;top:0px;width:841px;height:1190px;border-style:outset;overflow:hidden">

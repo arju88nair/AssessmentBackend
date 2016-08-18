@@ -60,10 +60,6 @@ Route::post('feedCount','userController@feedCount');
 
 Route::post('chart','userController@chart');
 
-Route::post('getConstants','userController@getConstants');
-
-Route::post('postGroup','userController@postGroup');
-
 
 
 
@@ -122,8 +118,6 @@ Route::get('notification','DashboardController@notification');
 Route::post('search','userController@search');
 
 Route::get('test','DashboardController@chartpdf');
-
-Route::get('testView','DashboardController@testView');
 
 
 

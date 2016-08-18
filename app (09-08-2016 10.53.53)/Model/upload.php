@@ -138,10 +138,7 @@ class upload extends Eloquent
         $users = addUser::find('576cec60a94ff4271d47d4d8');
 			$pdf = \PDF::loadView('chart', compact('user'));
 		$saved=file_put_contents("reports/my_document.pdf", $pdf->output()); 
-		if($saved){
-					$file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/my_document.pdf";
-
-		}
+		$file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/my_document.pdf";
         $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
         if (!isset($dup) || count($dup) == 0) {
             $isSaved = $model->save();;

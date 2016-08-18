@@ -55,9 +55,4 @@ class DashboardController extends Controller
 	{
 		return admin::chartPdf($request->all());
 	}
-	
-	public function testView(Request $request)
-	{
-		return admin::testView($request->all());
-	}
 }

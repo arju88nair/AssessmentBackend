@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\coupon;
+use App\Model\extra;
 use App\Model\feedCount;
 use App\Model\feeds;
 use App\Model\savedtests;
@@ -252,4 +253,31 @@ class userController extends Controller
     {
         return chart::chart($request->all());
     }
+	
+	 public function getConstants(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        
+        return extra::getConstants($request->all());
+    }
+
+    public function postGroup(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        if(!$request->has('groupName'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Group Name can't be found");
+        }
+
+        return extra::postGroup($request->all());
+    }
+
 }

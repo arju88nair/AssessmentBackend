@@ -136,7 +136,7 @@
 
             foreach ($test as $item) {
                 echo '<div class="list-group">
-         <a style="width:95%" href="userTestDetails?uId=' . $users['_id'] . '&qId=' . $item['testId'] . '" class="list-group-item"><br><h4 style="margin-top:-0.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
+         <a style="width:95%" href="userTestDetails?uId=' . $users['_id'] . '&qId=' . $item['testId'] . '&tId='.$item['_id'].'" class="list-group-item"><br><h4 style="margin-top:-0.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
      </div>';
             }
             ?>

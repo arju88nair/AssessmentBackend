@@ -79,7 +79,7 @@ $content = array(
     )
 );
 $session = new RequestSigningSession($consumerKey, $consumerSecret);
-$request = new InfogramRequest($session, 'POST', 'infographics/', array('content' => $content, 'theme_id' => 299), $baseUrl);
+$request = new InfogramRequest($session, 'POST', 'infographics/', array('content' => $content, 'theme_id' => 299,'publish'=>'true','publish_mode'=>'public'), $baseUrl);
 $response = $request->execute();
 if (! $response) {
     die("Could not connect to the server\n");
@@ -88,5 +88,8 @@ if (!$response->isOK()) {
     die('Could not execute request: ' . $response->getBody() . "\n");
 }
 $result = $response->getBody();
-$image=$result->thumbnail_url;
+print_r($result);
+$image=$result->embed_responsive;
 echo $image;
+$re=json_encode($result,true);
+print_r($re);

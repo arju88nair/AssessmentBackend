@@ -52,7 +52,7 @@ class admin extends Eloquent
         $role = $_POST['role'];
         $user = $model::where('name', '=', $name)->where('password', '=', $pwd)->first();
         if (!isset($user) || count($user) == 0) {
-            return "hi";
+            return Redirect::to('login')->with('message', 'Login Failed');
         } else {
 
             $invitee = invite::all();
@@ -109,6 +109,7 @@ class admin extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+
 
             return Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
 
@@ -178,15 +179,14 @@ class admin extends Eloquent
     {
         $id = $_GET['qId'];
         $uId = $_GET['uId'];
-		$testId=$_GET['tId'];
         $fulltest = questions::find($id);
         $report = upload::where('testId', '=', $id)->first();
         $assistance = assistance::where('testId', '=', $id)->first();
         $users = addUser::find($uId);
         $session = $users['usrSessionHdl'];
-        $test = savedtests::where('testId', '=', $id)->where('_id', '=', $testId)->where('_uId', '=', $uId)->first();
+        $test = savedtests::where('testId', '=', $id)->first();
         $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
-
+		
         return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores'])->with('userId',$uId)->with('testId',$id);
 
     }
@@ -275,15 +275,6 @@ class admin extends Eloquent
 		else{return "no";
 		}
     }
-	
-	
-	
-	
-	public static function testView($input)
-	{
-		$test=savedtests::orderBy('updated_at','desc')->get();
-		return $test;
-	}
 }
 
 
