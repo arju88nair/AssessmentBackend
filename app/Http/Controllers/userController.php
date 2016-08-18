@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Model\coupon;
+use App\Model\extra;
+use App\Model\feedCount;
+use App\Model\feeds;
 use App\Model\savedtests;
 use DateTime;
 use App\Model\addUser;
@@ -16,6 +19,7 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
 use App\Model\Tests;
 use App\Model\upload;
+use App\Model\chart;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use View;
 use Redirect;
@@ -150,12 +154,12 @@ class userController extends Controller
 
     public function edit(Request $request)
     {
-/*        return admin::edit($request->all());*/
+        /*        return admin::edit($request->all());*/
         return questions::saveEdit($request->all());
 
     }
 
-        public function saveEdit(Request $request)
+    public function saveEdit(Request $request)
     {
         return questions::saveEdit($request->all());
     }
@@ -213,8 +217,8 @@ class userController extends Controller
     public function addFeed(Request $request)
     {
         return admin::addFeed($request->all());
-<<<<<<< HEAD
-=======
+
+
     }
 
     public function newEdit(Request $request){
@@ -230,23 +234,52 @@ class userController extends Controller
     {
         return addUser::enterVoucher($request->all());
 
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
+
     }
 
-    public function newEdit(Request $request){
-        return admin::edit($request->all());
+    public function search(Request $request){
+        return admin::search($request->all());
     }
 
-    public function saveNewEdit(Request $request)
+    public function feedCount(Request $request)
     {
-        return questions::newEdit($request->all());
-
+        return feedCount::updateCount($request->all());
     }
-    public function enterVoucher(Request $request)
+
+    public function chart(Request $request)
     {
-        return addUser::enterVoucher($request->all());
-
+        return chart::chart($request->all());
     }
+
+	 public function getConstants(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+
+        return extra::getConstants($request->all());
+    }
+
+    public function postGroup(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        if(!$request->has('groupName'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Group Name can't be found");
+        }
+
+        return extra::postGroup($request->all());
+    }
+
+
+
+
 
 
     public function userDetails(Request $request)
@@ -254,7 +287,32 @@ class userController extends Controller
         return admin::userDetails($request->all());
 
     }
-    public function search(Request $request){
-        return admin::search($request->all());
+	
+	 public function getConstants(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        
+        return extra::getConstants($request->all());
     }
+
+    public function postGroup(Request $request)
+    {
+
+        if(!$request->has('sessionHandle'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
+        }
+        if(!$request->has('groupName'))
+        {
+            return array("code" => "1", "status" => "error", "message" => "Group Name can't be found");
+        }
+
+        return extra::postGroup($request->all());
+    }
+
+   
 }

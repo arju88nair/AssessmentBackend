@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Model\admin;
 use App\Model\feeds;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 
 class DashboardController extends Controller
@@ -41,6 +40,7 @@ class DashboardController extends Controller
 
     public function test(Request $request)
     {
+		
         return admin::test($request->all());
     }
 
@@ -49,4 +49,10 @@ class DashboardController extends Controller
     {
         return admin::notification($request->all());
     }
+	
+	
+	public function chartpdf(Request $request)
+	{
+		return admin::chartPdf($request->all());
+	}
 }

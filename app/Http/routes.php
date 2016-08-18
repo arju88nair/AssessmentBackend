@@ -54,6 +54,19 @@ Route::post('addFeeds','DashboardController@addFeeds');
 
 Route::post('enterVoucher','userController@enterVoucher');
 
+Route::post('getDashboard','TestController@getDashboard');
+
+Route::post('feedCount','userController@feedCount');
+
+Route::post('chart','userController@chart');
+
+Route::post('getConstants','userController@getConstants');
+
+Route::post('postGroup','userController@postGroup');
+
+
+
+
 
 
 
@@ -76,11 +89,8 @@ Route::get('delete','userController@delete');
 
 Route::get('edit','userController@edit');
 
-<<<<<<< HEAD
 Route::get('userDetails','userController@userDetails');
 
-=======
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 Route::get('newEdit','userController@newEdit');
 
 Route::get('addTest','userController@addTest');
@@ -105,19 +115,14 @@ Route::post('saveEditFeed','DashboardController@saveEditFeed');
 
 Route::get('deleteFeed','DashboardController@deleteFeed');
 
-<<<<<<< HEAD
-Route::get('test','DashboardController@test');
+Route::get('reportPdf','DashboardController@test');
 
 Route::get('notification','DashboardController@notification');
 
 Route::post('search','userController@search');
 
-=======
-Route::post('test','DashboardController@test');
+Route::get('test','DashboardController@chartpdf');
 
-Route::get('notification','DashboardController@notification');
-
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
 

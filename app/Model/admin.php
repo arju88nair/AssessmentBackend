@@ -6,6 +6,8 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use Date;
+use Infogram\InfogramRequest;
+use Infogram\RequestSigningSession;
 use Jenssegers\Mongodb\Schema\Blueprint;
 use App\Model\Tests;
 use View;
@@ -145,7 +147,6 @@ class admin extends Eloquent
 
 
     }
-<<<<<<< HEAD
 
     /* public static function addEdit($input)
      {
@@ -162,34 +163,13 @@ class admin extends Eloquent
 
 
      }*/
-=======
-    public static function addEdit($input)
-    {
-        $tests = $input['tests'];
-        return $tests;
-        $fulltest = questions::find($id);
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-        return View::Make('newEdit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
-
-
-    }
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
 
 
     public static function viewUsers()
     {
         $report = upload::all();
         $assistance = assistance::all();
-<<<<<<< HEAD
         $users = addUser::orderBy('name', 'asc')->get();
-=======
-        $users = savedtests::all();
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
 
 
@@ -203,9 +183,11 @@ class admin extends Eloquent
         $report = upload::where('testId', '=', $id)->first();
         $assistance = assistance::where('testId', '=', $id)->first();
         $users = addUser::find($uId);
+        $session = $users['usrSessionHdl'];
         $test = savedtests::where('testId', '=', $id)->first();
-
-        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test);
+        $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
+		
+        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores'])->with('userId',$uId)->with('testId',$id);
 
     }
 
@@ -220,7 +202,6 @@ class admin extends Eloquent
         $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
 
-
         return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
 
@@ -228,54 +209,15 @@ class admin extends Eloquent
 
     public static function test()
     {
+		$id = $_GET['id'];
+        $uId = $_GET['uId'];
+		$fulltest = questions::find($id);
+        $test = savedtests::where('testId', '=', $id)->where('_uId','=',$uId)->first();
+        $users = addUser::find($uId);
+        $pdf = \PDF::loadView('index', compact('fulltest'),compact('test'),compact('users'));
 
-<<<<<<< HEAD
-        define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
-        $users = addUser::all();
-        $array = array();
-        foreach ($users as $items) {
-            $push = $items['pushNotificationID'];
-            array_push($array, $push);
-        }
-        $registrationIds = $array;
-
-// prep the bundle
-        $msg = array('message' => "Blah", "url" => "", "testName" => "", "testScore" => "", "testId" => "", "type" => "Test");
-
-        $fields = array
-        (
-            'registration_ids' => $registrationIds,
-            'data' => $msg
-        );
-
-        $headers = array
-        (
-            'Authorization: key=' . API_ACCESS_KEY,
-            'Content-Type: application/json'
-        );
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        curl_close($ch);
-        echo $result;
-=======
-        if (isset($_POST['sb'])) {
-
-            $path = public_path() . '/uploads/';
-
-            $file = $_FILES['filetoupload']['name'];
-
-            move_uploaded_file($_FILES['filetoupload']['tmp_name'], "$path/$file");
-
-        }
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
-
+		/*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
+		return $pdf->stream();		
     }
 
 
@@ -293,7 +235,6 @@ class admin extends Eloquent
         return View::Make('notifications')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
     }
-<<<<<<< HEAD
 
     public static function userDetails()
     {
@@ -316,10 +257,24 @@ class admin extends Eloquent
         $assistance = assistance::all();
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
     }
+	
+	public static function chartPdf($input)
+	{
+       
+		$test = savedtests::where('testId', '=', '579c637ea94ff4550f1122b2')->where('_uId','=','576cec60a94ff4271d47d4d8')->first();
+        $user = addUser::find('579f227da94ff467d85e54ba');
+		
+			$pdf = \PDF::loadView('chart',compact('user'));
+
+		/*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
+		/* return $pdf->stream(); */
+		$saved=file_put_contents("reports/my_document.pdf", $pdf->output()); 
+		if($saved){
+			return "i";
+		}
+		else{return "no";
+		}
+    }
 }
 
 
-=======
-}
-
->>>>>>> e6b01fa5eba2ee2c54f078308f37f51a5f282432
