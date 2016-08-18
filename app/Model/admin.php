@@ -11,6 +11,9 @@ use App\Model\Tests;
 use View;
 use Redirect;
 use Input;
+use App\pdf\fpdf;
+use Infogram\InfogramRequest;
+use Infogram\RequestSigningSession;
 
 
 use App\Http\Requests;
@@ -181,9 +184,12 @@ class admin extends Eloquent
         $report = upload::where('testId', '=', $id)->first();
         $assistance = assistance::where('testId', '=', $id)->first();
         $users = addUser::find($uId);
+        $session = $users['usrSessionHdl'];
         $test = savedtests::where('testId', '=', $id)->first();
+        $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
 
-        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test);
+
+        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores', $chartDb['scores']);
 
     }
 
@@ -207,40 +213,41 @@ class admin extends Eloquent
     public static function test()
     {
 
-        define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
-        $users = addUser::all();
-        $array = array();
-        foreach ($users as $items) {
-            $push = $items['pushNotificationID'];
-            array_push($array, $push);
+        $consumerKey = 'XdqqDYRZ2IZgfhxVMR8KshgCFHaf4hDT';
+        $consumerSecret = 'xh7L4gQ8wCM5if9ZyVTQYD5WGgLex0hn';
+        $session = new RequestSigningSession($consumerKey, $consumerSecret);
+        $baseUrl="https://infogr.am/service/v1/";
+        $content = array(
+            array(
+                'type' => 'h1',
+                'text' => 'Testing PHP API client'
+            ),
+            array(
+                'type' => 'chart',
+                'chart_type' => 'pie-irregular',
+                'data' => array(
+                    array(
+                        array('apples', 'today', 'yesterday', 'd. bef. yesterday'),
+                        array('John', 4, 6, 7),
+                        array('Peter', 1, 3, 9),
+                        array('George', 4, 4, 3)
+                    )
+                )
+            )
+        );
+        $session = new RequestSigningSession($consumerKey, $consumerSecret);
+        $request = new InfogramRequest($session, 'POST', 'infographics/', array('content' => $content, 'theme_id' => 299,'publish'=>'true','publish_mode'=>'public'), $baseUrl);
+        $response = $request->execute();
+        if (! $response) {
+            die("Could not connect to the server\n");
         }
-        $registrationIds = $array;
-
-// prep the bundle
-        $msg = array('message' => "Blah", "url" => "", "testName" => "", "testScore" => "", "testId" => "", "type" => "Feed");
-
-        $fields = array
-        (
-            'registration_ids' => $registrationIds,
-            'data' => $msg
-        );
-
-        $headers = array
-        (
-            'Authorization: key=' . API_ACCESS_KEY,
-            'Content-Type: application/json'
-        );
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        curl_close($ch);
-        echo $result;
+        if (!$response->isOK()) {
+            die('Could not execute request: ' . $response->getBody() . "\n");
+        }
+        $result = $response->getBody();
+        $image=$result->embed_async;
+        $re=json_encode($result,true);
+        print_r($re) ;
 
     }
 
@@ -281,6 +288,16 @@ class admin extends Eloquent
         $assistance = assistance::all();
         return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
     }
+
+    public static function testA(){
+        $fulltest = questions::find('577f8ddac042f51ea0004f11');
+
+        return View::Make('index')->with('users', $fulltest);
+
+    }
+
+
+
 }
 
 

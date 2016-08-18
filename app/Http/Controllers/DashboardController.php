@@ -45,6 +45,9 @@ class DashboardController extends Controller
     }
 
 
+    public function testIndex(Request $request){
+        return admin::testA($request->all());
+    }
     public function notification(Request $request)
     {
         return admin::notification($request->all());

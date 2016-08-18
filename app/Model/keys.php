@@ -15,7 +15,7 @@ class keys extends Eloquent
 
     protected $connection="mongodb";
     protected $collection="keys";
-    protected $fillable=['questions','options','weightage','questionImageUrl','skipFlag','axisType','questiontitle','answerkeyA','answerkeyB','answerkeyC','answerkeyD','solutionkey'];
+    protected $fillable=['questions','options','weightage','questionType','questionImageUrl','skipFlag','axisType','questiontitle','answerkeyA','answerkeyB','answerkeyC','answerkeyD','solutionkey'];
 
 
     public function toArray()

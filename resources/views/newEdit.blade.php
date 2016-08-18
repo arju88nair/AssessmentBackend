@@ -241,12 +241,24 @@
 
                             <div class="col-sm-10" style="width:60%">
                                 <select name="Mflag[]" class="form-control">
-                                    <option vale="False">False</option>
-                                    <option value="True">True</option>
+                                    <option vale="False"  <?php if($item["skipFlag"]== "False") echo "selected"; ?>>False</option>
+                                    <option value="True"  <?php if($item["skipFlag"]== "True") echo "selected"; ?>>True</option>
                                 </select>
                             </div>
                         </div>
                         <br>
+
+
+                        <div class="form-group">
+                            <label for="sel1" class="control-label col-sm-2">Question Type:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="QTypes[]" class="form-control" id="qType">
+                                    <option value="Non-Descriptive" <?php if($item["questionType"]== "Non-Descriptive") echo "selected"; ?>>Non-Descriptive</option>
+                                    <option vale="Descriptive" <?php if($item["questionType"]== "Descriptive") echo "selected"; ?>>Descriptive</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Question Image URL:</label>

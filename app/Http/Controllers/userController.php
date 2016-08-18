@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\coupon;
+use App\Model\feedCount;
+use App\Model\feeds;
 use App\Model\savedtests;
 use DateTime;
 use App\Model\addUser;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
 use App\Model\Tests;
 use App\Model\upload;
+use App\Model\chart;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use View;
 use Redirect;
@@ -23,6 +26,8 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Date;
 use Jenssegers\Mongodb\Schema\Blueprint;
+use App\Services\GoogleCalendar;
+
 
 
 class userController extends Controller
@@ -239,4 +244,24 @@ class userController extends Controller
     public function search(Request $request){
         return admin::search($request->all());
     }
+
+    public function feedCount(Request $request)
+    {
+        return feedCount::updateCount($request->all());
+    }
+
+    public function chart(Request $request)
+    {
+        return chart::chart($request->all());
+    }
+
+
+
+    public function testGoogle(GoogleCalendar $calendar)
+    {
+        return GoogleCalendar::test();
+        $calendarId = "YourCalendarID";
+        $result = $calendar->get($calendarId);
+    }
 }
+

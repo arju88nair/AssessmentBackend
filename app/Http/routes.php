@@ -56,6 +56,12 @@ Route::post('enterVoucher','userController@enterVoucher');
 
 Route::post('getDashboard','TestController@getDashboard');
 
+Route::post('feedCount','userController@feedCount');
+
+Route::post('chart','userController@chart');
+
+Route::get('testGoogle','userController@testGoogle');
+
 
 
 
@@ -107,7 +113,9 @@ Route::post('saveEditFeed','DashboardController@saveEditFeed');
 
 Route::get('deleteFeed','DashboardController@deleteFeed');
 
-Route::post('test','DashboardController@test');
+Route::get('test','DashboardController@test');
+
+Route::get('index','DashboardController@testIndex');
 
 Route::get('notification','DashboardController@notification');
 

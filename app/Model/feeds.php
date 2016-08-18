@@ -44,15 +44,34 @@ class feeds extends Eloquent
     {
         $model = new self();
         $id = $input['sessionHandle'];
+        $cat=$input['category'];
         $user = addUser::where('usrSessionHdl', '=', $id)->get();
         if (!isset($user) || count($user) == 0) {
             return array("resultCode" => "1", "status" => "error", "message" => "User can't be found");
 
 
         } else {
-            $feed = $model::all();
+            if(count($cat)==0) {
+                $feed = $model::all();
+                $categories = ' Product Management, Agile, Product Marketing, UX, Growth Hacking, Roadmapping, Sales Enablement, Career, Leadership, Executive Presence ';
 
-            return array("status" => "success", "resultCode" => "1", "userFeed" => $feed,);
+                return array("status" => "success", "resultCode" => "1", "categories" => $categories, "userFeed" => $feed,);
+            }
+            else{
+                $array=array();
+                foreach($cat as $item)
+                {
+
+                    $feed=feeds::where('category','=',$item)->get();
+                    foreach($feed as $items){
+                        array_push($array,$items);
+
+                    }
+
+                }
+                $categories = ' Product Management, Agile, Product Marketing, UX, Growth Hacking, Roadmapping, Sales Enablement, Career, Leadership, Executive Presence ';
+
+                return array("status" => "success", "resultCode" => "1", "Categories" => $categories, "userFeed" => $array,);            }
 
         }
     }
@@ -61,6 +80,8 @@ class feeds extends Eloquent
     public static function saveFeed($input)
     {
         $model = new self();
+        $model->category= $_POST['Category'];
+        $model->trending=$_POST['trending'];
         $title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
         $model->feedImage_lw = $input['feedImage_lw'];
@@ -82,7 +103,7 @@ class feeds extends Eloquent
 
                 $gcm = addUser::feedGcm($title);
 
-                return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
             } else {
                 return array("code" => "1", "status" => "error");
@@ -118,7 +139,7 @@ class feeds extends Eloquent
                         $assistance = assistance::all();
 
 
-                        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                        return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
                     } else {
                         return array("code" => "1", "status" => "error");
@@ -170,6 +191,8 @@ class feeds extends Eloquent
         $model = self::find($id);
         $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
+        $model->category= $_POST['Category'];
+        $model->trending=$_POST['trending'];
         $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
@@ -187,7 +210,7 @@ class feeds extends Eloquent
                 $assistance = assistance::all();
 
 
-                return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
             } else {
                 return array("code" => "1", "status" => "error");
@@ -234,6 +257,8 @@ class feeds extends Eloquent
             }
         }
     }
+
+
 
 
 }

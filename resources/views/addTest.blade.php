@@ -395,6 +395,17 @@
                             </div>
 
                             <br><br> <br>
+                            <label for="sel1" class="control-label col-sm-2">Question Type:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="QTypes[]" class="form-control">
+                                    <option value="Non-Descriptive">Non-Descriptive</option>
+                                    <option vale="Descriptive">Descriptive</option>
+
+                                </select>
+                            </div>
+
+                            <br><br> <br>
                             <label class="control-label col-sm-2" for="email">Question Image URL:</label>
 
                             <div class="col-sm-10" style="width:60%">

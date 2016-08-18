@@ -264,6 +264,7 @@ class questions extends Eloquent
         $answers = $_POST['qAnswer'];
         $qAxis = $_POST['axisType'];
         $mFlag = $_POST['Mflag'];
+        $questionType=$_POST['QTypes'];
         $qURL = $_POST['QURL'];
         $weightage = $_POST['weightage'];
         $answer = array_chunk($answers, 1);
@@ -293,6 +294,7 @@ class questions extends Eloquent
                 $array["axisType"] = $qAxis[$i];
                 $array["skipFlag"] = $mFlag[$i];
                 $array["questionImageUrl"] = $qURL[$i];
+                $array["questionType"]=$questionType[$i];
                 $array["weightage"] = $weightage[$i];
                 $array["questiontitle"] = $questionTitle[$i];
                 $i++;
@@ -344,6 +346,7 @@ class questions extends Eloquent
         $answers = $_POST['qAnswer'];
         $qAxis = $_POST['axisType'];
         $mFlag = $_POST['Mflag'];
+        $questionType=$_POST['QTypes'];
         $qURL = $_POST['QURL'];
         $weightage = $_POST['weightage'];
         $answer = array_chunk($answers, 1);
@@ -366,6 +369,7 @@ class questions extends Eloquent
                 $array["solutionkey"] = $answer[$i];
                 $array["axisType"] = $qAxis[$i];
                 $array["skipFlag"] = $mFlag[$i];
+                $array["questionType"]=$questionType[$i];
                 $array["questionImageUrl"] = $qURL[$i];
                 $array["weightage"] = $weightage[$i];
                 $array["questiontitle"] = $questionTitle[$i];
@@ -414,6 +418,7 @@ class questions extends Eloquent
         $options = $_POST['qOption'];
         $chunk = array_chunk($options, 6);
         $answers = $_POST['qAnswer'];
+        $questionType=$_POST['QTypes'];
         $mFlag = $_POST['Mflag'];
         $qAxis = $_POST['axisType'];
         $qURL = $_POST['QURL'];
@@ -440,6 +445,7 @@ class questions extends Eloquent
                 $array["options"] = $items;
 
                 $array["axisType"] = $qAxis[$i];
+                $array["questionType"]=$questionType[$i];
                 $array["skipFlag"] = $mFlag[$i];
                 $array["questionImageUrl"] = $qURL[$i];
                 $array["weightage"] = $weightage[$i];
@@ -478,23 +484,58 @@ class questions extends Eloquent
 
                 array_push($array, $item['testId']);
             }
-
-
             $count = array_count_values($array);//Counts the values in the array, returns associatve array
             arsort($count);//Sort it from highest to lowest
             $keys = array_keys($count);//Split the array so we can find the most occuring key
             $new= array_slice($keys, 0, 5);
             $testArray = array();
             foreach ($new as $key) {
-                $test = questions::where('_id', '=', $key)->first();
-                array_push($testArray, $test);
+
+                $test = questions::where('_id', "=", $key)->first();
+                if(count($test)!=0||$test!="") {
+                     $testcount = savedtests::where('testId', '=', $key)->get();
+                     $test->count = count($testcount);
+                     $test->groupCount = "20";
+                     $questions = $test["questions"];
+                     unset($test->questions);
+                     $test->questions = $questions;
+                     array_push($testArray, $test);
+                }
+
             }
             $feeds = feeds::all();
+            $feedCount=feedCount::all();
+            $feedArray=array();
+            foreach($feeds as $item)
+            {
+
+              if($item['trending']=="Yes")
+              {
+                  array_push($feedArray,$item);
+              }
+
+
+
+            }
+
+
+            /* foreach($feedCount as $feed)
+            {
+                array_push($feedArray,$feed['feedId']);
+            }
+
+            $countFeed = array_count_values($feedArray);//Counts the values in the array, returns associatve array
+            arsort($countFeed);//Sort it from highest to lowest
+            $feedKeys = array_keys($countFeed);//Split the array so we can find the most occuring key
+            $feedNew= array_slice($feedKeys, 0, 5);*/
+
             $main = array();
+            $count = savedtests::count();
+            $main['globalCount'] = $count;
             $main['status'] = "success";
             $main['resultCode'] = "0";
             $main['testArray'] = $testArray;
-            $main['feedArray'] = $feeds;
+            $main['feedArray'] = $feedArray;
             return $main;
 
         } else {

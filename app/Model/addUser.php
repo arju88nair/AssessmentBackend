@@ -79,6 +79,7 @@ class addUser extends Eloquent
         $model->appVersion = $input['appVersion'];
         $model->uniqueDeviceID = $input['uniqueDeviceID'];
         $push = $model->pushNotificationID = $input['pushNotificationID'];
+		$location=$model->userLocation=$input['location'];
         $uniqueID = $model->usrSessionHdl = uniqid();
         $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email'];
         $array_plt = ['android', 'ios', 'webApp'];
@@ -137,6 +138,7 @@ class addUser extends Eloquent
                 $new->deviceType = $input['deviceType'];
                 $new->appVersion = $input['appVersion'];
                 $new->uniqueDeviceID = $input['uniqueDeviceID'];
+				$new->userLocation=$input['location'];
                 $new->corporateName = "";
                 $new->save();
 
@@ -153,6 +155,7 @@ class addUser extends Eloquent
                 $new->clientPlf = $input['clientPlf'];
                 $new->imageUrl = $input['imageUrl'];
                 $new->deviceType = $input['deviceType'];
+				$model->userLocation=$input['location'];
                 $new->appVersion = $input['appVersion'];
                 $new->uniqueDeviceID = $input['uniqueDeviceID'];
                 $coupon = coupon::where('Coupon', '=', $couponGet)->first();

@@ -30,6 +30,8 @@ class savedtests extends Eloquent
         $model->keys=$input['keys'];
         $model->testId=$input['testId'];
         $model->testName=$input['testName'];
+        $model->testCity=$input['city'];
+        $model->duration=$input['timeTaken'];
         $model->score= $input['overallScore'];
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");

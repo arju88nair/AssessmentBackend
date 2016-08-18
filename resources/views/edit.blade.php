@@ -247,6 +247,17 @@
                             </div>
                         </div>
                         <br>
+                        <div class="form-group">
+                            <label for="sel1" class="control-label col-sm-2">Question Type:</label>
+
+                            <div class="col-sm-10" style="width:60%">
+                                <select name="QTypes[]" class="form-control">
+                                    <option value="Non-Descriptive">Non-Descriptive</option>
+                                    <option vale="Descriptive">Descriptive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Question Image URL:</label>
@@ -357,6 +368,19 @@
                                                     <select name="Mflag[]" class="form-control">
                                                         <option vale="False">False</option>
                                                         <option value="True">True</option>
+
+                                                    </select>
+                                                </div>
+
+                                                <br><br> <br><br>
+
+                                                <label for="sel1"
+                                                       class="col-sm-2 control-label">Question Type:</label>
+
+                                                <div class="col-sm-10">
+                                                    <select name="QTypes[]" class="form-control">
+                                                        <option value="Non-Descriptive">Non-Descriptive</option>
+                                                        <option vale="Descriptive">Descriptive</option>
 
                                                     </select>
                                                 </div>

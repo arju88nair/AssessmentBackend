@@ -50,6 +50,7 @@ class upload extends Eloquent
 
                 /*                $success = $user->savedReports()->create(array("filePath" => $name));*/
                 if ($success) {
+
                     $addUser = addUser::where('usrSessionHdl', '=', $sId)->first();
                     $nameUser = $addUser['name'];
                     $id = $addUser['pushNotificationID'];
@@ -61,6 +62,7 @@ class upload extends Eloquent
                     $assistance = assistance::all();
                     $string = "/var/www/html/Assessment/public";
                     $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
+                    return $path;
                     $gcm = addUser::gcm($path, $id, $nameUser,$tName,$tScore,$tId);
                     return $gcm;
 
@@ -126,15 +128,19 @@ class upload extends Eloquent
         $model->testId = $input['testId'];
         $model->score = $input['score'];
         $model->testName = $input['testName'];
+
         $model->imageUrl = $user['imageUrl'];
         $model->_uId = $user['_id'];
         /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';
+        $file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/uploads/appzoy mail@Sample_IPL_report-ilovepdf-compressed.pdf";
         $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
         if (!isset($dup) || count($dup) == 0) {
             $isSaved = $model->save();;
             if ($isSaved) {
+				  $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
+return $msg;
                 return array("code" => "0", "status" => "success", "message" => "Request successfully sent");
 
             } else {
@@ -146,6 +152,8 @@ class upload extends Eloquent
             $dup->status = 'Pending';
             $isSaved = $dup->save();;
             if ($isSaved) {
+				  $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
+return $msg;
                 return array("code" => "0", "status" => "success", "message" => "Request successfully sent again");
 
             } else {
