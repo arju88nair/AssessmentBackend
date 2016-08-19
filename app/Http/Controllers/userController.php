@@ -251,7 +251,7 @@ class userController extends Controller
         return chart::chart($request->all());
     }
 
-	 public function getConstants(Request $request)
+    public function getConstants(Request $request)
     {
 
         if(!$request->has('sessionHandle'))
@@ -287,32 +287,8 @@ class userController extends Controller
         return admin::userDetails($request->all());
 
     }
-	
-	 public function getConstants(Request $request)
-    {
-
-        if(!$request->has('sessionHandle'))
-        {
-            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
-        }
-        
-        return extra::getConstants($request->all());
-    }
-
-    public function postGroup(Request $request)
-    {
-
-        if(!$request->has('sessionHandle'))
-        {
-            return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
-        }
-        if(!$request->has('groupName'))
-        {
-            return array("code" => "1", "status" => "error", "message" => "Group Name can't be found");
-        }
-
-        return extra::postGroup($request->all());
-    }
 
    
+
+
 }
