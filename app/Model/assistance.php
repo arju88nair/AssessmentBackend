@@ -41,7 +41,7 @@ class assistance extends Eloquent
 
             $isSaved = $model->save();
             if ($isSaved) {
-                return array("code" => "0", "status" => "success", "message" => "Request successfully sent");
+                return array("code" => "0", "status" => "success", "message" => "Request for 1-1 coaching registered.IPL staff will get in touch with you");
             }
             return array("code" => "1", "status" => "error", "message" => "Please try again");
 
@@ -49,12 +49,12 @@ class assistance extends Eloquent
         if (isset($userPending) || count($userPending) != 0) {
 
 
-            return array("code" => "1", "status" => "success", "message" => "Request already sent");
+            return array("code" => "1", "status" => "success", "message" => "Request for 1-1 coaching is already registered.IPL staff will get in touch with you");
 
         }
         if (isset($userDone) || count($userDone) != 0) {
 
-            return array("code" => "1", "status" => "success", "message" => "Coaching is already competed.");
+            return array("code" => "1", "status" => "success", "message" => "1-1 Coaching is already competed.");
 
         }
 

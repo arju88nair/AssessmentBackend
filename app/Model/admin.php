@@ -167,10 +167,12 @@ class admin extends Eloquent
 
     public static function viewUsers()
     {
+
         $report = upload::all();
         $assistance = assistance::all();
         $users = addUser::orderBy('name', 'asc')->get();
-        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
+		$save="";
+        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('saved',$save);
 
 
     }
@@ -179,14 +181,14 @@ class admin extends Eloquent
     {
         $id = $_GET['qId'];
         $uId = $_GET['uId'];
+		$tId=$_GET['tId'];
         $fulltest = questions::find($id);
         $report = upload::where('testId', '=', $id)->first();
         $assistance = assistance::where('testId', '=', $id)->first();
         $users = addUser::find($uId);
         $session = $users['usrSessionHdl'];
-        $test = savedtests::where('testId', '=', $id)->first();
-        $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
-		
+        $test = savedtests::where('testId', '=', $id)->where('_uId', '=', $uId)->where('_id', '=', $tId)->first();
+		$chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
         return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores',$chartDb['scores'])->with('userId',$uId)->with('testId',$id);
 
     }
@@ -252,10 +254,12 @@ class admin extends Eloquent
     public static function search($input)
     {
         $search = $_POST['name'];
+		$page="search";
         $users = addUser::where('name', 'like', '%' . $search . '%')->orderBy('name', 'desc')->get();
+		$save = savedtests::where('testName', 'like', '%' . $search . '%')->orWhere('name', 'like', '%' . $search . '%')->orderBy('testName', 'desc')->get();
         $report = upload::all();
         $assistance = assistance::all();
-        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance);
+        return View::Make('search')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('saved',$save)->with('page',$page)->with('search',$search);
     }
 	
 	public static function chartPdf($input)
@@ -275,6 +279,19 @@ class admin extends Eloquent
 		else{return "no";
 		}
     }
+	
+	
+	
+	
+	public static function testView()
+	{
+		$test=savedtests::orderBy('updated_at', 'desc')->take(50)->get();
+		$report = upload::all();
+        $assistance = assistance::all();
+        return View::Make('testView')->with('test', $test)->with('report', $report)->with('assistance', $assistance);
+	}
+	
+	
 }
 
 

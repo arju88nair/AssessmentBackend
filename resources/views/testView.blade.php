@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>View Users</title>
+    <title>Test View</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,30 +27,77 @@
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+    <script>
+        $(document).ready(function () {
+            $('.panel-collapse.in')
+                    .collapse('hide');
+
+        });
+
+    </script>
     <style>
-
-        #double {
-            width: 95%;
-            margin-bottom: 20px;
-            overflow: hidden;
-            margin: 0 auto;
+        .search-form .form-group {
+            float: right !important;
+            transition: all 0.35s, border-radius 0s;
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            border-radius: 25px;
+            border: 1px solid #ccc;
         }
 
-        #list-group-item {
-            line-height: 3.5em;
-            float: left;
-            display: inline;
-            margin-left: 2%;
+        .search-form .form-group input.form-control {
+            padding-right: 20px;
+            border: 0 none;
+            background: transparent;
+            box-shadow: none;
+            display: block;
         }
 
-        #double li {
-            width: 45%;
+        .search-form .form-group input.form-control::-webkit-input-placeholder {
+            display: none;
         }
 
+        .search-form .form-group input.form-control:-moz-placeholder {
+            /* Firefox 18- */
+            display: none;
+        }
 
+        .search-form .form-group input.form-control::-moz-placeholder {
+            /* Firefox 19+ */
+            display: none;
+        }
+
+        .search-form .form-group input.form-control:-ms-input-placeholder {
+            display: none;
+        }
+
+        .search-form .form-group:hover,
+        .search-form .form-group.hover {
+            width: 100%;
+            border-radius: 4px 25px 25px 4px;
+        }
+
+        .search-form .form-group span.form-control-feedback {
+            position: absolute;
+            top: -1px;
+            right: -2px;
+            z-index: 2;
+            display: block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            color: #3596e0;
+            left: initial;
+            font-size: 14px;
+        }
+
+        a {
+            color: #428bca;
+        }
     </style>
-	
-
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -65,15 +112,15 @@
         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
             <div class="page-header pull-left">
                 <div class="page-title">
-                    Search
+                    Test Details
                 </div>
             </div>
             <ol class="breadcrumb page-breadcrumb pull-right">
                 <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
                             class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">View Users</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                <li class="hidden"><a href="#">Test View</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
                 </li>
-                <li class="active">Search</li>
+                <li class="active">Test View</li>
             </ol>
             <div class="clearfix">
             </div>
@@ -84,38 +131,51 @@
 
         <div class="container">
 
-            <h2 style="text-align: center">View Users</h2>
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>User Name</th>
+                    <th>User ID</th>
+                    <th>Score</th>
+                    <th>Submited at</th>
+                    <th>Report Link</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach( $test as $page ): ?>
 
 
-            <ul id="double" class="list-group"> <span class="code-comment"><!-- Alter ID accordingly --></span>
-                <?php foreach( $users as $item ): ?>
-                <li class="list-group-item well" id="list-group-item" ><img style="margin-left:1.3% " src='<?= $item['imageUrl'] ?>' class="img-circle" alt="Cinque Terre" width="48" height="48"><h4 style="margin-top:-7.5%;text-align:center"><a href="userDetails?action=<?=$item['_id']?>"><?= $item['name'] ?></a></h4></li>
+                <tr>
+                    <td>
+                        <a href="userTestDetails?uId=<?=$page['_uId']?>&qId=<?=$page['testId']?>&tId=<?=$page['_id']?>"><?=$page['testName']?></a>
+                    </td>
+                    <td><a href="userDetails?action=<?=$page['_uId']?>"><?=$page['name']?></a></td>
+                    <td><?=$page['_uId']?></td>
+                    <td><?=$page['score']?></td>
+                    <td><?=$page['updated_at']?></td>
+                    <?php if ($page['reportUrl'] != "") { ?>
+
+                    <td><a href="<?=$page['reportUrl']?>"><span
+                                    class="glyphicon glyphicon-download">   Report Link</span></a></td>
+
+                    <?php } else { ?>
+
+                    <td><a href="#"><span class="glyphicon glyphicon-remove">    No Report</span> </a></td>
+                    <?php } ?>
+                </tr>
 
                 <?php endforeach ?>
-
-
-            </ul>
-
-            <?php
-            foreach ($users as $item) {
-                echo '<div class="list-group">
-         <a href="userTestDetails?uId=' . $item['_uId'] . '&qId=' . $item['testId'] . '" class="list-group-item"><img style="margin-left:1.3% " src=' . $item["imageUrl"] . ' class="img-circle" alt="Cinque Terre" width="48" height="48"><br><p>' . $item["name"] . '</p><h4 style="margin-top:-4.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
-     </div>';
-
-
-            }
-
-
-            ?>
-
-
-        
-
-
+                </tbody>
+            </table>
         </div>
+
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
-
+        <div id="footer">
+            <div class="copyright">
+                <a href="">2016 © Assessment</a></div>
+        </div>
         <!--END FOOTER-->
     </div>
     <!--END PAGE WRAPPER-->

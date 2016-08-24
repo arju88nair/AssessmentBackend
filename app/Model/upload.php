@@ -121,50 +121,57 @@ class upload extends Eloquent
     {
 
         $model = new self();
+		$model->savedId=$input['id'];		
         $model->sessionHandle = $input['sessionHandle'];
         $user = addUser::where('usrSessionHdl', '=', $input['sessionHandle'])->first();
         $name = $user['name'];
+        $uid=$user['_id'];
         $model->Name = $name;
         $model->testId = $input['testId'];
         $model->score = $input['score'];
         $model->testName = $input['testName'];
-
         $model->imageUrl = $user['imageUrl'];
         $model->_uId = $user['_id'];
         /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';
- 		$test = savedtests::where('testId', '=', $input['testId'])->where('_uId','=','576cec60a94ff4271d47d4d8')->first();
+        $test = savedtests::where('testId', '=', $input['testId'])->where('_uId','=',$uid)->where('_id','=',$input['id'])->first();
         $users = addUser::find('576cec60a94ff4271d47d4d8');
-			$pdf = \PDF::loadView('chart', compact('user'));
-		$saved=file_put_contents("reports/my_document.pdf", $pdf->output()); 
-		$file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/my_document.pdf";
-        $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
-        if (!isset($dup) || count($dup) == 0) {
-            $isSaved = $model->save();;
-            if ($isSaved) {
-				  $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
-return $msg;
-                return array("code" => "0", "status" => "success", "message" => "Request successfully sent");
+        $pdf = \PDF::loadView('chart', compact('user'));
+        $saved=file_put_contents("reports/".$name.$input['testId'].".pdf", $pdf->output());
+        if($saved){
+            $file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/".$name.$input['testId'].".pdf";
+            $test->reportUrl=$file;
+			$test->save();
+            if (!isset($dup) || count($dup) == 0) {
+                $isSaved = $model->save();;
+                if ($isSaved) {
+                    $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
+                    return $msg;
+                    return array("code" => "0", "status" => "success", "message" => "Request successfully sent");
+
+                } else {
+                    return array("code" => "1", "status" => "error", "message" => "Please try again");
+
+                }
 
             } else {
-                return array("code" => "1", "status" => "error", "message" => "Please try again");
+                $dup = $model::where('sessionHandle', '=', $input['sessionHandle'])->where('testId', '=', $input['testId'])->first();
+                $dup->status = 'Pending';
+                $isSaved = $dup->save();;
+                if ($isSaved) {
+                    $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
+                    return $msg;
+                    return array("code" => "0", "status" => "success", "message" => "Request successfully sent again");
 
+                } else {
+                    return array("code" => "1", "status" => "error", "message" => "Please try again");
+
+                }
             }
 
-        } else {
-            $dup->status = 'Pending';
-            $isSaved = $dup->save();;
-            if ($isSaved) {
-				  $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
-return $msg;
-                return array("code" => "0", "status" => "success", "message" => "Request successfully sent again");
-
-            } else {
-                return array("code" => "1", "status" => "error", "message" => "Please try again");
-
-            }
         }
+
 
 
     }

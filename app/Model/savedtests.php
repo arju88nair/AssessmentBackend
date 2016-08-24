@@ -34,6 +34,7 @@ class savedtests extends Eloquent
         $model->testCity=$input['city'];
         $model->duration=$input['timeTaken'];
         $model->score= $input['overallScore'];
+		$model->reportUrl="";
         if (!isset($user) || count($user) == 0) {
             return array("code" => "1", "status" => "error", "message" => "Session handle can't be found");
         } else {
@@ -46,7 +47,7 @@ class savedtests extends Eloquent
 
             $test = $model->save();
             if ($test) {
-                return array("code" => "0", "status" => "Successfully added");
+                return array("code" => "0", "status" => "Successfully added","id"=>$model->_id);
 
             } else {
                 return array("code" => "1", "status" => "error");

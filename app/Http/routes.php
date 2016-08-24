@@ -123,6 +123,9 @@ Route::post('search','userController@search');
 
 Route::get('test','DashboardController@chartpdf');
 
+Route::get('testView','DashboardController@testView');
+
+
 
 
 

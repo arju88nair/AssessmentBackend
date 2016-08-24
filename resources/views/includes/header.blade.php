@@ -1,3 +1,5 @@
+ 
+
 
 <!--END THEME SETTING-->
 <!--BEGIN BACK TO TOP-->
@@ -11,7 +13,7 @@
             <a id="logo" href="dashboardAction" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Assessment</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
         <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
             <form id="topbar-search" action="{{ action('userController@search') }}" method="post" class="hidden-sm hidden-xs">
-                <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white" name="name"/></div>
+                <div class="input-icon right text-white"><a id="click" onclick="document.getElementById('topbar-search').submit();"  method="post" ><i class="fa fa-search" id="icon"></i></a><input type="text" placeholder="Search here..." class="form-control text-white" name="name" id="search"/></div>
             </form>
 
 
@@ -38,15 +40,7 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend et nisl eget
-                        porta. Curabitur elementum sem molestie nisl varius, eget tempus odio molestie.
-                        Nunc vehicula sem arcu, eu pulvinar neque cursus ac. Aliquam ultricies lobortis
-                        magna et aliquam. Vestibulum egestas eu urna sed ultricies. Nullam pulvinar dolor
-                        vitae quam dictum condimentum. Integer a sodales elit, eu pulvinar leo. Nunc nec
-                        aliquam nisi, a mollis neque. Ut vel felis quis tellus hendrerit placerat. Vivamus
-                        vel nisl non magna feugiat dignissim sed ut nibh. Nulla elementum, est a pretium
-                        hendrerit, arcu risus luctus augue, mattis aliquet orci ligula eget massa. Sed ut
-                        ultricies felis.</p>
+                       </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">
@@ -84,6 +78,11 @@
                 <li><a href="viewUsers"><i class="fa fa-edit fa-fw">
                             <div class="icon-bg bg-blue"></div>
                         </i><span class="menu-title">View Users</span></a>
+
+                </li>
+				 <li><a href="testView"><i class="fa fa-th-list fa-fw">
+                            <div class="icon-bg bg-blue"></div>
+                        </i><span class="menu-title">Result View</span></a>
 
                 </li>
               {{--  <li><a href="Tables.html"><i class="fa fa-th-list fa-fw">

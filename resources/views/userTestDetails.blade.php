@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>View User</title>
+    <title>User Test Details</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -200,8 +200,10 @@
             </div>
             <?php if ($item['questionType'] == "Non-Descriptive") { ?>
             <ul class="list-group">
+			<?php $arrAns=array();?>
                 <?php foreach ($item['options'] as $items): ?>
                 <?php if (strlen($items) != 0) { ?>
+				<?php array_push($arrAns,$items)?>
                 <li class="list-group-item"><span class="glyphicon glyphicon-minus"></span> <?=$items?></li>
                 <?php } ?>
 
@@ -225,10 +227,30 @@
 				
                 ?>
             </ul>
-							 <p>Choice:     <?=$itema['keys'][$count]['answer'][0]?></p>
+			 <?php if ($itema['keys'][$count]['answer'][0]=="skipped") { ?>
+			 <p>Choice:     Skipped</p>
+
+							  <?php } else { ?>
+							  							 <p>Choice:     <?=$arrAns[$itema['keys'][$count]['answer'][0]]?></p>
+
+							  <?php } ?>
+							  <?php if ($fulltest['testType']=="Linear") { ?>
+							    <p>Answer:     <?=$arrAns[$item['solutionkey'][0]] ?></p> 
+							    <?php } else { ?>
+								 <p>Answer:     <?=$item['solutionkey'][0] ?></p> 
+								<?php } ?>
+							 
+							 
 
             <?php } else { ?>
-						<p>Answer:     <?=$itema['keys'][$count]['answer'][0]?></p>            <?php } ?>
+			<?php if ($itema['keys'][$count]['answer'][0]=="skipped") { ?>
+			 <p>Choice:     Skipped</p>
+
+							  <?php } else { ?>
+							  								<p>Written:     <?=$itema['keys'][$count]['answer'][0]?></p>  
+
+							  <?php } ?>
+					          <?php } ?>
 
 			<br>
 

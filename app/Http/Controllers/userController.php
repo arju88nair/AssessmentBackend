@@ -287,6 +287,12 @@ class userController extends Controller
         return admin::userDetails($request->all());
 
     }
+	
+	
+	public function searchTable(Request $request)
+	{
+		return admin::searchTable($request->all());
+	}
 
    
 

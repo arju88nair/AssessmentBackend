@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>View Users</title>
+    <title>Search</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,7 +71,7 @@
             <ol class="breadcrumb page-breadcrumb pull-right">
                 <li><i class="fa fa-home"></i>&nbsp;<a href="dashboardAction">Home</a>&nbsp;&nbsp;<i
                             class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                <li class="hidden"><a href="#">View Users</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                <li class="hidden"><a href="#">Search</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
                 </li>
                 <li class="active">Search</li>
             </ol>
@@ -83,36 +83,52 @@
 
 
         <div class="container">
+            <?php if ($saved != "" ) { ?>
+            <h2 style="text-align: center">View Tests</h2>
 
-            <h2 style="text-align: center">View Users</h2>
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>User Name</th>
+                    <th>User ID</th>
+                    <th>Score</th>
+                    <th>Submited at</th>
+                    <th>Report Link</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach( $saved as $page ): ?>
 
 
-            <ul id="double" class="list-group"> <span class="code-comment"><!-- Alter ID accordingly --></span>
-                <?php foreach( $users as $item ): ?>
-                <li class="list-group-item well" id="list-group-item" ><img style="margin-left:1.3% " src='<?= $item['imageUrl'] ?>' class="img-circle" alt="Cinque Terre" width="48" height="48"><h4 style="margin-top:-7.5%;text-align:center"><a href="userDetails?action=<?=$item['_id']?>"><?= $item['name'] ?></a></h4></li>
+                <tr>
+                    <td>
+                        <a href="userTestDetails?uId=<?=$page['_uId']?>&qId=<?=$page['testId']?>&tId=<?=$page['_id']?>"><?=$page['testName']?></a>
+                    </td>
+                    <td><a href="userDetails?action=<?=$page['_uId']?>"><?=$page['name']?></a></td>
+                    <td><?=$page['_uId']?></td>
+                    <td><?=$page['score']?></td>
+                    <td><?=$page['updated_at']?></td>
+                    <?php if ($page['reportUrl'] != "") { ?>
+
+                    <td><a href="<?=$page['reportUrl']?>"><span
+                                    class="glyphicon glyphicon-download">   Report Link</span></a></td>
+
+                    <?php } else { ?>
+
+                    <td><a href="#"><span class="glyphicon glyphicon-remove">    No Report</span> </a></td>
+                    <?php } ?>
+                </tr>
 
                 <?php endforeach ?>
+                </tbody>
+            </table>
 
-
-            </ul>
-
-            <?php
-            foreach ($users as $item) {
-                echo '<div class="list-group">
-         <a href="userTestDetails?uId=' . $item['_uId'] . '&qId=' . $item['testId'] . '" class="list-group-item"><img style="margin-left:1.3% " src=' . $item["imageUrl"] . ' class="img-circle" alt="Cinque Terre" width="48" height="48"><br><p>' . $item["name"] . '</p><h4 style="margin-top:-4.5%;text-align:center">' . $item['testName'] . '</h4><h2 style="margin-top:-2.9%;text-align:right">' . $item['score'] . '</h2></a>
-     </div>';
-
-
-            }
-
-
-            ?>
-
-
-        
+            <?php } ?>
 
 
         </div>
+
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
 
@@ -174,6 +190,19 @@
 
 
 </script>
+<script>
+var search ="<?php echo $search; ?>";
+/* $("#topbar-search").remove(); */
 
+document.getElementById("search").value=search;
+$('#icon').attr('class', 'glyphicon glyphicon-remove');
+$('#click').unbind('click');
+$('#click').click(function(){
+location.href = "testView";
+});
+   
+
+
+</script>
 </body>
 </html>
