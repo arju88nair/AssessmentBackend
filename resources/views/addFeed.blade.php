@@ -145,6 +145,10 @@
                                     <label for="usr">Feed Image Large:</label>
                                     <input type="text" class="form-control" name="feedImage">
                                 </div>
+								<div class="form-group">
+                                    <label for="usr">Send Notifications:</label>
+                                    <input type="checkbox" class="" name="gcm"style="margin-left:4%">
+                                </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:</label>
                                     <input type="file" class="form-control" name="images[]">
@@ -235,6 +239,10 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Image Small:</label>
                                     <input type="text" class="form-control" name="feedImage_lw" id="feedImage_lw">
+                                </div>
+								<div class="form-group">
+                                    <label for="usr">Send Notifications:</label>
+                                    <input type="checkbox" class="" name="gcm"style="margin-left:4%">
                                 </div>
                                 <label for="sel1"
                                        class="">Trending</label>

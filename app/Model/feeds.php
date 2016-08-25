@@ -90,6 +90,14 @@ class feeds extends Eloquent
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
+		if(isset($_POST['gcm'])){
+					$model->feedGCM = "Yes";
+					
+				}
+				else{
+					$model->feedGCM = "No";
+				}
+		
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
             $model->feedAudio = "";
@@ -102,8 +110,10 @@ class feeds extends Eloquent
                 $test = questions::all();
                 $report = upload::all();
                 $assistance = assistance::all();
-
+				if(isset($_POST['gcm'])){
                 $gcm = addUser::feedGcm($title);
+				}
+		
 
                 return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
@@ -191,7 +201,7 @@ class feeds extends Eloquent
 
         $id = $input['id'];
         $model = self::find($id);
-        $model->feedTitle = $input['feedTitle'];
+		$title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
         $model->category= $_POST['Category'];
         $model->trending=$_POST['trending'];
@@ -199,6 +209,13 @@ class feeds extends Eloquent
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
+		if(isset($_POST['gcm'])){
+					$model->feedGCM = "Yes";
+					
+				}
+				else{
+					$model->feedGCM = "No";
+				}
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
             $isSaved = $model->save();
@@ -210,6 +227,10 @@ class feeds extends Eloquent
                 $test = questions::all();
                 $report = upload::all();
                 $assistance = assistance::all();
+				if(isset($_POST['gcm'])){
+                $gcm = addUser::feedGcm($title);
+				}
+		
 
 
                 return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);

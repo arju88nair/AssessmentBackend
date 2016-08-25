@@ -136,7 +136,12 @@ class upload extends Eloquent
 
         $model->status = 'Pending';
         $test = savedtests::where('testId', '=', $input['testId'])->where('_uId','=',$uid)->where('_id','=',$input['id'])->first();
-        $users = addUser::find('576cec60a94ff4271d47d4d8');
+			if(count($test) ==0 || empty($test)){
+				
+                    return array("code" => "1", "status" => "error", "message" => "Couldn't find the saved test.Please try again later");
+	
+			}   
+	    $users = addUser::find('576cec60a94ff4271d47d4d8');
         $pdf = \PDF::loadView('chart', compact('user'));
         $saved=file_put_contents("reports/".$name.$input['testId'].".pdf", $pdf->output());
         if($saved){
