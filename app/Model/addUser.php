@@ -96,7 +96,6 @@ class addUser extends Eloquent
             return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect device ");
         }
 
-
         $str = strtotime('now');
         $now = date($str);
         $coupons = coupon::where('Coupon', '=', $couponGet)->where('Date', '>', $now)->get();
@@ -423,7 +422,7 @@ class addUser extends Eloquent
 
 
     }
-    public static function feedGcm($title)
+    public static function feedGcm($title,$id)
     {
 
         define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
@@ -436,7 +435,7 @@ class addUser extends Eloquent
         $registrationIds =$array;
 
 // prep the bundle
-        $msg = array('message' => $title, "url" => "","testName"=>"","testScore"=>"","testId"=>"","type"=>"Feed");
+        $msg = array('message' => $title, "url" => "","testName"=>"","testScore"=>"","testId"=>"","type"=>"Feed","id"=>$id);
 
         $fields = array
         (

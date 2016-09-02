@@ -111,6 +111,9 @@
                                data-audio="<?= $page['feedAudio']?>"
                                data-cat="<?= $page['category']?>"
                                data-trend="<?= $page['trending']?>"
+							   data-type="<?= $page['feedType']?>"
+							   data-loc="<?= $page['location']?>"
+							   data-date="<?= $page['feedDate']?>"
                                data-idtag="<?= $page['_id']?>">Edit feed</a>
                             <a style="margin-left: 84%;margin-top: -6%"
                                href="deleteFeed?action=<?=$page['_id']?>"
@@ -146,6 +149,10 @@
                                     <input type="text" class="form-control" name="feedImage">
                                 </div>
 								<div class="form-group">
+                                    <label for="usr">Feed Expiry date:</label>
+                                    <input type="text" class="form-control" name="feedDate">
+                                </div>
+								<div class="form-group">
                                     <label for="usr">Send Notifications:</label>
                                     <input type="checkbox" class="" name="gcm"style="margin-left:4%">
                                 </div>
@@ -164,6 +171,25 @@
                                     <select name="trending" class="form-control" id="trend">
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <br>
+								 <label for="sel1"
+                                       class="">Location</label>
+
+                                <div class="">
+                                    <select name="loc" class="form-control" id="loc">
+                                        <option value="All">All</option>
+                                        <option value="Bangalore">Bangalore</option>
+                                    </select>
+                                </div>
+                                <br>
+								 <label for="sel1"
+                                       class="">Feed Type</label>
+									<div class="">
+                                    <select name="type" class="form-control" id="type">
+                                        <option value="Normal">Normal</option>
+                                        <option value="Promotional">Promotional</option>
                                     </select>
                                 </div>
                                 <br>
@@ -236,6 +262,10 @@
                                     <label for="usr">Feed Image Large:</label>
                                     <input type="text" class="form-control" name="feedImage" id="feedImage">
                                 </div>
+								<div class="form-group">
+                                    <label for="usr">Feed Expiry date:</label>
+                                    <input type="text" class="form-control" name="feedDate" id="feedDate">
+                                </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Image Small:</label>
                                     <input type="text" class="form-control" name="feedImage_lw" id="feedImage_lw">
@@ -253,6 +283,25 @@
                                         <option value="No">No</option>
 
 
+                                    </select>
+                                </div>
+                                <br>
+								<label for="sel1"
+                                       class="">Location</label>
+
+                                <div class="">
+                                    <select name="loc" class="form-control" id="loc">
+                                        <option value="All">All</option>
+                                        <option value="Bangalore">Bangalore</option>
+                                    </select>
+                                </div>
+                                <br>
+								 <label for="sel1"
+                                       class="">Feed Type</label>
+									<div class="">
+                                    <select name="type" class="form-control" id="type">
+                                        <option value="Normal">Normal</option>
+                                        <option value="Promotional">Promotional</option>
                                     </select>
                                 </div>
                                 <br>
@@ -394,6 +443,9 @@
         var audio = button.data('audio');
         var cat = button.data('cat');
         var trend = button.data('trend');
+		var type=button.data('type');
+		var loc=button.data('loc');
+		var date=button.data('date');
 
 
         // Extract info from data-* attributes
@@ -408,8 +460,11 @@
         modal.find('#sourceTitle').val(sourceTag);
         modal.find('#idTag').val(idTag);
         modal.find('#cat').val(cat);
+		modal.find('#type').val(type);
         modal.find('#trend').val(trend);
+		modal.find('#loc').val(loc);
         modal.find('#disabledInput').val(audio);
+		modal.find('#feedDate').val(date);
 
     })
 

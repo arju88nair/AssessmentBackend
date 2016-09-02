@@ -132,6 +132,7 @@ class upload extends Eloquent
         $model->testName = $input['testName'];
         $model->imageUrl = $user['imageUrl'];
         $model->_uId = $user['_id'];
+		$unique=uniqid();
         /*        $model->testName = $input['keys'];*/
 
         $model->status = 'Pending';
@@ -143,15 +144,15 @@ class upload extends Eloquent
 			}   
 	    $users = addUser::find('576cec60a94ff4271d47d4d8');
         $pdf = \PDF::loadView('chart', compact('user'));
-        $saved=file_put_contents("reports/".$name.$input['testId'].".pdf", $pdf->output());
+        $saved=file_put_contents("reports/".$name.$unique.".pdf", $pdf->output());
         if($saved){
-            $file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/".$name.$input['testId'].".pdf";
+            $file="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/reports/".$name.$unique.".pdf";
             $test->reportUrl=$file;
 			$test->save();
             if (!isset($dup) || count($dup) == 0) {
                 $isSaved = $model->save();;
                 if ($isSaved) {
-                    $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report");
+                    $msg = array('status' => 'success','message' => 'Hello ' . $name . ',your report is ready for download!', "url" => $file,"testName"=>$input['testName'],"testScore"=>$input['score'],"testId"=>$input['testId'],"type"=>"Report","time"=>time());
                     return $msg;
                     return array("code" => "0", "status" => "success", "message" => "Request successfully sent");
 

@@ -83,7 +83,10 @@ class feeds extends Eloquent
     {
         $model = new self();
         $model->category= $_POST['Category'];
+		$model->feedType=$_POST['type'];
         $model->trending=$_POST['trending'];
+		$model->location=$_POST['loc'];
+		$model->feedDate=$_POST['feedDate'];
         $title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
         $model->feedImage_lw = $input['feedImage_lw'];
@@ -111,7 +114,8 @@ class feeds extends Eloquent
                 $report = upload::all();
                 $assistance = assistance::all();
 				if(isset($_POST['gcm'])){
-                $gcm = addUser::feedGcm($title);
+                $gcm = addUser::feedGcm($title,$model['_id']);
+
 				}
 		
 
@@ -203,7 +207,10 @@ class feeds extends Eloquent
         $model = self::find($id);
 		$title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
+		$model->feedDate=$_POST['feedDate'];
+		$model->feedType=$_POST['type'];
         $model->category= $_POST['Category'];
+		$model->location=$_POST['loc'];
         $model->trending=$_POST['trending'];
         $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
@@ -228,7 +235,7 @@ class feeds extends Eloquent
                 $report = upload::all();
                 $assistance = assistance::all();
 				if(isset($_POST['gcm'])){
-                $gcm = addUser::feedGcm($title);
+                $gcm = addUser::feedGcm($title,$model['_id']);
 				}
 		
 
