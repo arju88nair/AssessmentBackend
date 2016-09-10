@@ -7,7 +7,12 @@
 
     <link rel="stylesheet" href="css/normalize.css">
 
-
+    <script type="text/javascript">
+        function confSubmit() {
+            localStorage.setItem('user',document.getElementById('name').value);
+            return r;
+        }
+    </script>
     <style>
         /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
         @import url(http://fonts.googleapis.com/css?family=Open+Sans);
@@ -101,8 +106,8 @@
 <div class="login">
 
     <h1>Login</h1>
-    <form method="post" action="{{ action('userController@getdetails') }}" accept-charset="UTF-8">
-        <input type="text" name="u" placeholder="Username" required="required" />
+    <form method="post" action="{{ action('userController@getdetails') }}" enctype="multipart/form-data"  accept-charset="UTF-8" onsubmit="confSubmit();">
+        <input type="text" name="u" placeholder="Username" required="required" id="name" />
         <select name="role">
             <option value="content">Content Manager</option>
             <option value="root">Admin</option>

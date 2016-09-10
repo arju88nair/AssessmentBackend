@@ -64,6 +64,13 @@ Route::post('getConstants','userController@getConstants');
 
 Route::post('postGroup','userController@postGroup');
 
+Route::post('like','userController@like');
+
+Route::post('unlike','userController@unlike');
+
+Route::post('addCategories','userController@addCategories');
+
+
 
 
 
@@ -125,12 +132,7 @@ Route::get('test','DashboardController@chartpdf');
 
 Route::get('testView','DashboardController@testView');
 
-
-
-
-
-
-
+Route::post('viewFeed','DashboardController@viewFeed');
 
 
 

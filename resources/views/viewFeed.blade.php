@@ -31,6 +31,13 @@
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
     <script>
+        $(document).ready(function () {
+            document.getElementById("cat").value = '<?php echo $tag;?>';
+            document.getElementById("own").value = '<?php echo $tag2;?>';
+
+        });
+    </script>
+    <script>
         var user = localStorage.getItem('user');
     </script>
 </head>
@@ -143,22 +150,20 @@
                 item
             </button>
             <br>
-
             <br>
             <?php foreach( $feed as $page ): ?>
             <div class="panel-group">
                 <div class="panel panel-default" style="width:94%">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-						
                             <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
                                href="#<?= $page['_id']?>">
                                 <?= $page['feedTitle']?>
                             </a>
-							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= count($page['likeCount'])?></span>
-							<span style="color:grey" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
+							<span><?= count($page['likeCount'])?></span>
+							<span style="color:black" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
                   </span>
-                           
+                            
                             <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:69%">
                                 <?= $page['category']?>
                             </p>
@@ -196,10 +201,10 @@
                                data-trend="<?= $page['trending']?>"
                                data-type="<?= $page['feedType']?>"
                                data-loc="<?= $page['location']?>"
-                               data-date="<?= $page['feedDate']?>"
 							   data-summ="<?= $page['summarised']?>"
 							   data-added="<?= $page['addedBy']?>"
                                data-schedule="<?= $page['feedSchedule']?>"
+                               data-date="<?= $page['feedDate']?>"
                                data-idtag="<?= $page['_id']?>">Edit feed
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
@@ -229,7 +234,7 @@
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8">
+                                  accept-charset="UTF-8" >
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
@@ -238,7 +243,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="text" class="form-control" name="feedImage" placeholder="Feed Image URL" required>
+                                    <input type="text" class="form-control" name="feedImage" placeholder="Feed Image URL"  required>
                                 </div>
 
                                 <div class="form-group">
@@ -305,7 +310,7 @@
                                 <div class="form-group">
                                     <label for="comment">Feed content:
                                     </label>
-                      <textarea class="form-control" rows="5" name="feedContent" maxlength="400">
+                      <textarea class="form-control" rows="5" name="feedContent" maxlength="400" >
                       </textarea>
                                 </div>
                                 <div class="form-group">
@@ -330,7 +335,7 @@
 
                                     <div class="">
                                         <select name="trending" class="form-control" id="trend">
-                                            <option value="No">No
+                                           <option value="No">No
                                             </option>
 											 <option value="Yes">Yes
                                             </option>
@@ -361,8 +366,7 @@
                                             <option value="Promotional">Promotional
                                             </option>
                                         </select>
-                                    </div>
-									  <div class="form-group">
+                                    </div> <div class="form-group">
                                         <label for="usr">Feed Summarised By:
                                         </label>
                                         <input type="text" class="form-control" name="summarised" >
@@ -370,7 +374,7 @@
 									  <div class="form-group">
                                         <label for="usr">Feed Added By:
                                         </label>
-                                        <input type="text" class="form-control" name="addedBy">
+                                        <input type="text" class="form-control" name="addedBy" >
                                     </div>
                                     <div class="form-group">
                                         <label for="usr">Feed Source Tag:
@@ -424,7 +428,7 @@
                                     <label for="usr">Feed Schedule Date:
                                     </label>
                                     <input type="text" class="form-control" name="feedSchedule" id="feedSchedule" placeholder="YYYY/MM/DD" required>
-                                </div>
+                                    </div>
                                 <div class="form-group">
                                     <label for="usr">Send Notifications:
                                     </label>
@@ -473,9 +477,9 @@
                                 <div class="form-group">
                                     <label for="comment">Feed content:
                                     </label>
-								<textarea class="form-control" rows="5" name="feedContent" id="feedContent"
+                      <textarea class="form-control" rows="5" name="feedContent" id="feedContent"
                                 maxlength="400" id="feedContent">
-						</textarea>
+                      </textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Source URL:
@@ -696,6 +700,7 @@
                 modal.find('#feedSchedule').val(schedule);
 				modal.find('#summarised').val(summ);
 				modal.find('#added').val(added);
+
 
             }
     )

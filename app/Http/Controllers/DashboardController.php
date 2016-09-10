@@ -62,4 +62,10 @@ class DashboardController extends Controller
 	{
 		return admin::testView($request->all());
 	}
+
+
+    public function viewFeed(Request $request)
+    {
+        return admin::viewFeed($request->all());
+    }
 }

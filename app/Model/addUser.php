@@ -102,13 +102,12 @@ class addUser extends Eloquent
         $users = $model::where('userId', '=', $emailId)->take(1)->get();
 
         if (!isset($users) || count($users) == 0) {
+			$model->liked=array();
 
             if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
                 $model->corporateName = "";
-
                 $model->save();
                 return array("status" => "success", "resultCode" => "11", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => $uniqueID);
-
 
             } else {
                 $coupon = coupon::where('Coupon', '=', $couponGet)->first();

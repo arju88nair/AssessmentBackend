@@ -53,10 +53,19 @@ class feeds extends Eloquent
         } else {
             if(count($cat)==0) {
                 $feed = $model::all();
+				$array=array();
+				foreach($feed as $item){
+					$feedid= $item['_id'];
+					$liked=like::where('feedId','=',$feedid)->get();
+					$item->likeCount=count($liked);
+					array_push($array,$item);
+				}
+				$category=extra::first();
+				
                 $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
 				$url='https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
 
-                return array("status" => "success", "resultCode" => "1", "categories" => $categories, 'image'=> $url, "userFeed" => $feed,);
+                return array("status" => "success", "resultCode" => "1", "categories" => $categories, 'image'=> $url, "userFeed" => $array,'category'=>$category['categories']);
             }
             else{
                 $array=array();
@@ -65,15 +74,21 @@ class feeds extends Eloquent
 
                     $feed=feeds::where('category','=',$item)->get();
                     foreach($feed as $items){
+						$feedid= $items['_id'];
+					$liked=like::where('feedId','=',$feedid)->get();
+						$items->likeCount=count($liked);
                         array_push($array,$items);
 
                     }
 
                 }
+                $category=extra::first();
+				
                 $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
 				$url='https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
 
-                return array("status" => "success", "resultCode" => "1", "Categories" => $categories, 'image'=> $url,"userFeed" => $array,);            }
+                return array("status" => "success", "resultCode" => "1", "categories" => $categories, 'image'=> $url, "userFeed" => $array,'category'=>$category['categories']);
+				}
 
         }
     }
@@ -83,13 +98,16 @@ class feeds extends Eloquent
     {
         $model = new self();
         $model->category= $_POST['Category'];
+		$model->summarised=$input['summarised'];
+		$model->addedBy=$input['addedBy'];
+        $model->feedOwner= $_POST['feedOwner'];
+        $model->feedSchedule=$input['feedSchedule'];
 		$model->feedType=$_POST['type'];
         $model->trending=$_POST['trending'];
 		$model->location=$_POST['loc'];
 		$model->feedDate=$_POST['feedDate'];
         $title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
-        $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
@@ -103,7 +121,13 @@ class feeds extends Eloquent
 		
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
-            $model->feedAudio = "";
+            if($input['feedaudio']=="" ||$input['feedaudio']==NULL){
+                $model->feedAudio = "";
+            }
+            else{
+                $model->feedAudio = $input['feedaudio'];
+            }
+
             $isSaved = $model->save();
             if ($isSaved) {
                 $feed = feeds::all();
@@ -127,6 +151,9 @@ class feeds extends Eloquent
             }
 
         }
+
+
+        $model->feedAudio=$input['feedaudio'];
         if (Input::hasFile('images')) {
             foreach ($files as $file) {
                 $destinationPath = public_path() . '/audio/';
@@ -207,12 +234,15 @@ class feeds extends Eloquent
         $model = self::find($id);
 		$title = $model->feedTitle = $input['feedTitle'];
         $model->feedImage = $input['feedImage'];
-		$model->feedDate=$_POST['feedDate'];
-		$model->feedType=$_POST['type'];
+		$model->summarised=$input['summarised'];
+		$model->addedBy=$input['addedBy'];
+        $model->feedOwner= $_POST['feedOwner'];
+        $model->feedDate=$_POST['feedDate'];
+        $model->feedSchedule=$input['feedSchedule'];
+        $model->feedType=$_POST['type'];
         $model->category= $_POST['Category'];
 		$model->location=$_POST['loc'];
         $model->trending=$_POST['trending'];
-        $model->feedImage_lw = $input['feedImage_lw'];
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
@@ -224,6 +254,7 @@ class feeds extends Eloquent
 					$model->feedGCM = "No";
 				}
         $files = Input::file('images');
+
         if (!Input::hasFile('images')) {
             $isSaved = $model->save();
             if ($isSaved) {

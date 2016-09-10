@@ -20,6 +20,8 @@ use App\Http\Requests;
 class extra extends Eloquent
 {
 
+	protected $connection = "mongodb";
+    protected $collection = "categories";
 
     
     public static function getConstants($input)
@@ -67,6 +69,25 @@ class extra extends Eloquent
 
         }
     }
+	
+	
+	
+	public static function categories($input)
+	{
+		$model=new self();
+		return $model->first()['categories'];
+		$array=$input['array'];
+		$new=array();
+		foreach($array as $item)
+		{
+			array_push($new,$item); 
+		}
+		$model->categories=$new;
+		$model->save();		
+		
+		
+		
+	}
 
 }
 

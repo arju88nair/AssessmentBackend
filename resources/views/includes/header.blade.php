@@ -64,7 +64,7 @@
                 <div class="clearfix"></div>
                 <li class="active"><a  href="dashboardAction"><i class="fa fa-tachometer fa-fw">
                             <div class="icon-bg bg-orange"></div>
-                        </i><span class="menu-title">Dashboard</span></a></li>
+                        </i><span class="menu-title">View Tests</span></a></li>
                 <li><a href="addTest"><i class="fa fa-desktop fa-fw">
                             <div class="icon-bg bg-violet"></div>
                         </i><span class="menu-title">Add New Test</span></a>

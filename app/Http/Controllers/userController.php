@@ -6,6 +6,7 @@ use App\Model\coupon;
 use App\Model\extra;
 use App\Model\feedCount;
 use App\Model\feeds;
+use App\Model\like;
 use App\Model\savedtests;
 use DateTime;
 use App\Model\addUser;
@@ -292,6 +293,23 @@ class userController extends Controller
 	public function searchTable(Request $request)
 	{
 		return admin::searchTable($request->all());
+	}
+	
+	public function like(Request $request)
+	{
+		return like::like($request->all());
+	}
+	
+	
+	public function unlike(Request $request)
+	{
+		return like::unlike($request->all());
+	}
+	
+	
+	public function addCategories(Request $request)
+	{
+		return extra::categories($request->all());
 	}
 
    
