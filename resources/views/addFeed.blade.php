@@ -124,9 +124,13 @@
                             <div class="">
                                 <select name="owner" class="form-control" id="own">
                                     <option value="All">All</option>
-                                    <?php foreach( $tag1 as $item ): ?>
-                                    <option value="<?=$item?>"><?=$item?></option>
-                                    <?php endforeach ?>
+                                    <?php
+foreach ($tag1 as $item):
+?>
+                                    <option value="<?= $item ?>"><?= $item ?></option>
+                                    <?php
+endforeach;
+?>
                                 </select>
                             </div>
                         </div>
@@ -145,72 +149,79 @@
             <br>
 
             <br>
-            <?php foreach( $feed as $page ): ?>
+            <?php
+foreach ($feed as $page):
+?>
             <div class="panel-group">
                 <div class="panel panel-default" style="width:94%">
                     <div class="panel-heading">
                         <h4 class="panel-title">
 						
                             <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
-                               href="#<?= $page['_id']?>">
-                                <?= $page['feedTitle']?>
+                               href="#<?= $page['_id'] ?>">
+                                <?= $page['feedTitle'] ?>
                             </a>
-							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= count($page['likeCount'])?></span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $page['likeCount'] ?></span>
 							<span style="color:grey" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
                   </span>
                            
                             <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:69%">
-                                <?= $page['category']?>
+                                <?= $page['category'] ?>
                             </p>
 
                             <p style="font-size: 60%;color: grey;margin-top: -1.9%;float: right;">
                                 <strong>Added
                                     date:
                                 </strong>
-                                <?= $page['updated_at']?>
+                                <?= $page['updated_at'] ?>
                             </p>
                         </h4>
                     </div>
-                    <div id="<?= $page['_id']?>" class="panel-collapse collapse">
+                    <div id="<?= $page['_id'] ?>" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <?= $page['feedContent']?>
-                            <img src="<?=$page["feedImage"]?>" class="img-rounded" alt="Cinque Terre" width="60"
+                            <?= $page['feedContent'] ?>
+                            <img src="<?= $page["feedImage"] ?>" class="img-rounded" alt="Cinque Terre" width="60"
                                  height="60" style="float:right">
                         </div>
                         <div class="panel-footer">
                             <a style="margin-left: 0%"
-                               href="<?= $page['feedSource']?>">Source
+                               href="<?= $page['feedSource'] ?>">Source
                             </a>
                             <a style="margin-left: 4%"
-                               href="<?= $page['feedAudio']?>">Audio
+                               href="<?= $page['feedAudio'] ?>">Audio
                             </a>
-                            <?php $id = $page['_id']?>
-                            <a style="margin-left: 54%;margin-top: 1%" href="#<?php echo '' . $id . '';?>"
+                            <?php
+    $id = $page['_id']?>
+                            <a style="margin-left: 54%;margin-top: 1%" href="#<?php
+    echo '' . $id . '';
+?>"
                                class="btn btn-primary"
                                role="button" data-toggle="modal" data-target="#myModal2"
-                               data-title="<?= $page['feedTitle']?>" data-image="<?= $page['feedImage']?>"
-                               data-source="<?= $page['feedSource']?>" data-content="<?= $page['feedContent']?>"
-                               data-sourcetag="<?= $page['feedSourceTag']?>" data-image_lw="<?= $page['feedImage_lw']?>"
-                               data-audio="<?= $page['feedAudio']?>"
-                               data-cat="<?= $page['category']?>"
-                               data-trend="<?= $page['trending']?>"
-                               data-type="<?= $page['feedType']?>"
-                               data-loc="<?= $page['location']?>"
-                               data-date="<?= $page['feedDate']?>"
-							   data-summ="<?= $page['summarised']?>"
-							   data-added="<?= $page['addedBy']?>"
-                               data-schedule="<?= $page['feedSchedule']?>"
-                               data-idtag="<?= $page['_id']?>">Edit feed
+                               data-title="<?= $page['feedTitle'] ?>" data-image="<?= $page['feedImage'] ?>"
+                               data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
+                               data-sourcetag="<?= $page['feedSourceTag'] ?>" data-image_lw="<?= $page['feedImage_lw'] ?>"
+                               data-audio="<?= $page['feedAudio'] ?>"
+                               data-cat="<?= $page['category'] ?>"
+                               data-trend="<?= $page['trending'] ?>"
+                               data-type="<?= $page['feedType'] ?>"
+                               data-loc="<?= $page['location'] ?>"
+                               data-date="<?= $page['feedDate'] ?>"
+							   data-summ="<?= $page['summarised'] ?>"
+							   data-added="<?= $page['addedBy'] ?>"
+                               data-schedule="<?= $page['feedSchedule'] ?>"
+                               data-idtag="<?= $page['_id'] ?>">Edit feed
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
-                               href="deleteFeed?action=<?=$page['_id']?>"
+                               href="deleteFeed?action=<?= $page['_id'] ?>"
                                class="btn btn-danger" role="button" onsubmit="return confSubmit();">Delete feed
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php endforeach ?>
+            <?php
+endforeach;
+?>
             <div class="modal fade" id="myModal" role="dialog">
                 <script type="text/javascript">
                     $(document).ready(function () {
@@ -229,16 +240,24 @@
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8">
+                                  accept-charset="UTF-8" onsubmit="return confSubmit();">
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
                                     <input type="text" class="form-control" name="feedTitle" placeholder="Feed Title" required>
                                 </div>
-                                <div class="form-group">
+									<div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="text" class="form-control" name="feedImage" placeholder="Feed Image URL" required>
+                                    <input type="file" class="form-control" name="image[]" id="image">
+                                </div>
+
+
+                                <h3>OR</h3>
+                                <div class="form-group">
+                                    <label for="usr">Feed Image URL:
+                                    </label>
+                                    <input type="text" class="form-control" id="feedImage" name="feedImage" placeholder="Feed Image URL" >
                                 </div>
 
                                 <div class="form-group">
@@ -249,7 +268,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]">
+                                    <input type="file" class="form-control" name="images[]" id="audio">
                                 </div>
 
 
@@ -263,7 +282,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Schedule Date:
                                     </label>
-                                    <input type="text" class="form-control" name="feedSchedule" id="feedSchedule" placeholder="YYYY/MM/DD" required>
+                                    <input type="date" class="form-control" name="feedSchedule" id="feedSchedule" placeholder="YYYY/MM/DD" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" name="feedOwner" id="owner">
@@ -322,7 +341,7 @@
                                     <div class="form-group">
                                         <label for="usr">Feed Expiry date:
                                         </label>
-                                        <input type="text" class="form-control" name="feedDate" placeholder="YYYY/MM/DD">
+                                        <input type="date" class="form-control" name="feedDate" placeholder="YYYY/MM/DD">
                                     </div>
                                     <label for="sel1"
                                            class="">Trending
@@ -409,17 +428,29 @@
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8">
+                                  accept-charset="UTF-8" onsubmit="return confSubmit();">
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
                                     <input type="text" class="form-control" name="feedTitle" id="feedTitle" placeholder="Title of the feed" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">Feed Image Large:
+								
+								
+								<div class="form-group">
+                                    <label for="usr">Feed Image:
                                     </label>
-                                    <input type="text" class="form-control" name="feedImage" id="feedImage" placeholder="Feed image URL" required>
+                                    <input type="file" class="form-control" name="image[]" id="image">
                                 </div>
+
+
+                                <h3>OR</h3>
+                                <div class="form-group">
+                                    <label for="usr">Feed Image URL:
+                                    </label>
+                                    <input type="text" class="form-control" id="feedImage" name="feedImage" placeholder="Feed Image URL" >
+                                </div>
+
+                                
                                 <div class="form-group">
                                     <label for="usr">Feed Schedule Date:
                                     </label>
@@ -463,7 +494,15 @@
                                     </select>
                                 </div>
                                 <br>
+								<div class="form-group">
+                                    <label for="usr">Feed Audio:
+                                    </label>
+                                    <input type="file" class="form-control" name="images[]" id="audio">
+                                </div>
 
+
+                                <h3>OR</h3>
+								
                                 <div class="form-group">
                                     <label for="inputPassword">Audio
                                     </label>
@@ -700,10 +739,25 @@
             }
     )
 </script>
+
 <script type="text/javascript">
     function confSubmit() {
-        var r=confirm('Are you sure you want to delete??');
-        return r;
+		$("#image").change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only formats are allowed : "+fileExtension.join(', '));
+			return false;
+        }
+    });
+
+if( document.getElementById("image").files.length == 0){
+			if( $("#feedImage").val().length == 0){
+				alert("Please add an image file or URL");
+				return false;
+			}
+    
+}
+       
     }
 </script>
 </body>
