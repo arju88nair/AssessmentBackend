@@ -10,6 +10,9 @@
     <link rel="apple-touch-icon" href="images/icons/favicon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/icons/favicon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/icons/favicon-114x114.png">
+	<link rel="icon" 
+      type="image/png" 
+      href="http://example.com/myicon.png">
     <!--Loading bootstrap css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -428,7 +431,7 @@ endforeach;
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8" onsubmit="return confSubmit();">
+                                  accept-charset="UTF-8" >
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
@@ -750,7 +753,7 @@ endforeach;
         }
     });
 
-if( document.getElementById("image").files.length == 0){
+if( document.getElementById("image").files.length == 0){	
 			if( $("#feedImage").val().length == 0){
 				alert("Please add an image file or URL");
 				return false;
@@ -760,5 +763,6 @@ if( document.getElementById("image").files.length == 0){
        
     }
 </script>
+
 </body>
 </html>

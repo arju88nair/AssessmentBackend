@@ -273,15 +273,29 @@ class feeds extends Eloquent
         $id      = $_GET['action'];
 		$isSaved = $model::find($id);
 		$image= "/var/www/html/Assessment/public/image/".substr($isSaved['feedImage'],63);
-		$audio="/var/www/html/Assessment/public/audio/".substr($isSaved['feedAudio'],63);;
-		if($isSaved['feedImage']!="" || $isSaved['feedImage']!=null)
+		$audio="/var/www/html/Assessment/public/audio/".substr($isSaved['feedAudio'],63);
+		$check="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/";
+	
+		if(strpos($check, $isSaved['feedImage']) !== false)
+		{
+			if($isSaved['feedImage']!="" || $isSaved['feedImage']!=null)
 		{
 			unlink($image);					
-		}		
-		if($isSaved['feedAudio']!="" || $isSaved['feedAudio']!=null)
+		}	
+		
+		}
+		
+		if(strpos($check, $isSaved['feedImage']) !== false)
+		{
+			if($isSaved['feedAudio']!="" || $isSaved['feedAudio']!=null)
 		{
 			unlink($audio);					
-		}				
+		}	
+		
+		}
+		
+			
+					
         $isSaved = $model::find($id)->delete();
         if ($isSaved) {
             
