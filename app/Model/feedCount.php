@@ -87,4 +87,32 @@ class feedCount extends Eloquent
         }
     }
     
+    
+    
+    public static function userCount($input)
+    {
+        
+        $id               = $input['sessionHandle'];
+        $uid              = $input['uId'];
+        $count            = $input['feedCount'];
+        $guest            = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
+        $guest->feedCount = $count;
+        $is               = $guest->save();
+        if ($is) {
+            return array(
+                "status" => "success",
+                "resultCode" => "1",
+                "message" => "Updated"
+            );
+        } else {
+            return array(
+                "status" => "error",
+                "resultCode" => "0",
+                "message" => "Try again you scapegoat"
+            );
+            
+        }
+        
+        
+    }
 }

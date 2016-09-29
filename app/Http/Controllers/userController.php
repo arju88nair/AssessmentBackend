@@ -312,7 +312,10 @@ class userController extends Controller
 		return extra::categories($request->all());
 	}
 
-   
+   public function userCount(Request $request)
+   {
+       return feedCount::userCount($request->all());
+   }
 
 
 }

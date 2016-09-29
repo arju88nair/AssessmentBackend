@@ -65,7 +65,7 @@ class addUser extends Eloquent
 
     public static function userCheck($input)
     {
-        $model = new self();
+         $model = new self();
         $userModel = addUser::all();
         $couponModel = coupon::getCoupon();
         $name = $model->name = $input['userName'];
@@ -79,13 +79,13 @@ class addUser extends Eloquent
         $model->appVersion = $input['appVersion'];
         $model->uniqueDeviceID = $input['uniqueDeviceID'];
         $push = $model->pushNotificationID = $input['pushNotificationID'];
-		$location=$model->userLocation=$input['location'];
-        $uniqueID = $model->usrSessionHdl = uniqid();
-        $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email'];
-        $array_plt = ['android', 'ios', 'webApp'];
-        $array_device = ['smartphone', 'tablet', 'phablet'];
+        $location=$model->userLocation=$input['location'];
+        $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email','Guest'];
+        $array_plt = ['android', 'ios', 'webApp','Guest'];
+        $array_device = ['smartphone', 'tablet', 'phablet','Guest'];
+        $userTypes=['guest', 'normal'];
 
-
+        
         if (!in_array($authenticationType, $array_auth)) {
             return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect authentication ");
         }
@@ -95,78 +95,133 @@ class addUser extends Eloquent
         if (!in_array($device_model, $array_device)) {
             return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect device ");
         }
-
-        $str = strtotime('now');
-        $now = date($str);
-        $coupons = coupon::where('Coupon', '=', $couponGet)->where('Date', '>', $now)->get();
-        $users = $model::where('userId', '=', $emailId)->take(1)->get();
-
-        if (!isset($users) || count($users) == 0) {
-			$model->liked=array();
-
-            if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
-                $model->corporateName = "";
-                $model->save();
-                return array("status" => "success", "resultCode" => "11", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => $uniqueID);
-
-            } else {
-                $coupon = coupon::where('Coupon', '=', $couponGet)->first();
-                $com_name = $coupon['Name'];
-                $model->corporateName = $com_name;
-                $model->save();
-                return array("status" => "success", "resultCode" => "12", "userType" => "$com_name access granted", "message" => "New user created", "sessionHandle" => $uniqueID);
+        if($authenticationType=="Guest")
+        {
+            $name = $model->name = "";
+            $couponGet = $model->coupon = "";
+            $emailId = $model->userId = "";
+            $authenticationType = $model->auth_type = "";
+            $snsHandle = $model->snsHandle = "";
+            $platform = $model->clientPlf = "";
+            $model->imageUrl = "http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg";
+            $device_model = $model->deviceType = $input['deviceType'];
+            $model->appVersion = $input['appVersion'];
+            $model->uniqueDeviceID = $input['uniqueDeviceID'];
+            $push = $model->pushNotificationID = $input['pushNotificationID'];
+            $location=$model->userLocation=$input['location'];
+            $array_auth = ['Google', 'LinkedIn', 'Facebook', 'Email'];
+            $array_plt = ['android', 'ios', 'webApp'];
+            $array_device = ['smartphone', 'tablet', 'phablet'];
+            $userTypes=['guest', 'normal'];
+            if(!isset($input['uniqueDeviceID'])||$input['uniqueDeviceID']==""||$input['uniqueDeviceID']==null)
+            {
+                return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect Device Id ");
             }
+            else{
+                $users = $model::where('auth_type', '=', $authenticationType)->where('uniqueDeviceID','=',$input['uniqueDeviceID'])->first();
+                if (!isset($users) || count($users) == 0) {
+
+                    $model->feedCount=0;
+                    $uniqueID = $model->usrSessionHdl="Guest";
+                    $model->save();
+                    $date= $model['created_at'];
+                    return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => "Guest" ,'feedCount'=>0,'createdAt'=>$date);
+                }
+                else{
+                    if($users['feedCount']>=10)
+                    {
+                        return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "Access invalid", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
+                    }
+                    else
+                    {
+
+                        return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "User Already Present", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
 
 
-        } else {
-            foreach ($users as $user) {
-
-                $userHandle = $user->usrSessionHdl;
-
-            }
-            if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
-
-                $new = $model::where('userId', '=', $emailId)->first();
-                $new->pushNotificationID = $push;
-                $new->name = $input['userName'];
-                $new->auth_type = $input['authType'];
-                $new->snsHandle = $input['password'];
-                $new->clientPlf = $input['clientPlf'];
-                $new->imageUrl = $input['imageUrl'];
-                $new->deviceType = $input['deviceType'];
-                $new->appVersion = $input['appVersion'];
-                $new->uniqueDeviceID = $input['uniqueDeviceID'];
-				$new->userLocation=$input['location'];
-                $new->corporateName = "";
-                $new->save();
-
-                return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "User already present", "sessionHandle" => $userHandle);
+                    }
 
 
-            } else {
-                $new = $model::where('userId', '=', $emailId)->first();
-                $new->pushNotificationID = $push;
-                $new->name = $input['userName'];
-                $new->name = $input['userName'];
-                $new->auth_type = $input['authType'];
-                $new->snsHandle = $input['password'];
-                $new->clientPlf = $input['clientPlf'];
-                $new->imageUrl = $input['imageUrl'];
-                $new->deviceType = $input['deviceType'];
-				$model->userLocation=$input['location'];
-                $new->appVersion = $input['appVersion'];
-                $new->uniqueDeviceID = $input['uniqueDeviceID'];
-                $coupon = coupon::where('Coupon', '=', $couponGet)->first();
-                $com_name = $coupon['Name'];
-                $new->corporateName = $com_name;
-                $new->save();
-
-
-                return array("status" => "success", "resultCode" => "1", "userType" => "$com_name access granted", "message" => "User already present", "sessionHandle" => $userHandle);
+                }
             }
 
         }
+        else {
 
+
+
+            $uniqueID = $model->usrSessionHdl = uniqid();
+            $str = strtotime('now');
+            $now = date($str);
+            $coupons = coupon::where('Coupon', '=', $couponGet)->where('Date', '>', $now)->get();
+            $users = $model::where('userId', '=', $emailId)->take(1)->get();
+
+            if (!isset($users) || count($users) == 0) {
+                $model->liked = array();
+
+                if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
+                    $model->corporateName = "";
+                    $model->save();
+                    return array("status" => "success", "resultCode" => "11", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
+
+                } else {
+                    $coupon = coupon::where('Coupon', '=', $couponGet)->first();
+                    $com_name = $coupon['Name'];
+                    $model->corporateName = $com_name;
+                    $model->save();
+                    return array("status" => "success", "resultCode" => "12", "userType" => "$com_name access granted", "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
+                }
+
+
+            } else {
+                foreach ($users as $user) {
+
+                    $userHandle = $user->usrSessionHdl;
+
+                }
+                if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
+
+                    $new = $model::where('userId', '=', $emailId)->first();
+                    $new->pushNotificationID = $push;
+                    $new->name = $input['userName'];
+                    $new->auth_type = $input['authType'];
+                    $new->snsHandle = $input['password'];
+                    $new->clientPlf = $input['clientPlf'];
+                    $new->imageUrl = $input['imageUrl'];
+                    $new->deviceType = $input['deviceType'];
+                    $new->appVersion = $input['appVersion'];
+                    $new->uniqueDeviceID = $input['uniqueDeviceID'];
+                    $new->userLocation = $input['location'];
+                    $new->corporateName = "";
+                    $new->save();
+
+                    return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
+
+
+                } else {
+                    $new = $model::where('userId', '=', $emailId)->first();
+                    $new->pushNotificationID = $push;
+                    $new->name = $input['userName'];
+                    $new->name = $input['userName'];
+                    $new->auth_type = $input['authType'];
+                    $new->snsHandle = $input['password'];
+                    $new->clientPlf = $input['clientPlf'];
+                    $new->imageUrl = $input['imageUrl'];
+                    $new->deviceType = $input['deviceType'];
+                    $model->userLocation = $input['location'];
+                    $new->appVersion = $input['appVersion'];
+                    $new->uniqueDeviceID = $input['uniqueDeviceID'];
+                    $coupon = coupon::where('Coupon', '=', $couponGet)->first();
+                    $com_name = $coupon['Name'];
+                    $new->corporateName = $com_name;
+                    $new->save();
+
+
+                    return array("status" => "success", "resultCode" => "1", "userType" => "$com_name access granted", "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
+                }
+
+            }
+
+        }
 
     }
 

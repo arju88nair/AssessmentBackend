@@ -70,6 +70,8 @@ Route::post('unlike','userController@unlike');
 
 Route::post('addCategories','userController@addCategories');
 
+Route::post('userCount','userController@userCount');
+
 
 
 

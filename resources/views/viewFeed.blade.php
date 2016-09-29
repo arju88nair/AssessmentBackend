@@ -99,29 +99,23 @@ echo $tag2;
                         <div class="input-group">
                             <div class="">
                                 <select name="Category" class="form-control" id="cat">
-                                    <option value="All">All
+                                      <option value="All">All
                                     </option>
                                     <option value="Product Management">Product Management
                                     </option>
-                                    <option value="Agile">Agile
+                                    <option value="Agile">Agile Planning
                                     </option>
                                     <option value="Product Marketing">Product Marketing
                                     </option>
-                                    <option value="UX">UX
+                                    <option value="UX">User Experience Design
                                     </option>
                                     <option value="Growth Hacking">Growth Hacking
                                     </option>
-                                    <option value="Road Mapping">Road Mapping
-                                    </option>
-                                    <option value="Sales Enablement">Sales Enablement
-                                    </option>
-                                    <option value="Career">Career
+                                    <option value="Career">Career Management
                                     </option>
                                     <option value="Leadership">Leadership
                                     </option>
-                                    <option value="Executive Presence">Executive Presence
-                                    </option>
-									 <option value="Data Science">Data Science
+  									 <option value="Data Science">Data Science
                                         </option>
                                 </select>
                             </div>
@@ -147,7 +141,10 @@ endforeach;
                         </div>
                     </div>
                     <br>
-                    <button style="line-height: 207%" type="submit" class="btn btn-default">Filter
+                     <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="filter">Filter
+                    </button>
+
+                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="sort">Sort by likes
                     </button>
                 </form>
             </div>
@@ -305,27 +302,23 @@ endforeach;
 
                                 <div class="">
                                     <select name="Category" class="form-control" id="cat">
-                                        <option value="Product Management">Product Management
-                                        </option>
-                                        <option value="Agile">Agile
-                                        </option>
-                                        <option value="Product Marketing">Product Marketing
-                                        </option>
-                                        <option value="UX">UX
-                                        </option>
-                                        <option value="Growth Hacking">Growth Hacking
-                                        </option>
-                                        <option value="Road Mapping">Road Mapping
-                                        </option>
-                                        <option value="Sales Enablement">Sales Enablement
-                                        </option>
-                                        <option value="Career">Career
-                                        </option>
-                                        <option value="Leadership">Leadership
-                                        </option>
-                                        <option value="Executive Presence">Executive Presence
-                                        </option>
-										 <option value="Data Science">Data Science
+                                        <option value="All">All
+                                    </option>
+                                    <option value="Product Management">Product Management
+                                    </option>
+                                    <option value="Agile">Agile Planning
+                                    </option>
+                                    <option value="Product Marketing">Product Marketing
+                                    </option>
+                                    <option value="UX">User Experience Design
+                                    </option>
+                                    <option value="Growth Hacking">Growth Hacking
+                                    </option>
+                                    <option value="Career">Career Management
+                                    </option>
+                                    <option value="Leadership">Leadership
+                                    </option>
+  									 <option value="Data Science">Data Science
                                         </option>
                                     </select>
                                 </div>
@@ -437,7 +430,7 @@ endforeach;
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8" onsubmit="return confSubmit();">
+                                  accept-charset="UTF-8" >
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
@@ -474,27 +467,23 @@ endforeach;
 
                                 <div class="">
                                     <select name="Category" class="form-control" id="cat">
-                                        <option value="Product Management">Product Management
-                                        </option>
-                                        <option value="Agile">Agile
-                                        </option>
-                                        <option value="Product Marketing">Product Marketing
-                                        </option>
-                                        <option value="UX">UX
-                                        </option>
-                                        <option value="Growth Hacking">Growth Hacking
-                                        </option>
-                                        <option value="Road Mapping">Road Mapping
-                                        </option>
-                                        <option value="Sales Enablement">Sales Enablement
-                                        </option>
-                                        <option value="Career">Career
-                                        </option>
-                                        <option value="Leadership">Leadership
-                                        </option>
-                                        <option value="Executive Presence">Executive Presence
-                                        </option>
-										 <option value="Data Science">Data Science
+                                        <option value="All">All
+                                    </option>
+                                    <option value="Product Management">Product Management
+                                    </option>
+                                    <option value="Agile">Agile Planning
+                                    </option>
+                                    <option value="Product Marketing">Product Marketing
+                                    </option>
+                                    <option value="UX">User Experience Design
+                                    </option>
+                                    <option value="Growth Hacking">Growth Hacking
+                                    </option>
+                                    <option value="Career">Career Management
+                                    </option>
+                                    <option value="Leadership">Leadership
+                                    </option>
+  									 <option value="Data Science">Data Science
                                         </option>
                                     </select>
                                 </div>

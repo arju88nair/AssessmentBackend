@@ -81,14 +81,6 @@ class admin extends Eloquent
                 array_push($array, $ad['name']);
             } //$admin as $ad
             $feed   = feeds::all();
-            $array1 = array();
-            foreach ($feed as $item) {
-                $feedid          = $item['_id'];
-                $liked           = like::where('feedId', '=', $feedid)->get();
-                $item->likeCount = count($liked);
-                array_push($array1, $item);
-            } //$feed as $item
-            $feed       = $array1;
             $invitee    = invite::all();
             $users      = addUser::all();
             $savedtests = savedtests::getAnswers();
@@ -148,14 +140,6 @@ class admin extends Eloquent
                 array_push($array, $ad['name']);
             } //$admin as $ad
             $feed   = feeds::all();
-            $array1 = array();
-            foreach ($feed as $item) {
-                $feedid          = $item['_id'];
-                $liked           = like::where('feedId', '=', $feedid)->get();
-                $item->likeCount = count($liked);
-                array_push($array1, $item);
-            } //$feed as $item
-            $feed       = $array1;
             $invitee    = invite::all();
             $users      = addUser::all();
             $savedtests = savedtests::getAnswers();
@@ -198,14 +182,6 @@ class admin extends Eloquent
         return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
         
         $feed  = feeds::all();
-        $array = array();
-        foreach ($feed as $item) {
-            $feedid          = $item['_id'];
-            $liked           = like::where('feedId', '=', $feedid)->get();
-            $item->likeCount = count($liked);
-            array_push($array, $item);
-        } //$feed as $item
-        $feed       = $array;
         $invitee    = invite::all();
         $users      = addUser::all();
         $savedtests = savedtests::getAnswers();
@@ -298,14 +274,6 @@ class admin extends Eloquent
             array_push($array, $ad['name']);
         } //$admin as $ad
         $feed   = feeds::all();
-        $array1 = array();
-        foreach ($feed as $item) {
-            $feedid          = $item['_id'];
-            $liked           = like::where('feedId', '=', $feedid)->get();
-            $item->likeCount = count($liked);
-            array_push($array1, $item);
-        } //$feed as $item
-        $feed       = $array1;
         $invitee    = invite::all();
         $users      = addUser::all();
         $savedtests = savedtests::getAnswers();
@@ -401,6 +369,8 @@ class admin extends Eloquent
     
     public static function viewFeed()
     {
+        if($_POST['button']=="filter")
+        {
         $array = array();
         $admin = admin::all();
         foreach ($admin as $ad) {
@@ -421,14 +391,6 @@ class admin extends Eloquent
         if ($tag != "All" && $owner != "All") {
             $feed = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->get();
         } //$tag != "All" && $owner != "All"
-        $array1 = array();
-        foreach ($feed as $item) {
-            $feedid          = $item['_id'];
-            $liked           = like::where('feedId', '=', $feedid)->get();
-            $item->likeCount = count($liked);
-            array_push($array1, $item);
-        } //$feed as $item
-        $feed       = $array1;
         $invitee    = invite::all();
         $users      = addUser::all();
         $savedtests = savedtests::getAnswers();
@@ -437,6 +399,29 @@ class admin extends Eloquent
         $assistance = assistance::all();
         return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner);
         
+    }
+        else{
+            $array = array();
+            $admin = admin::all();
+            foreach ($admin as $ad) {
+                array_push($array, $ad['name']);
+            } //$admin as $ad
+
+            $tag   = "All";
+            $owner = "All";
+            $feed=feeds::orderBy('likeCount', 'desc')->get();
+            $invitee    = invite::all();
+            $users      = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test       = questions::all();
+            $report     = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
+            return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner);
+
+
+
+        }
+
     }
     
     

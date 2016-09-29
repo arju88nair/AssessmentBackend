@@ -10,9 +10,6 @@
     <link rel="apple-touch-icon" href="images/icons/favicon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/icons/favicon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/icons/favicon-114x114.png">
-	<link rel="icon" 
-      type="image/png" 
-      href="http://example.com/myicon.png">
     <!--Loading bootstrap css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -84,6 +81,7 @@
                 <form method="post" action="viewFeed"
                       enctype="multipart/form-data"
                       accept-charset="UTF-8">
+                    <input type="hidden" value="first" name="first">
                     <div class="col-sm-2">
                         <label>Channel
                         </label>
@@ -95,25 +93,19 @@
                                     </option>
                                     <option value="Product Management">Product Management
                                     </option>
-                                    <option value="Agile">Agile
+                                    <option value="Agile">Agile Planning
                                     </option>
                                     <option value="Product Marketing">Product Marketing
                                     </option>
-                                    <option value="UX">UX
+                                    <option value="UX">User Experience Design
                                     </option>
                                     <option value="Growth Hacking">Growth Hacking
                                     </option>
-                                    <option value="Road Mapping">Road Mapping
-                                    </option>
-                                    <option value="Sales Enablement">Sales Enablement
-                                    </option>
-                                    <option value="Career">Career
+                                    <option value="Career">Career Management
                                     </option>
                                     <option value="Leadership">Leadership
                                     </option>
-                                    <option value="Executive Presence">Executive Presence
-                                    </option>
-									 <option value="Data Science">Data Science
+  									 <option value="Data Science">Data Science
                                         </option>
                                 </select>
                             </div>
@@ -139,9 +131,16 @@ endforeach;
                         </div>
                     </div>
                     <br>
-                    <button style="line-height: 207%" type="submit" class="btn btn-default">Filter
+                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="filter">Filter
+                    </button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="sort">Sort by likes
                     </button>
                 </form>
+            </div>
+            <div class="second">
+
             </div>
             <br>
             <br>
@@ -298,27 +297,23 @@ endforeach;
 
                                 <div class="">
                                     <select name="Category" class="form-control" id="cat">
-                                        <option value="Product Management">Product Management
-                                        </option>
-                                        <option value="Agile">Agile
-                                        </option>
-                                        <option value="Product Marketing">Product Marketing
-                                        </option>
-                                        <option value="UX">UX
-                                        </option>
-                                        <option value="Growth Hacking">Growth Hacking
-                                        </option>
-                                        <option value="Road Mapping">Road Mapping
-                                        </option>
-                                        <option value="Sales Enablement">Sales Enablement
-                                        </option>
-                                        <option value="Career">Career
-                                        </option>
-                                        <option value="Leadership">Leadership
-                                        </option>
-                                        <option value="Executive Presence">Executive Presence
-                                        </option>
-										 <option value="Data Science">Data Science
+                                        <option value="All">All
+                                    </option>
+                                    <option value="Product Management">Product Management
+                                    </option>
+                                    <option value="Agile">Agile Planning
+                                    </option>
+                                    <option value="Product Marketing">Product Marketing
+                                    </option>
+                                    <option value="UX">User Experience Design
+                                    </option>
+                                    <option value="Growth Hacking">Growth Hacking
+                                    </option>
+                                    <option value="Career">Career Management
+                                    </option>
+                                    <option value="Leadership">Leadership
+                                    </option>
+  									 <option value="Data Science">Data Science
                                         </option>
                                     </select>
                                 </div>
@@ -431,7 +426,7 @@ endforeach;
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8" >
+                                  accept-charset="UTF-8">
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
@@ -472,27 +467,23 @@ endforeach;
 
                                 <div class="">
                                     <select name="Category" class="form-control" id="cat">
-                                        <option value="Product Management">Product Management
-                                        </option>
-                                        <option value="Agile">Agile
-                                        </option>
-                                        <option value="Product Marketing">Product Marketing
-                                        </option>
-                                        <option value="UX">UX
-                                        </option>
-                                        <option value="Growth Hacking">Growth Hacking
-                                        </option>
-                                        <option value="Road Mapping">Road Mapping
-                                        </option>
-                                        <option value="Sales Enablement">Sales Enablement
-                                        </option>
-                                        <option value="Career">Career
-                                        </option>
-                                        <option value="Leadership">Leadership
-                                        </option>
-                                        <option value="Executive Presence">Executive Presence
-                                        </option>
-										 <option value="Data Science">Data Science
+                                        <option value="All">All
+                                    </option>
+                                    <option value="Product Management">Product Management
+                                    </option>
+                                    <option value="Agile">Agile Planning
+                                    </option>
+                                    <option value="Product Marketing">Product Marketing
+                                    </option>
+                                    <option value="UX">User Experience Design
+                                    </option>
+                                    <option value="Growth Hacking">Growth Hacking
+                                    </option>
+                                    <option value="Career">Career Management
+                                    </option>
+                                    <option value="Leadership">Leadership
+                                    </option>
+  									 <option value="Data Science">Data Science
                                         </option>
                                     </select>
                                 </div>
@@ -753,7 +744,7 @@ endforeach;
         }
     });
 
-if( document.getElementById("image").files.length == 0){	
+if( document.getElementById("image").files.length == 0){
 			if( $("#feedImage").val().length == 0){
 				alert("Please add an image file or URL");
 				return false;
@@ -763,6 +754,5 @@ if( document.getElementById("image").files.length == 0){
        
     }
 </script>
-
 </body>
 </html>

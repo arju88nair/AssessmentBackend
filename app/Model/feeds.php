@@ -51,84 +51,216 @@ class feeds extends Eloquent
         $model = new self();
         $id    = $input['sessionHandle'];
         $cat   = $input['category'];
+        $uid   = $input['uId'];
         $user  = addUser::where('usrSessionHdl', '=', $id)->first();
-        if (!isset($user) || count($user) == 0) {
-            return array(
-                "resultCode" => "1",
-                "status" => "error",
-                "message" => "User can't be found"
-            );
+        if ($id == "Guest") {
             
-            
-        } else {
-            if (count($cat) == 0) {
-                $feed  = $model::all();
-                $array = array();
-                foreach ($feed as $item) {
-                    $userArray = $user['liked'];
+            $guest = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
+            if ($guest['feedCount'] >= 10) {
+                if (count($cat) == 0) {
+                    $feed  = $model::all();
+                    $array = array();
+                    foreach ($feed as $item) {
+                        $feedid          = $item['_id'];
+                        $item->liked     = "No";
+                        array_push($array, $item);
+                    }
+                    $category = extra::first();
                     
-                    $feedid = $item['_id'];
-                    if (in_array($feedid, $userArray)) {
-                        $item->liked = "Yes";
-                    } else {
-                        $item->liked = "No";
+                    
+                    $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                    $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    
+                    return array(
+                        "status" => "success",
+                        "resultCode" => "1",
+                        "categories" => $categories,
+                        'image' => $url,
+                        "userFeed" => $array,
+                        'category' => $category['categories'],
+                        'feedCount' => $guest['feedCount'],
+                        "message" => "User Exhausted Feed Limit"
+                    );
+                } else {
+                    $array = array();
+                    foreach ($cat as $item) {
+                        
+                        $feed = feeds::where('category', '=', $item)->get();
+                        foreach ($feed as $items) {
+                            
+                            $feedid           = $items['_id'];
+                            $item->liked      = "No";
+                            $feedid           = $items['_id'];
+                            array_push($array, $items);
+                            
+                        }
                         
                     }
-                    $liked           = like::where('feedId', '=', $feedid)->get();
-                    $item->likeCount = count($liked);
-                    array_push($array, $item);
+                    $category = extra::first();
+                    
+                    $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                    $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    
+                    return array(
+                        "status" => "success",
+                        "resultCode" => "1",
+                        "categories" => $categories,
+                        'image' => $url,
+                        "userFeed" => $array,
+                        'category' => $category['categories'],
+                        'feedCount' => $guest['feedCount'],
+                        "message" => "User Exhausted Feed Limit"
+                    );
                 }
-                $category = extra::first();
-                
-                
-                
-                $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
-                $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
-                
                 return array(
-                    "status" => "success",
-                    "resultCode" => "1",
-                    "categories" => $categories,
-                    'image' => $url,
-                    "userFeed" => $array,
-                    'category' => $category['categories']
+                    "status" => "warning",
+                    "resultCode" => "0",
+                    "message" => "User Exhausted Feed Limit"
                 );
             } else {
-                $array = array();
-                foreach ($cat as $item) {
+                if (!isset($guest) || count($guest) == 0) {
+                    return array(
+                        "status" => "error",
+                        "resultCode" => "0",
+                        "message" => "User Can't Be Found"
+                    );
                     
-                    $feed = feeds::where('category', '=', $item)->get();
-                    foreach ($feed as $items) {
-                        $userArray = $user['liked'];
-                        $feedid    = $items['_id'];
-                        if (in_array($feedid, $userArray)) {
-                            $items->liked = "Yes";
-                        } else {
-                            $items->liked = "No";
+                } else {
+                    
+                    if (count($cat) == 0) {
+                        $feed  = $model::all();
+                        $array = array();
+                        foreach ($feed as $item) {
+                            $feedid          = $item['_id'];
+                            $item->liked     = "No";
+                            array_push($array, $item);
                         }
-                        $feedid           = $items['_id'];
-                        $liked            = like::where('feedId', '=', $feedid)->get();
-                        $items->likeCount = count($liked);
-                        array_push($array, $items);
+                        $category = extra::first();
+                        
+                        
+                        $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                        $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                        
+                        return array(
+                            "status" => "success",
+                            "resultCode" => "1",
+                            "categories" => $categories,
+                            'image' => $url,
+                            "userFeed" => $array,
+                            'category' => $category['categories'],
+                            'feedCount' => $guest['feedCount']
+                        );
+                    } else {
+                        $array = array();
+                        foreach ($cat as $item) {
+                            
+                            $feed = feeds::where('category', '=', $item)->get();
+                            foreach ($feed as $items) {
+                                
+                                $feedid           = $items['_id'];
+                                $item->liked      = "No";
+                                $feedid           = $items['_id'];
+                                array_push($array, $items);
+                                
+                            }
+                            
+                        }
+                        $category = extra::first();
+                        
+                        $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                        $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                        
+                        return array(
+                            "status" => "success",
+                            "resultCode" => "1",
+                            "categories" => $categories,
+                            'image' => $url,
+                            "userFeed" => $array,
+                            'category' => $category['categories'],
+                            'feedCount' => $guest['feedCount']
+                        );
+                    }
+                }
+            }
+        } else {
+            
+            
+            if (!isset($user) || count($user) == 0) {
+                return array(
+                    "resultCode" => "1",
+                    "status" => "error",
+                    "message" => "User can't be found"
+                );
+                
+                
+            } else {
+                if (count($cat) == 0) {
+                    $feed  = $model::all();
+                    $array = array();
+                    foreach ($feed as $item) {
+                        $userArray = $user['liked'];
+                        
+                        $feedid = $item['_id'];
+                        if (in_array($feedid, $userArray)) {
+                            $item->liked = "Yes";
+                        } else {
+                            $item->liked = "No";
+                            
+                        }
+                        array_push($array, $item);
+                    }
+                    $category = extra::first();
+                    
+                    
+                    
+                    $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                    $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    
+                    return array(
+                        "status" => "success",
+                        "resultCode" => "1",
+                        "categories" => $categories,
+                        'image' => $url,
+                        "userFeed" => $array,
+                        'category' => $category['categories'],
+                        'feedCount' => 0
+                    );
+                } else {
+                    $array = array();
+                    foreach ($cat as $item) {
+                        
+                        $feed = feeds::where('category', '=', $item)->get();
+                        foreach ($feed as $items) {
+                            $userArray = $user['liked'];
+                            $feedid    = $items['_id'];
+                            if (in_array($feedid, $userArray)) {
+                                $items->liked = "Yes";
+                            } else {
+                                $items->liked = "No";
+                            }
+                            $feedid           = $items['_id'];
+                            array_push($array, $items);
+                            
+                        }
                         
                     }
+                    $category = extra::first();
                     
+                    $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
+                    $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    
+                    return array(
+                        "status" => "success",
+                        "resultCode" => "1",
+                        "categories" => $categories,
+                        'image' => $url,
+                        "userFeed" => $array,
+                        'category' => $category['categories'],
+                        'feedCount' => 0
+                    );
                 }
-                $category = extra::first();
                 
-                $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
-                $url        = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
-                
-                return array(
-                    "status" => "success",
-                    "resultCode" => "1",
-                    "categories" => $categories,
-                    'image' => $url,
-                    "userFeed" => $array,
-                    'category' => $category['categories']
-                );
             }
-            
         }
     }
     
@@ -147,6 +279,8 @@ class feeds extends Eloquent
         $model->feedDate     = $_POST['feedDate'];
         $title               = $model->feedTitle = $input['feedTitle'];
         $model->feedImage    = $input['feedImage'];
+		$model->likeCount=0;
+
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
         } else {
@@ -271,35 +405,31 @@ class feeds extends Eloquent
         
         $model   = new self();
         $id      = $_GET['action'];
-		$isSaved = $model::find($id);
-		$image= "/var/www/html/Assessment/public/image/".substr($isSaved['feedImage'],63);
-		$audio="/var/www/html/Assessment/public/audio/".substr($isSaved['feedAudio'],63);
-		$check="http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/";
-	
-		if(strpos($check, $isSaved['feedImage']) !== false)
-		{
-			if($isSaved['feedImage']!="" || $isSaved['feedImage']!=null)
-		{
-			unlink($image);					
-		}	
-		
-		}
-		
-		if(strpos($check, $isSaved['feedImage']) !== false)
-		{
-			if($isSaved['feedAudio']!="" || $isSaved['feedAudio']!=null)
-		{
-			unlink($audio);					
-		}	
-		
-		}
-		
-			
-					
+        $isSaved = $model::find($id);
+        $image   = "/var/www/html/Assessment/public/image/" . substr($isSaved['feedImage'], 63);
+        $audio   = "/var/www/html/Assessment/public/audio/" . substr($isSaved['feedAudio'], 63);
+        $check   = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/";
+        
+        if (strpos($check, $isSaved['feedImage']) !== false) {
+            if ($isSaved['feedImage'] != "" || $isSaved['feedImage'] != null) {
+                unlink($image);
+            }
+            
+        }
+        
+        if (strpos($check, $isSaved['feedImage']) !== false) {
+            if ($isSaved['feedImage'] != "" || $isSaved['feedImage'] != null) {
+                unlink($image);
+            }
+            
+        }
+        
+        
+        
         $isSaved = $model::find($id)->delete();
         if ($isSaved) {
             
-            			
+            
             $array = array();
             $admin = admin::all();
             
@@ -358,7 +488,7 @@ class feeds extends Eloquent
         $model->feedContent   = $input['feedContent'];
         $model->feedSource    = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
-		 if ($input['feedImage'] != "" || $input['feedImage'] != null) {
+        if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
         } else {
             //Image upoading

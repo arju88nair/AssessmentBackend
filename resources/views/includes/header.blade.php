@@ -62,29 +62,15 @@
             <ul id="side-menu" class="nav">
 
                 <div class="clearfix"></div>
-                <li class="active"><a  href="dashboardAction"><i class="fa fa-tachometer fa-fw">
-                            <div class="icon-bg bg-orange"></div>
-                        </i><span class="menu-title">View Tests</span></a></li>
-                <li><a href="addTest"><i class="fa fa-desktop fa-fw">
-                            <div class="icon-bg bg-violet"></div>
-                        </i><span class="menu-title">Add New Test</span></a>
-
-                </li>
+               
+               
                 <li><a href="addFeed"><i class="fa fa-send-o fa-fw">
                             <div class="icon-bg bg-pink"></div>
                         </i><span class="menu-title">Add New Feed</span></a>
 
                 </li>
-                <li><a href="viewUsers"><i class="fa fa-edit fa-fw">
-                            <div class="icon-bg bg-blue"></div>
-                        </i><span class="menu-title">View Users</span></a>
-
-                </li>
-				 <li><a href="testView"><i class="fa fa-th-list fa-fw">
-                            <div class="icon-bg bg-blue"></div>
-                        </i><span class="menu-title">Result View</span></a>
-
-                </li>
+               
+				
               {{--  <li><a href="Tables.html"><i class="fa fa-th-list fa-fw">
                             <div class="icon-bg bg-blue"></div>
                         </i><span class="menu-title">Tables</span></a>
