@@ -65,7 +65,7 @@ class addUser extends Eloquent
 
     public static function userCheck($input)
     {
-        $model = new self();
+         $model = new self();
         $userModel = addUser::all();
         $couponModel = coupon::getCoupon();
         $name = $model->name = $input['userName'];

@@ -50,25 +50,16 @@ class admin extends Eloquent
     {
         $model = new self();
         $name  = $input['u'];
-        $model= admin::where('name','=',$name)->first();
         $pwd   = $input['p'];
         $role  = $_POST['role'];
         $user  = $model::where('name', '=', $name)->where('password', '=', $pwd)->first();
         $epoch = time();
         $dt    = new DateTime("@$epoch"); // convert UNIX timestamp to PHP DateTime
         $time  = $dt->format('Y-m-d H:i:s');
-        user::query()->delete();
-        $db=new user();
-        $db->delete();
-        $db->user=$name;
-        $db->save();
         if (!isset($user) || count($user) == 0) {
             return View::Make('login')->with('message', 'Login Failed');
         } //!isset($user) || count($user) == 0
         else {
-
-            $model['status']="login";
-            $model->save();
             $user->time = $time;
             /*  $invitee = invite::all();
             $users = addUser::all();
@@ -77,12 +68,12 @@ class admin extends Eloquent
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
             
-
+            
             return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
             */
             $array      = array();
             $admin      = admin::all();
-
+            
             /* $liked=like::where('feedId','=',$feedid)->get(); */
             /* 			return count($liked);
              */
@@ -96,8 +87,8 @@ class admin extends Eloquent
             $test       = questions::all();
             $report     = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
-
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user',$name);
+            
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
             
             
         }
@@ -276,8 +267,7 @@ class admin extends Eloquent
     
     public static function addFeed($input)
     {
-        $db= user::first();
-        $user= $db['user'];
+        
         $array = array();
         $admin = admin::all();
         foreach ($admin as $ad) {
@@ -291,7 +281,7 @@ class admin extends Eloquent
         $report     = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
         
-        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user',$user);
+        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
         
     }
     
@@ -379,8 +369,6 @@ class admin extends Eloquent
     
     public static function viewFeed()
     {
-
-        $use=$_POST['user'];
         if($_POST['button']=="filter")
         {
         $array = array();
@@ -409,7 +397,7 @@ class admin extends Eloquent
         $test       = questions::all();
         $report     = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
-        return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user',$use);
+        return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner);
         
     }
         else{
@@ -428,7 +416,7 @@ class admin extends Eloquent
             $test       = questions::all();
             $report     = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
-            return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user',$use);
+            return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner);
 
 
 
