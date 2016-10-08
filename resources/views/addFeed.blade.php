@@ -31,8 +31,20 @@
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
     <script>
-        var user = localStorage.getItem('user');
+        $(document).ready(function () {
+            var user = localStorage.getItem('user');
+            if (user == "content_admin") {
+                $('#setFeed').show()
+            }
+            else {
+                $('#setFeed').hide()
+            }
+            if (user == "" || user == "null" || user == "undefined" || user == undefined) {
+                window.location.href = "loginAdmin"
+            }
+        });
     </script>
+
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -133,7 +145,7 @@
                         </div>
                     </div>
                     <br>
-                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button"
+                    <button style="line-height: 207%" type="submit"  class="btn btn-default" name="button"
                             value="filter">Filter
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1088,7 +1100,7 @@
 
 <script type="text/javascript">
     function confSubmit2() {
-        var r = confirm('Are you sure you want to delete??');
+        var li = confirm('Are you sure you want to delete??');
         return r;
     }
     function confSubmit() {
@@ -1109,6 +1121,17 @@
         }
 
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('input[type=file]').change(function () {
+            alert("hi");
+            var val = $(this).val().toLowerCase();
+            var regex = new RegExp("(.*?)\.(mp4|mp3|jpg|jpeg|png)$");
+            if(!(regex.test(val))) {
+                $(this).val('');
+                alert('Please select correct file format');
+            } }); });
 </script>
 </body>
 </html>

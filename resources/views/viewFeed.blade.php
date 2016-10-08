@@ -42,8 +42,20 @@ echo $tag2;
         });
     </script>
     <script>
-        var user = localStorage.getItem('user');
+        $(document).ready(function () {
+            var user = localStorage.getItem('user');
+            if (user == "content_admin") {
+                $('#setFeed').show()
+            }
+            else {
+                $('#setFeed').hide()
+            }
+            if (user == "" || user == "null" || user == "undefined" || user == undefined) {
+                window.location.href = "loginAdmin"
+            }
+        });
     </script>
+
 </head>
 <body style="overflow-x: hidden">
 <div>
@@ -92,6 +104,9 @@ echo $tag2;
                 <form method="post" action="viewFeed"
                       enctype="multipart/form-data"
                       accept-charset="UTF-8">
+                    <input type="hidden" value="first" name="first">
+                    <input type="hidden" value="<?=$user?>" name="user">
+
                     <div class="col-sm-2">
                         <label>Channel
                         </label>

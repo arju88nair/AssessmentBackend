@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!--Loading bootstrap css-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
+        <script>
+        $(document).ready(function () {
+            var user = localStorage.removeItem('user');
+        });
+    </script>
     <script type="text/javascript">
         function confSubmit() {
             localStorage.setItem('user',document.getElementById('name').value);

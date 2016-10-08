@@ -53,6 +53,20 @@ class feeds extends Eloquent
         $cat = $input['category'];
         $uid = $input['uId'];
         $idArray=$input['ids'];
+        $feedArray=array();
+
+        foreach($idArray as $idA)
+        {
+            $feed = $model::where('_id','=',$idA)->first();
+            if($feed==null)
+            {
+                return array(
+                    "status" => "error",
+                    "resultCode" => "0",
+                    "message" => "One or many of the feed(s) can't be found"
+                );
+            }
+        }
         $user = addUser::where('usrSessionHdl', '=', $id)->first();
         if ($id == "Guest") {
 
@@ -498,7 +512,6 @@ class feeds extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
-
             return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
 
         } else {
@@ -519,6 +532,26 @@ class feeds extends Eloquent
 
         $id = $input['id'];
         $model = self::find($id);
+        $new=mainFeed::find($id);
+        if($new != "")
+        {
+
+
+            $title = $new->feedTitle = $input['feedTitle'];
+            $new->summarised = $input['summarised'];
+            $new->addedBy = $input['addedBy'];
+            $new->feedOwner = $_POST['feedOwner'];
+            $new->feedDate = $_POST['feedDate'];
+            $new->feedSchedule = $input['feedSchedule'];
+            $new->feedType = $_POST['type'];
+            $new->category = $_POST['Category'];
+            $new->location = $_POST['loc'];
+            $new->trending = $_POST['trending'];
+            $new->feedContent = $input['feedContent'];
+            $new->feedSource = $input['sourceUrl'];
+            $new->feedSourceTag = $input['sourceTitle'];
+        }
+
         $title = $model->feedTitle = $input['feedTitle'];
         $model->summarised = $input['summarised'];
         $model->addedBy = $input['addedBy'];
@@ -534,6 +567,9 @@ class feeds extends Eloquent
         $model->feedSourceTag = $input['sourceTitle'];
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
+            if($new !=""){
+                $new->feedImage = $input['feedImage'];
+            }
         } else {
             //Image upoading
             $images = Input::file('image');
@@ -547,19 +583,29 @@ class feeds extends Eloquent
                 $string = "/var/www/html/Assessment/public";
                 $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                 $model->feedImage = $path;
+                if($new !=""){
+                    $new->feedImage = $input['feedImage'];
+                }
             }
             //Image end
         }
         if (isset($_POST['gcm'])) {
             $model->feedGCM = "Yes";
+            if($new !=""){
+                $new->feedGCM =  "Yes";
+            }
 
         } else {
             $model->feedGCM = "No";
+        }
+        if($new !=""){
+            $new->feedGCM = "No";
         }
         $files = Input::file('images');
 
         if (!Input::hasFile('images')) {
             $isSaved = $model->save();
+            $newSaved=$new->save();
             if ($isSaved) {
                 $feed = feeds::all();
                 $invitee = invite::all();
@@ -602,7 +648,9 @@ class feeds extends Eloquent
                 if (in_array($ext, $allowed)) {
                     $path = $destinationPath . $filename;
                     $model->feedAudio = $path;
-
+                    if($new !=""){
+                        $new->feedAudio = $path;
+                    }
 
                     $isSaved = $model->save();
                     if ($isSaved) {
@@ -636,7 +684,7 @@ class feeds extends Eloquent
         $session = $input['sessionHandle'];
         $uID = $input['uId'];
         $user = addUser::where('uniqueDeviceID', '=', $uID)->where('usrSessionHdl', '=', $session)->get();
-        if (isset($user) || count($user) != 0|| $user != "") {
+        if ( count($user) != 0) {
 
             $arr=array();
             $array=array();
@@ -644,14 +692,33 @@ class feeds extends Eloquent
             $feeds=feeds::all();
             foreach($feeds as $feed)
             {
-                array_push($array,$feed['_id']);
-                array_push($arr,$feed['updated_at']);
+                unset($feed['category']);
+                unset($feed['summarised']);
+                unset($feed['addedBy']);
+                unset($feed['feedOwner']);
+                unset($feed['feedSchedule']);
+                unset($feed['feedType']);
+                unset($feed['trending']);
+                unset($feed['location']);
+                unset($feed['feedDate']);
+                unset($feed['feedTitle']);
+                unset($feed['feedImage']);
+                unset($feed['likeCount']);
+                unset($feed['feedContent']);
+                unset($feed['feedSource']);
+                unset($feed['feedSourceTag']);
+                unset($feed['feedSourceTag']);
+                unset($feed['feedAudio']);
+                unset($feed['created_at']);
+                unset($feed['feedGCM']);
+
+
             }
+
             return array(
                 "code" => "0",
                 "status" => "success" ,
-                "feedIdArray"=>$array,
-                "updatedTimeArray"=>$arr
+                "feedIdArray"=>$feeds
 
             );
 

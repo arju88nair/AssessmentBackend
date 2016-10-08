@@ -73,16 +73,12 @@
                         </i><span class="menu-title">Add New Feed</span></a>
 
                 </li>
-                <li><a href="viewUsers"><i class="fa fa-edit fa-fw">
+              
+				<li id="setId"><a href="setFeed"><i class="fa fa-th-list fa-fw">
                             <div class="icon-bg bg-blue"></div>
-                        </i><span class="menu-title">View Users</span></a>
+                        </i><span class="menu-title">Set Today's Feed</span></a>
 
                 </li>
-				{{-- <li><a href="testView"><i class="fa fa-th-list fa-fw">
-                            <div class="icon-bg bg-blue"></div>
-                        </i><span class="menu-title">Result View</span></a>
-
-                </li>--}}
               {{--  <li><a href="Tables.html"><i class="fa fa-th-list fa-fw">
                             <div class="icon-bg bg-blue"></div>
                         </i><span class="menu-title">Tables</span></a>

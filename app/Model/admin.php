@@ -420,6 +420,7 @@ class admin extends Eloquent
     public static function setFeed()
     {
         $main=mainFeed::all();
+
         if(count($main)==0||!isset($main)){
             $array = array();
             $excepted = array();
