@@ -68,19 +68,4 @@ class DashboardController extends Controller
     {
         return admin::viewFeed($request->all());
     }
-
-
-    public function setFeed(Request $request)
-    {
-        return admin::setFeed($request->all());
-    }
-    public function testFeed(Request $request)
-    {
-        return admin::testFeed($request->all());
-    }
-
-    public function saveSetFeed(Request $request)
-    {
-        return admin::saveSetFeed($request->all());
-    }
 }

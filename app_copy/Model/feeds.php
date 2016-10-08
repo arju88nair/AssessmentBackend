@@ -635,8 +635,8 @@ class feeds extends Eloquent
 
         $session = $input['sessionHandle'];
         $uID = $input['uId'];
-        $user = addUser::where('uniqueDeviceID', '=', $uID)->where('usrSessionHdl', '=', $session)->get();
-        if (isset($user) || count($user) != 0|| $user != "") {
+        $user = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', $input['sessionHandle'])->first();
+        if (!isset($user) || count($user) != 0) {
 
             $arr=array();
             $array=array();
@@ -649,7 +649,7 @@ class feeds extends Eloquent
             }
             return array(
                 "code" => "0",
-                "status" => "success" ,
+                "status" => "success",
                 "feedIdArray"=>$array,
                 "updatedTimeArray"=>$arr
 

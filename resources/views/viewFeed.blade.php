@@ -753,7 +753,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                    <p id="feedContent"></p>
+                                     <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
@@ -796,7 +796,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                    <p id="feedContent"></p>
+                                     <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
@@ -839,7 +839,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                    <p id="feedContent"></p>
+                                     <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
