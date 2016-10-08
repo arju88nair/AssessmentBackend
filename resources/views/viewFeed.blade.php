@@ -44,11 +44,11 @@ echo $tag2;
     <script>
         $(document).ready(function () {
             var user = localStorage.getItem('user');
-            if (user == "content_admin") {
-                $('#setFeed').show()
+             if (user == "content_admin") {
+                $('#setId').show()
             }
             else {
-                $('#setFeed').hide()
+                $('#setId').hide()
             }
             if (user == "" || user == "null" || user == "undefined" || user == undefined) {
                 window.location.href = "loginAdmin"
@@ -404,7 +404,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]" id="audio">
+                                    <input type="file" class="form-control" name="images[]" id="audio" accept="image/*" >
                                 </div>
 
 
@@ -415,7 +415,7 @@ endforeach;
                                     <label for="usr">Feed Audio URL:
                                     </label>
                                     <input type="text" class="form-control" name="feedaudio" id="feedaudio"
-                                           placeholder="Fedd Audio URL">
+                                        accept="audio/*"   placeholder="Fedd Audio URL">
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Schedule Date:
@@ -580,7 +580,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="file" class="form-control" name="image[]" id="image">
+                                    <input type="file" class="form-control" name="image[]" id="image"  accept="image/*">
                                 </div>
 
 
@@ -590,7 +590,7 @@ endforeach;
                                     <label for="usr">Feed Image URL:
                                     </label>
                                     <input type="text" class="form-control" id="feedImages" name="feedImage"
-                                           placeholder="Feed Image URL">
+                                         accept="image/*"  placeholder="Feed Image URL">
                                 </div>
 
 
@@ -636,7 +636,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]" id="audio">
+                                    <input type="file" class="form-control" name="images[]" id="audio" accept="audio/*">
                                 </div>
 
 

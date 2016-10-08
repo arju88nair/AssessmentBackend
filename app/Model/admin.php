@@ -53,7 +53,7 @@ class admin extends Eloquent
         $model = admin::where('name', '=', $name)->first();
         $pwd = $input['p'];
         $role = $_POST['role'];
-        $user = $model::where('name', '=', $name)->where('password', '=', $pwd)->first();
+        $user = self::where('name', '=', $name)->where('password', '=', $pwd)->first();
         $epoch = time();
         $dt = new DateTime("@$epoch"); // convert UNIX timestamp to PHP DateTime
         $time = $dt->format('Y-m-d H:i:s');
@@ -63,7 +63,7 @@ class admin extends Eloquent
         $db->user = $name;
         $db->save();
         if (!isset($user) || count($user) == 0) {
-            return View::Make('login')->with('message', 'Login Failed');
+            return Redirect::to('loginAdmin')->with('message', 'Login Failed');
         } //!isset($user) || count($user) == 0
         else {
 

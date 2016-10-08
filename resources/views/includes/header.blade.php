@@ -10,7 +10,7 @@
     <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
         <div class="navbar-header">
             <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-            <a id="logo" href="dashboardAction" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Mikrolearn</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
+            <a id="logo" href="addFeed" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Mikrolearn</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
         <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
             {{--<form id="topbar-search" action="{{ action('userController@search') }}" method="post" class="hidden-sm hidden-xs">--}}
                 {{--<div class="input-icon right text-white"><a id="click" onclick="document.getElementById('topbar-search').submit();"  method="post" ><i class="fa fa-search" id="icon"></i></a><input type="text" placeholder="Search here..." class="form-control text-white" name="name" id="search"/></div>--}}

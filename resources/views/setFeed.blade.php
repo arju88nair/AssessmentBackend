@@ -31,11 +31,11 @@
     <script>
         $(document).ready(function () {
             var user = localStorage.getItem('user');
-            if (user == "content_admin") {
-                $('#setFeed').show()
+             if (user == "content_admin") {
+                $('#setId').show()
             }
             else {
-                $('#setFeed').hide()
+                $('#setId').hide()
             }
             if (user == "" || user == "null" || user == "undefined" || user == undefined) {
                 window.location.href = "loginAdmin"

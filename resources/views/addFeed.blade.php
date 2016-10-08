@@ -34,10 +34,10 @@
         $(document).ready(function () {
             var user = localStorage.getItem('user');
             if (user == "content_admin") {
-                $('#setFeed').show()
+                $('#setId').show()
             }
             else {
-                $('#setFeed').hide()
+                $('#setId').hide()
             }
             if (user == "" || user == "null" || user == "undefined" || user == undefined) {
                 window.location.href = "loginAdmin"
@@ -386,7 +386,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="file" class="form-control" name="image[]" id="image">
+                                    <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
                                 </div>
 
 
@@ -417,7 +417,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Audio URL:
                                     </label>
-                                    <input type="text" class="form-control" name="feedaudio" id="feedaudio"
+                                    <input type="text" class="form-control" name="feedaudio"  accept="audio/*" id="feedaudio"
                                            placeholder="Fedd Audio URL">
                                 </div>
                                 <div class="form-group">
@@ -585,7 +585,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="file" class="form-control" name="image[]" id="image">
+                                    <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
                                 </div>
 
 
@@ -641,7 +641,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]" id="audio">
+                                    <input type="file" class="form-control" name="images[]" accept="audio/*" id="audio">
                                 </div>
 
 

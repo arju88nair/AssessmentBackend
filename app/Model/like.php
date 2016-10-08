@@ -49,7 +49,6 @@ class like extends Eloquent
                     array_push($ar, $feedId);
                     $user->liked = $ar;
                     $user->save();
-                    return $user['liked'];
 
                     return array("resultCode" => "0", "status" => "success", "message" => "Successfully Liked");
                 }

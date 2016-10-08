@@ -105,7 +105,7 @@ class userController extends Controller
     }
 
     public function login(Request $request){
-        return View::make('login');
+        return View::make('login')->with('message', 'Blah');;
     }
 
 
