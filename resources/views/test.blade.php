@@ -28,18 +28,33 @@
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <script>
+        $(document).ready(function () {
+            var user = localStorage.getItem('user');
+            if (user == "content_admin") {
+                $('#setId').show()
+            }
+            else {
+                $('#setId').hide()
+            }
+            if (user == "" || user == "null" || user == "undefined" || user == undefined) {
+                window.location.href = "loginAdmin"
+            }
+        });
+    </script>
 
     <style>
+
+        .alert {
+            display: none;
+        }
+
         #sortable1 {
             border: 1px solid #eee;
-            width: 50%;
             min-height: 20px;
             list-style-type: none;
             margin: 0;
             padding: 5px 0 0 0;
-            float: left;
-            margin-right: 10px;
         }
 
         hr.vertical {
@@ -49,12 +64,9 @@
 
         #sortable2 {
             border: 1px solid #eee;
-            min-height: 20px;
             list-style-type: none;
-            margin: 0;
             padding: 5px 0 0 0;
-            float: left;
-            margin-right: 10px;
+
         }
 
         #sortable1 li {
@@ -77,19 +89,22 @@
                 var liIds = $('#sortable1 li').map(function (i, n) {
                     return $(n).attr('id');
                 }).get().join(',');
-                console.log(liIds);
-//                e.preventDefault();
-//                $.ajax({
-//                    type: "POST",
-//                    url: "saveSetFeed",
-//                    data: {"ids" : liIds},
-//                    success: function (response) {
-//                        console.log(response);
-//                    },
-//                    error: function (response) {
-//                        console.log(response);
-//                    }
-//                });
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "saveSetFeed",
+                    data: {"ids": liIds},
+                    success: function (response) {
+                        console.log(response);
+                        $('#success').show()
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        $('#error').show()
+
+
+                    }
+                });
 
             });
         });
@@ -172,21 +187,25 @@
         a {
             color: #428bca;
         }
+
         @media ( min-width: 768px ) {
             .grid-divider {
                 position: relative;
                 padding: 0;
             }
-            .grid-divider>[class*='col-'] {
+
+            .grid-divider > [class*='col-'] {
                 position: static;
             }
-            .grid-divider>[class*='col-']:nth-child(n+2):before {
+
+            .grid-divider > [class*='col-']:nth-child(n+2):before {
                 content: "";
                 border-left: 1px solid #DDD;
                 position: absolute;
                 top: 0;
                 bottom: 0;
             }
+
             .col-padding {
                 padding: 0 15px;
             }
@@ -225,44 +244,134 @@
 
 
         <div id="container">
-            <div class="col1 col-md-6">
-                <h4 style="margin-left: 10%;">Todays Feed</h4>
+            <div class="alert alert-success fade in" id="success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Feeds have been updated.
+            </div>
+            <div class="alert alert-danger fade in" id="error">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> Something went wrong.Refresh and try again.
+            </div>
+            <button id="Shareitem" class="btn btn-primary btn-lg btn-block" type="button">Update Today's feed</button>
+
+            <div class="col1 col-md-6" style="margin-left: 3%;padding-top: 2%">
+                <h4 style="">Todays Feed</h4>
                 <ul id="sortable1" class="connectedSortable">
-                    <?php foreach( $main as $page ): ?>
-                    <li id="<?=$page['_id']?>" class="ui-state-default"><?=$page['feedTitle']?></li>
+                    <?php
+                    foreach ($main as $page):
+                    ?>
+                    <li id="<?= $page['_id'] ?>" class="ui-state-default"><span id="title"
+                                                                                style="margin-left: 2%;"><b><?= $page['feedTitle'] ?> </b>&nbsp;<small>[<?= $page['category'] ?>]</small></span>
+                        &nbsp;
+                        <div><span id="date"
+                                   style="font-size: 80%;margin-left: 8%">Updated on <?= date('F Y D', strtotime($page['updated_at'])); ?></span><span
+                                    id="added" style="font-size: 80%">&nbsp; By <?= $page['summarised'] ?></span></div>
+                    </li>
 
 
-                    <?php endforeach ?>
-
-
-                </ul>
-            </div>
-            <h4 style="margin-left: 56%;">Add Feed</h4>
-
-            <div class="col2 col-md-4" style="overflow-y:scroll; height:400px;">
-                <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;">
-                    <?php foreach( $other as $pages ): ?>
-                    <li id="<?=$pages['_id']?>" class="ui-state-highlight"><?=$pages['feedTitle']?></li>
-
-
-                    <?php endforeach ?>
+                    <?php
+                    endforeach;
+                    ?>
 
 
                 </ul>
             </div>
 
+            <div class="row">
+                <div class="col-lg-1"></div>
 
+                <div class="col-lg-5" id="second" style="margin-top: 2%">
+                    <h4 style="padding-left: 5%">Add Feed</h4>
 
-            <button id="Shareitem" >Blah</button>
+                    <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
+
+                        <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
+                        <hr id="hr" style="border:1px solid grey;">
+
+                        <ul class="pager">
+                            <li class="previous"><a href="" onclick="prevPage(); return false;">Previous</a></li>
+                            <li class="next"><a href="" onclick="nextPage(); return false;">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-5"></div>
+            </div>
+            <script>
+                var items = '<?php
+echo json_encode($other);
+?>';
+                console.log(items);
+                var pager = {};
+                items=items.replace(/\\n/g, "\\n")
+                        .replace(/\\'/g, "\\'")
+                        .replace(/\\"/g, '\\"')
+                        .replace(/\\&/g, "\\&")
+                        .replace(/\\r/g, "\\r")
+                        .replace(/\\t/g, "\\t")
+                        .replace(/\\b/g, "\\b")
+                        .replace(/\\f/g, "\\f");
+                // remove non-printable and other non-valid JSON chars
+                items = items.replace(/[\u0000-\u0019]+/g,"");
+                pager.items = JSON.parse(items);
+                pager.itemsPerPage =4;
+                pagerInit(pager);
+
+                function bindList() {
+                    var pgItems = pager.pagedItems[pager.currentPage];
+                    $("#sortable2").empty();
+                    for (var i = 0; i < pgItems.length; i++) {
+                        for (var key in pgItems[i]) {
+                            var option = $('<li class="ui-state-highlight" id=' + pgItems[i]['_id'] + '>');
+                            option.html("<span id=\"title\" style=\"margin-left: 2%;\"><b>"+pgItems[i]["feedTitle"]+"</b>&nbsp;<small>["+pgItems[i]["category"]+"]</small></span>&nbsp;<div> <span id=\"date\" style=\"font-size: 80%;margin-left: 8%\">Updated on "+pgItems[i]["updated_at"]+"</span><span id=\"added\" style=\"font-size: 80%\">&nbsp; By "+pgItems[i]["summarised"]+"</span></div> ");
+                        }
+                        $("#sortable2").append(option);
+                    }
+                }
+                function prevPage() {
+                    pager.prevPage();
+                    bindList();
+                }
+                function nextPage() {
+                    pager.nextPage();
+                    bindList();
+                }
+                function pagerInit(p) {
+                    p.pagedItems = [];
+                    p.currentPage = 0;
+                    if (p.itemsPerPage === undefined) {
+                        p.itemsPerPage = 5;
+                    }
+                    p.prevPage = function () {
+                        if (p.currentPage > 0) {
+                            p.currentPage--;
+                        }
+                    };
+                    p.nextPage = function () {
+                        if (p.currentPage < p.pagedItems.length - 1) {
+                            p.currentPage++;
+                        }
+                    };
+                    init = function () {
+                        for (var i = 0; i < p.items.length; i++) {
+                            if (i % p.itemsPerPage === 0) {
+                                p.pagedItems[Math.floor(i / p.itemsPerPage)] = [p.items[i]];
+                            } else {
+                                p.pagedItems[Math.floor(i / p.itemsPerPage)].push(p.items[i]);
+                            }
+                        }
+                    };
+                    init();
+                }
+                $(function () {
+                    bindList();
+                });
+            </script>
 
 
         </div>
         <!--END CONTENT-->
         <!--BEGIN FOOTER-->
-        <div id="footer">
-            <div class="copyright">
-                <a href="">2016 � Assessment</a></div>
-        </div>
+
         <!--END FOOTER-->
     </div>
     <!--END PAGE WRAPPER-->
@@ -328,6 +437,5 @@
 
 
 </script>
-
 </body>
 </html>

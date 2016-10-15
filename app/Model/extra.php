@@ -75,7 +75,6 @@ class extra extends Eloquent
 	public static function categories($input)
 	{
 		$model=new self();
-		return $model->first()['categories'];
 		$array=$input['array'];
 		$new=array();
 		foreach($array as $item)

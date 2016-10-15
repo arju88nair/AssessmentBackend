@@ -117,6 +117,8 @@
                                     </option>
                                     <option value="Career Management">Career Management
                                     </option>
+                                    <option value="Emerging Technologies">Emerging Technologies
+                                    </option>
                                     <option value="Leadership">Leadership
                                     </option>
                                     <option value="Data Science">Data Science
@@ -145,7 +147,7 @@
                         </div>
                     </div>
                     <br>
-                    <button style="line-height: 207%" type="submit"  class="btn btn-default" name="button"
+                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button"
                             value="filter">Filter
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -239,7 +241,7 @@
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
                                href="deleteFeed?action=<?= $page['_id'] ?>&user=<?=$user?>"
-                               class="btn btn-danger" role="button" onsubmit="return confSubmit();">Delete feed
+                               class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
                             </a>
                             <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
                                     class="btn btn-info btn-lg"
@@ -269,7 +271,7 @@
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
                                href="#?>"
-                               class="btn btn-danger disabled" role="button" onsubmit="return confSubmit();">Delete feed
+                               class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete feed
                             </a>
                             <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
                                     class="btn btn-info btn-lg"
@@ -361,6 +363,8 @@
                         return r;
                     }
                     $(document).ready(function () {
+                        var user = localStorage.getItem('user');
+
                         document.getElementById('owner').value = user;
                     });
                 </script>
@@ -376,11 +380,12 @@
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8" onsubmit="return check();">
+                                  accept-charset="UTF-8" onsubmit="return confSubmit(); check();">
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
-                                    <input type="text" class="form-control" id="feedTitles" name="feedTitle" placeholder="Feed Title"
+                                    <input type="text" class="form-control" id="feedTitles" name="feedTitle"
+                                           placeholder="Feed Title"
                                            required>
                                 </div>
                                 <div class="form-group">
@@ -407,7 +412,7 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]" id="audio">
+                                    <input type="file" accept="audio/*" class="form-control" name="images[]" id="audio">
                                 </div>
 
 
@@ -417,7 +422,8 @@
                                 <div class="form-group">
                                     <label for="usr">Feed Audio URL:
                                     </label>
-                                    <input type="text" class="form-control" name="feedaudio"  accept="audio/*" id="feedaudio"
+                                    <input type="text" class="form-control" name="feedaudio" accept="audio/*"
+                                           id="feedaudio"
                                            placeholder="Fedd Audio URL">
                                 </div>
                                 <div class="form-group">
@@ -448,6 +454,8 @@
                                         <option value="Growth Hacking">Growth Hacking
                                         </option>
                                         <option value="Career Management">Career Management
+                                        </option>
+                                        <option value="Emerging Technologies">Emerging Technologies
                                         </option>
                                         <option value="Leadership">Leadership
                                         </option>
@@ -556,6 +564,7 @@
                 <script type="text/javascript">
 
                     $(document).ready(function () {
+                        var user = localStorage.getItem('user');
 
                         document.getElementById('owner').value = user;
                     });
@@ -630,6 +639,9 @@
                                         </option>
                                         <option value="Career Management">Career Management
                                         </option>
+                                        <option value="Emerging Technologies">Emerging Technologies
+                                        </option>
+
                                         <option value="Leadership">Leadership
                                         </option>
                                         <option value="Data Science">Data Science
@@ -650,7 +662,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword">Audio
                                     </label>
-                                    <input class="form-control" name="disabledInput" id="disabledInput" type="text"
+                                    <input class="form-control" name="feedaudio" id="feedaudio" type="text"
                                     >
                                 </div>
                                 <div class="form-group">
@@ -773,18 +785,21 @@
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                     <p id="feedContent" style="font-size:0.9em"></p>
+                                    <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
-                            <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                            <div class="tag"
+                                 style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
                                 <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                           style=" font-size: 0.75em;color: skyblue;"></span>
                             </div>
-                            <div id="bottom " style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
+                            <div id="bottom "
+                                 style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
                                 <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
                                 <span id="added" style=" font-size: 0.7em;color: black;"></span>
                             </div>
-                            <img id="btimg" style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
+                            <img id="btimg"
+                                 style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                                  src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                         </div>
                         <div class="modal-footer">
@@ -816,18 +831,21 @@
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
- <p id="feedContent" style="font-size:0.9em"></p>
- </article>
+                                    <p id="feedContent" style="font-size:0.9em"></p>
+                                </article>
                             </div>
-                            <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                            <div class="tag"
+                                 style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
                                 <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                           style=" font-size: 0.75em;color: skyblue;"></span>
                             </div>
-                            <div id="bottom " style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
+                            <div id="bottom "
+                                 style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
                                 <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
                                 <span id="added" style=" font-size: 0.7em;color: black;"></span>
                             </div>
-                            <img id="btimg" style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
+                            <img id="btimg"
+                                 style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                                  src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                         </div>
                         <div class="modal-footer">
@@ -862,15 +880,18 @@
                                     <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
-                            <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                            <div class="tag"
+                                 style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
                                 <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                           style=" font-size: 0.75em;color: skyblue;"></span>
                             </div>
-                            <div id="bottom " style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
+                            <div id="bottom "
+                                 style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
                                 <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
                                 <span id="added" style=" font-size: 0.7em;color: black;"></span>
                             </div>
-                            <img id="btimg" style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
+                            <img id="btimg"
+                                 style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                                  src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                         </div>
                         <div class="modal-footer">
@@ -1012,11 +1033,13 @@
                 modal.find('#type').val(type);
                 modal.find('#trend').val(trend);
                 modal.find('#loc').val(loc);
-                modal.find('#disabledInput').val(audio);
+                modal.find('#feedaudio').val(audio);
                 modal.find('#feedDate').val(date);
                 modal.find('#feedSchedule').val(schedule);
                 modal.find('#summarised').val(summ);
                 modal.find('#added').val(added);
+                var user = localStorage.getItem('user');
+                modal.find('#owner').val(user);
 
             }
     )
@@ -1063,9 +1086,9 @@
                 var title = $('#feedTitle').val();
                 var image = $('#feedImages').val();
                 var content = $('#feedContent').val();
-                var added=$('#added').val();
-                var sourceTag=$('#sourceTitle').val();
-                var cata=$('#category option:selected').text()
+                var added = $('#added').val();
+                var sourceTag = $('#sourceTitle').val();
+                var cata = $('#category option:selected').text()
                 var modal = $(this);
                 modal.find('#feedTitle').text(title);
                 modal.find('#feedImage').attr('src', image);
@@ -1084,9 +1107,9 @@
                 var title = $('#feedTitles').val();
                 var image = $('#feedImaged').val();
                 var content = $('#contents').val();
-                var added=$('#addedBy').val();
-                var sourceTag=$('#title').val();
-                var cata=$('#category option:selected').text()
+                var added = $('#addedBy').val();
+                var sourceTag = $('#title').val();
+                var cata = $('#category option:selected').text()
                 var modal = $(this);
                 modal.find('#feedTitle').text(title);
                 modal.find('#feedImage').attr('src', image);
@@ -1113,25 +1136,35 @@
         });
 
         if (document.getElementById("image").files.length == 0) {
-            if ($("#feedImage").val().length == 0) {
+            if ($("#feedImaged").val().length == 0) {
                 alert("Please add an image file or URL");
                 return false;
             }
+            else{
+                var r = confirm('Are you sure you want to save??');
+                return r;
+            }
 
         }
+        else{
+            var r = confirm('Are you sure you want to save??');
+            return r;
+        }
+
 
     }
 </script>
 <script>
     $(document).ready(function () {
         $('input[type=file]').change(function () {
-            alert("hi");
             var val = $(this).val().toLowerCase();
             var regex = new RegExp("(.*?)\.(mp4|mp3|jpg|jpeg|png)$");
-            if(!(regex.test(val))) {
+            if (!(regex.test(val))) {
                 $(this).val('');
                 alert('Please select correct file format');
-            } }); });
+            }
+        });
+    });
 </script>
 </body>
 </html>

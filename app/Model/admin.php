@@ -89,13 +89,19 @@ class admin extends Eloquent
             foreach ($admin as $ad) {
                 array_push($array, $ad['name']);
             } //$admin as $ad
-            $feed = feeds::all();
+            $feeds = feeds::all();
             $invitee = invite::all();
             $users = addUser::all();
             $savedtests = savedtests::getAnswers();
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+            $feed=array();
+            foreach($feeds as $item)
+            {
+                array_push($feed,$item);
+            }
+            $feed= array_reverse($feed);
 
             return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $name);
 
@@ -266,14 +272,20 @@ class admin extends Eloquent
         foreach ($admin as $ad) {
             array_push($array, $ad['name']);
         } //$admin as $ad
-        $feed = feeds::all();
+
+        $feeds = feeds::all();
         $invitee = invite::all();
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
         $test = questions::all();
         $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
-
+$feed=array();
+        foreach($feeds as $item)
+        {
+            array_push($feed,$item);
+        }
+        $feed= array_reverse($feed);
         return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user);
 
     }
@@ -374,16 +386,16 @@ class admin extends Eloquent
             $owner = $_POST['owner'];
 
             if ($tag == "All" && $owner == "All") {
-                $feed = feeds::all();
+                $feeds = feeds::all();
             } //$tag == "All" && $owner == "All"
             if ($tag != "All" && $owner == "All") {
-                $feed = feeds::where('category', '=', $tag)->get();
+                $feeds = feeds::where('category', '=', $tag)->get();
             } //$tag != "All" && $owner == "All"
             if ($tag == "All" && $owner != "All") {
-                $feed = feeds::where('feedOwner', '=', $owner)->get();
+                $feeds = feeds::where('feedOwner', '=', $owner)->get();
             } //$tag == "All" && $owner != "All"
             if ($tag != "All" && $owner != "All") {
-                $feed = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->get();
+                $feeds = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->get();
             } //$tag != "All" && $owner != "All"
             $invitee = invite::all();
             $users = addUser::all();
@@ -391,6 +403,13 @@ class admin extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+
+            $feed=array();
+            foreach($feeds as $item)
+            {
+                array_push($feed,$item);
+            }
+            $feed= array_reverse($feed);
             return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
 
         } else {
@@ -402,13 +421,20 @@ class admin extends Eloquent
 
             $tag = "All";
             $owner = "All";
-            $feed = feeds::orderBy('likeCount', 'desc')->get();
+            $feeds = feeds::orderBy('likeCount', 'desc')->get();
             $invitee = invite::all();
             $users = addUser::all();
             $savedtests = savedtests::getAnswers();
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
+            $feed=array();
+            foreach($feeds as $item)
+            {
+                array_push($feed,$item);
+            }
+            $feed= array_reverse($feed);
+
             return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
 
 
@@ -460,30 +486,43 @@ class admin extends Eloquent
 
     public static function testFeed()
     {
-        $array = array();
-        $excepted = array();
-        $allFeeds = feeds::all();
-//        foreach ($allFeeds as $feed) {
-//
-//            $hi= self::testar($feed, $feed['_id'], $test);
-//            if($hi != null || count($hi)!= 0){
-//                array_push($arr,$hi);
-//
-//            }
-//        }
-//        return $arr;
-        foreach ($allFeeds as $feed) {
-            $date = self::dated($feed['updated_at']);
-            if ($date <= 1) {
-                array_push($array, $feed);
-            } else {
-                array_push($excepted, $feed);
-            }
-        }
-        $array = array_reverse($array);
-        $excepted = array_reverse($excepted);
+        $main=mainFeed::all();
 
-        return View::make('test')->with('main', $array)->with('other', $excepted);
+        if(count($main)==0||!isset($main)){
+            $array = array();
+            $excepted = array();
+            $allFeeds = feeds::all();
+            foreach ($allFeeds as $feed) {
+                $date = self::dated($feed['updated_at']);
+                if ($date <= 1) {
+                    array_push($array, $feed);
+                } else {
+                    array_push($excepted, $feed);
+                }
+            }
+            $array = array_reverse($array);
+            $excepted = array_reverse($excepted);
+
+            return View::make('test')->with('main', $array)->with('other', $excepted);
+        }
+        else{
+
+            $mainId=array();
+            $array=mainFeed::all();
+            $excepted=array();
+            $feeds=feeds::all();
+            foreach($array as $main){
+                array_push($mainId,$main['_id']);
+            }
+            foreach($feeds as $feed){
+
+                if(!in_array($feed['_id'],$mainId)){
+                    array_push($excepted,$feed);
+                }
+            }
+            return View::make('test')->with('main', $array)->with('other', $excepted);
+        }
+
     }
 
     public static function testar($a, $b, $c)

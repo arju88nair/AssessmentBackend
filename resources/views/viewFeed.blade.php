@@ -44,7 +44,7 @@ echo $tag2;
     <script>
         $(document).ready(function () {
             var user = localStorage.getItem('user');
-             if (user == "content_admin") {
+            if (user == "content_admin") {
                 $('#setId').show()
             }
             else {
@@ -114,7 +114,7 @@ echo $tag2;
                         <div class="input-group">
                             <div class="">
                                 <select name="Category" class="form-control" id="cat">
-                                      <option value="All">All
+                                    <option value="All">All
                                     </option>
                                     <option value="Product Management">Product Management
                                     </option>
@@ -128,10 +128,12 @@ echo $tag2;
                                     </option>
                                     <option value="Career">Career Management
                                     </option>
+                                    <option value="Emerging Technologies">Emerging Technologies
+                                    </option>
                                     <option value="Leadership">Leadership
                                     </option>
-  									 <option value="Data Science">Data Science
-                                        </option>
+                                    <option value="Data Science">Data Science
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -145,18 +147,18 @@ echo $tag2;
                                 <select name="owner" class="form-control" id="own">
                                     <option value="All">All</option>
                                     <?php
-foreach ($tag1 as $item):
-?>
+                                    foreach ($tag1 as $item):
+                                    ?>
                                     <option value="<?= $item ?>"><?= $item ?></option>
                                     <?php
-endforeach;
-?>
+                                    endforeach;
+                                    ?>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <br>
-                     <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="filter">Filter
+                    <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="filter">Filter
                     </button>
 
                     <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="sort">Sort by likes
@@ -243,7 +245,7 @@ endforeach;
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
                                href="deleteFeed?action=<?= $page['_id'] ?>&user=<?=$user?>"
-                               class="btn btn-danger" role="button" onsubmit="return confSubmit();">Delete feed
+                               class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
                             </a>
                             <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
                                     class="btn btn-info btn-lg"
@@ -273,7 +275,7 @@ endforeach;
                             </a>
                             <a style="margin-left: 77%;margin-top: -5%"
                                href="#?>"
-                               class="btn btn-danger disabled" role="button" onsubmit="return confSubmit();">Delete feed
+                               class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete feed
                             </a>
                             <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
                                     class="btn btn-info btn-lg"
@@ -346,18 +348,22 @@ endforeach;
                             </button>
 
                             <?php } ?>
-
-
                         </div>
                     </div>
                 </div>
             </div>
             <?php
             endforeach;
-?>
+            ?>
             <div class="modal fade" id="myModal" role="dialog">
                 <script type="text/javascript">
+                   function check() {
+                        var r = confirm('Are you sure you want to save??');
+                        return r;
+                    }
                     $(document).ready(function () {
+                        var user = localStorage.getItem('user');
+
                         document.getElementById('owner').value = user;
                     });
                 </script>
@@ -373,7 +379,7 @@ endforeach;
                         <div class="modal-body">
                             <form role="form" method="post" action="{{ action('DashboardController@saveFeed') }}"
                                   enctype="multipart/form-data"
-                                  accept-charset="UTF-8" onsubmit="return check();">
+                                  accept-charset="UTF-8" onsubmit="return confSubmit();">
                                 <div class="form-group">
                                     <label for="usr">Feed title:
                                     </label>
@@ -383,7 +389,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="usr">Feed Image:
                                     </label>
-                                    <input type="file" class="form-control" name="image[]" id="image">
+                                    <input type="file" class="form-control" name="image[]" id="image" accept="iamge/*">
                                 </div>
 
 
@@ -404,7 +410,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="usr">Feed Audio:
                                     </label>
-                                    <input type="file" class="form-control" name="images[]" id="audio" accept="image/*" >
+                                    <input type="file" class="form-control" name="images[]" id="audio" accept="audio/*" >
                                 </div>
 
 
@@ -415,7 +421,7 @@ endforeach;
                                     <label for="usr">Feed Audio URL:
                                     </label>
                                     <input type="text" class="form-control" name="feedaudio" id="feedaudio"
-                                        accept="audio/*"   placeholder="Fedd Audio URL">
+                                           accept="audio/*"   placeholder="Fedd Audio URL">
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Feed Schedule Date:
@@ -445,6 +451,8 @@ endforeach;
                                         <option value="Growth Hacking">Growth Hacking
                                         </option>
                                         <option value="Career Management">Career Management
+                                        </option>
+                                        <option value="Emerging Technologies">Emerging Technologies
                                         </option>
                                         <option value="Leadership">Leadership
                                         </option>
@@ -534,7 +542,7 @@ endforeach;
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary" onsubmit="return check();">Save
+                                <button type="submit" class="btn btn-primary" >Save
                                 </button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close
                                 </button>
@@ -590,7 +598,7 @@ endforeach;
                                     <label for="usr">Feed Image URL:
                                     </label>
                                     <input type="text" class="form-control" id="feedImages" name="feedImage"
-                                         accept="image/*"  placeholder="Feed Image URL">
+                                           accept="image/*"  placeholder="Feed Image URL">
                                 </div>
 
 
@@ -625,6 +633,8 @@ endforeach;
                                         </option>
                                         <option value="Career Management">Career Management
                                         </option>
+                                        <option value="Emerging Technologies">Emerging Technologies
+                                        </option>
                                         <option value="Leadership">Leadership
                                         </option>
                                         <option value="Data Science">Data Science
@@ -645,7 +655,7 @@ endforeach;
                                 <div class="form-group">
                                     <label for="inputPassword">Audio
                                     </label>
-                                    <input class="form-control" name="disabledInput" id="disabledInput" type="text"
+                                    <input class="form-control" name="feedaudio" id="feedaudio" type="text"
                                     >
                                 </div>
                                 <div class="form-group">
@@ -768,7 +778,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                     <p id="feedContent" style="font-size:0.9em"></p>
+                                    <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
@@ -811,7 +821,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                     <p id="feedContent" style="font-size:0.9em"></p>
+                                    <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
@@ -854,7 +864,7 @@ endforeach;
                                     <h4 id="feedTitle"
                                         style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
 
-                                     <p id="feedContent" style="font-size:0.9em"></p>
+                                    <p id="feedContent" style="font-size:0.9em"></p>
                                 </article>
                             </div>
                             <div class="tag" style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
@@ -1007,11 +1017,13 @@ endforeach;
                 modal.find('#type').val(type);
                 modal.find('#trend').val(trend);
                 modal.find('#loc').val(loc);
-                modal.find('#disabledInput').val(audio);
+                modal.find('#feedaudio').val(audio);
                 modal.find('#feedDate').val(date);
                 modal.find('#feedSchedule').val(schedule);
                 modal.find('#summarised').val(summ);
                 modal.find('#added').val(added);
+				var user = localStorage.getItem('user');
+                modal.find('#owner').val(user);
 
             }
     )
@@ -1108,12 +1120,22 @@ endforeach;
         });
 
         if (document.getElementById("image").files.length == 0) {
-            if ($("#feedImage").val().length == 0) {
+            if ($("#feedImaged").val().length == 0) {
                 alert("Please add an image file or URL");
                 return false;
             }
+            else{
+                var r = confirm('Are you sure you want to save??');
+                return r;
+            }
 
         }
+        else{
+            var r = confirm('Are you sure you want to save??');
+            return r;
+        }
+
+
 
     }
 </script>
