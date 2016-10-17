@@ -387,7 +387,7 @@ echo $tag2;
                                            required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Image:
+                                    <label for="usr">Feed Image:&nbsp;<small>Add 1MB or less</small>
                                     </label>
                                     <input type="file" class="form-control" name="image[]" id="image" accept="iamge/*">
                                 </div>
@@ -408,7 +408,7 @@ echo $tag2;
                                     <input type="checkbox" class="" name="gcm" style="margin-left:4%">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Audio:
+                                    <label for="usr">Feed Audio:&nbsp;<small>Add 2MB or less</small>
                                     </label>
                                     <input type="file" class="form-control" name="images[]" id="audio" accept="audio/*" >
                                 </div>
@@ -586,7 +586,7 @@ echo $tag2;
                                 <input type="hidden" value="<?=$user?>" name="user">
 
                                 <div class="form-group">
-                                    <label for="usr">Feed Image:
+                                    <label for="usr">Feed Image:&nbsp;<small>Add 1MB or less</small>
                                     </label>
                                     <input type="file" class="form-control" name="image[]" id="image"  accept="image/*">
                                 </div>
@@ -644,7 +644,7 @@ echo $tag2;
                                 <br>
 
                                 <div class="form-group">
-                                    <label for="usr">Feed Audio:
+                                    <label for="usr">Feed Audio:&nbsp;<small>Add 2MB or less</small>
                                     </label>
                                     <input type="file" class="form-control" name="images[]" id="audio" accept="audio/*">
                                 </div>

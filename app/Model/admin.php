@@ -103,7 +103,7 @@ class admin extends Eloquent
             }
             $feed= array_reverse($feed);
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $name);
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag','All')->with('tag2','All');
 
 
         }
@@ -286,7 +286,7 @@ $feed=array();
             array_push($feed,$item);
         }
         $feed= array_reverse($feed);
-        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user);
+        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag','All')->with('tag2','All');
 
     }
 
@@ -410,7 +410,7 @@ $feed=array();
                 array_push($feed,$item);
             }
             $feed= array_reverse($feed);
-            return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
 
         } else {
             $array = array();
@@ -433,9 +433,9 @@ $feed=array();
             {
                 array_push($feed,$item);
             }
-            $feed= array_reverse($feed);
+            $feed= $feeds;
 
-            return View::Make('viewFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use);
 
 
         }
