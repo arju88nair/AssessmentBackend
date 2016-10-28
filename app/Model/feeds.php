@@ -336,12 +336,10 @@ class feeds extends Eloquent
         $model->location = $_POST['loc'];
         $model->feedDate = $_POST['feedDate'];
         $title = $model->feedTitle = $input['feedTitle'];
-        $model->feedImage = $input['feedImage'];
+//        $model->feedImage = $input['feedImage'];
         $model->likeCount = 0;
 
-        if ($input['feedImage'] != "" || $input['feedImage'] != null) {
-            $model->feedImage = $input['feedImage'];
-        } else {
+        
             //Image upoading
             $images = Input::file('image');
 
@@ -356,7 +354,7 @@ class feeds extends Eloquent
                 $model->feedImage = $path;
             }
             //Image end
-        }
+
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];

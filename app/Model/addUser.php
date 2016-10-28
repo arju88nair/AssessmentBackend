@@ -84,8 +84,10 @@ class addUser extends Eloquent
         $array_plt = ['android', 'ios', 'webApp','Guest'];
         $array_device = ['smartphone', 'tablet', 'phablet','Guest'];
         $userTypes=['guest', 'normal'];
+		$testEmailArray=['mail2appzoy@gmail.com','appzoytest@gmail.com'];
+		
 
-        
+         
         if (!in_array($authenticationType, $array_auth)) {
             return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect authentication ");
         }
@@ -102,6 +104,7 @@ class addUser extends Eloquent
             $emailId = $model->userId = "";
             $authenticationType = $model->auth_type = "";
             $snsHandle = $model->snsHandle = "";
+			$model->userType="Guest";
             $platform = $model->clientPlf = "";
             $model->imageUrl = "http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg";
             $device_model = $model->deviceType = $input['deviceType'];
@@ -120,22 +123,22 @@ class addUser extends Eloquent
             else{
                 $users = $model::where('auth_type', '=', $authenticationType)->where('uniqueDeviceID','=',$input['uniqueDeviceID'])->first();
                 if (!isset($users) || count($users) == 0) {
-
+					$model->liked = array();
                     $model->feedCount=0;
                     $uniqueID = $model->usrSessionHdl="Guest";
                     $model->save();
                     $date= $model['created_at'];
-                    return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => "Guest" ,'feedCount'=>0,'createdAt'=>$date);
+                    return array("status" => "success", "resultCode" => "1", "userType" => "Guest", "message" => "New user created", "sessionHandle" => "Guest" ,'feedCount'=>0,'createdAt'=>$date);
                 }
                 else{
                     if($users['feedCount']>=10)
                     {
-                        return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "Access invalid", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
+                        return array("status" => "success", "resultCode" => "1", "userType" => "Guest", "message" => "Access invalid", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
                     }
                     else
                     {
 
-                        return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "User Already Present", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
+                        return array("status" => "success", "resultCode" => "1", "userType" => "Guest", "message" => "User Already Present", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
 
 
                     }
@@ -160,22 +163,39 @@ class addUser extends Eloquent
 
             if (!isset($users) || count($users) == 0) {
                 $model->liked = array();
-
+					if (in_array($emailId, $testEmailArray)) {
+					$model->userType="Test";
+					$userType="Test";
+					}
+					else{
+						$model->userType="Normal";
+						$userType="Normal";
+					}
                 if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
+					$model->pushNotificationID = $input['pushNotificationID'];
                     $model->corporateName = "";
                     $model->save();
-                    return array("status" => "success", "resultCode" => "11", "userType" => "Free access granted", "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
+                    return array("status" => "success", "resultCode" => "11", "userType" => $userType, "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
 
                 } else {
+					$model->pushNotificationID = $input['pushNotificationID'];
                     $coupon = coupon::where('Coupon', '=', $couponGet)->first();
                     $com_name = $coupon['Name'];
                     $model->corporateName = $com_name;
                     $model->save();
-                    return array("status" => "success", "resultCode" => "12", "userType" => "$com_name access granted", "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
+                    return array("status" => "success", "resultCode" => "12", "userType" => $userType, "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
                 }
 
 
             } else {
+				if (in_array($emailId, $testEmailArray)) {
+					$model->userType="Test";
+					$userType="Test";
+					}
+					else{
+						$model->userType="Normal";
+						$userType="Normal";
+					}
                 foreach ($users as $user) {
 
                     $userHandle = $user->usrSessionHdl;
@@ -197,7 +217,7 @@ class addUser extends Eloquent
                     $new->corporateName = "";
                     $new->save();
 
-                    return array("status" => "success", "resultCode" => "1", "userType" => "Free access granted", "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
+                    return array("status" => "success", "resultCode" => "1", "userType" => $userType, "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
 
 
                 } else {
@@ -219,7 +239,7 @@ class addUser extends Eloquent
                     $new->save();
 
 
-                    return array("status" => "success", "resultCode" => "1", "userType" => "$com_name access granted", "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
+                    return array("status" => "success", "resultCode" => "1", "userType" => $userType, "message" => "User already present", "sessionHandle" => $userHandle,'feedCount'=>0);
                 }
 
             }

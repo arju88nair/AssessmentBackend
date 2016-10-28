@@ -70,6 +70,7 @@ class admin extends Eloquent
             $model['status'] = "login";
             $model->save();
             $user->time = $time;
+
             /*  $invitee = invite::all();
             $users = addUser::all();
             $savedtests = savedtests::getAnswers();
@@ -103,7 +104,7 @@ class admin extends Eloquent
             }
             $feed= array_reverse($feed);
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag','All')->with('tag2','All');
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $name)->with('tag','All')->with('tag2','All');
 
 
         }
@@ -203,7 +204,7 @@ class admin extends Eloquent
         $report = upload::where('status', '=', 'Pending')->get();
         $assistance = assistance::all();
 
-        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+        return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
 
         /* $invitee = invite::all();

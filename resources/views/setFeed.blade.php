@@ -395,25 +395,16 @@
 
         <div class="col1 col-md-6" style="margin-left: 3%;padding-top: 2%">
             <h4 style="">Todays Feed</h4>
-            <ul id="sortable1" class="connectedSortable">
-                <?php
-                foreach ($main as $page):
-                ?>
-                <li id="<?= $page['_id'] ?>" class="ui-state-default"><span id="title"
-                                                                            style="margin-left: 2%;font-weight: bold"><?= $page['feedTitle'] ?> </span>
-                    &nbsp;
-                    <div><span id="date"
-                               style="font-size: 80%;margin-left: 8%">Updated on <?= date('F Y D', strtotime($page['updated_at'])); ?></span><span
-                                id="added" style="font-size: 80%">&nbsp; By <?= $page['summarised'] ?></span></div>
-                </li>
+            <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
 
+                <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
+                <hr id="hr" style="border:1px solid grey;">
 
-                <?php
-                endforeach;
-                ?>
-
-
-            </ul>
+                <ul class="pager">
+                    <li class="previous"><a href="" onclick="prevPage(); return false;">Previous</a></li>
+                    <li class="next"><a href="" onclick="nextPage(); return false;">Next</a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="row">
@@ -421,17 +412,26 @@
 
             <div class="col-lg-5" id="second" style="margin-top: 2%">
                 <h4 style="padding-left: 5%">Add Feed</h4>
+                <ul id="sortable1" class="connectedSortable">
+                    <?php
+                    foreach ($main as $page):
+                    ?>
+                    <li id="<?= $page['_id'] ?>" class="ui-state-default"><span id="title"
+                                                                                style="margin-left: 2%;font-weight: bold"><?= $page['feedTitle'] ?> </span>
+                        &nbsp;
+                        <div><span id="date"
+                                   style="font-size: 80%;margin-left: 8%">Updated on <?= date('F Y D', strtotime($page['updated_at'])); ?></span><span
+                                    id="added" style="font-size: 80%">&nbsp; By <?= $page['summarised'] ?></span></div>
+                    </li>
 
-                <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
 
-                    <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
-                    <hr id="hr" style="border:1px solid grey;">
+                    <?php
+                    endforeach;
+                    ?>
 
-                    <ul class="pager">
-                        <li class="previous"><a href="" onclick="prevPage(); return false;">Previous</a></li>
-                        <li class="next"><a href="" onclick="nextPage(); return false;">Next</a></li>
-                    </ul>
-                </div>
+
+                </ul>
+
             </div>
             <div class="col-lg-5"></div>
         </div>

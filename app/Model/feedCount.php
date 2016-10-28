@@ -17,35 +17,40 @@ class feedCount extends Eloquent
     //
     protected $connection = "mongodb";
     protected $collection = "feed_counts";
-    
-    
+
+
     public static function updateCount($input)
     {
-        
-        $model        = new self();
-        $session      = $input['sessionHandle'];
-        $feedId       = $input['feedId'];
-        $feedBookmark = $input['feedBookmark'];
-        $feedAudio    = $input['feedAudio'];
-        $check        = addUser::where('usrSessionHdl', '=', $session)->first();
+
+        $model = new self();
+        $session = $input['sessionHandle'];
+        $feedId = $input['feedId'];
+        $action = $input['action'];
+        $userTypes = ['audio', 'bookmark', 'share', 'source'];
+        if (!in_array($action, $userTypes)) {
+            return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect action ");
+        }
+        $check = addUser::where('usrSessionHdl', '=', $session)->first();
         if (isset($check) || count($check) != 0) {
             $feed = feeds::where('_id', '=', $feedId)->first();
             if (isset($feed) || count($feed) != 0) {
-                
-                $countCheck = $model::where('userId', '=', $session)->where('feedId', '=', $feedId)->get();
+
+                $countCheck = $model::where('userId', '=', $session)->where('feedId', '=', $feedId)->where('action','=',$action)->get();
+				
                 if (!isset($countCheck) || count($countCheck) == 0) {
-                    
-                    $model->userId    = $session;
-                    $model->feedId    = $feedId;
+
+                    $model->userId = $session;
+                    $model->feedId = $feedId;
                     $model->feedTitle = $feed['feedTitle'];
-                    $saved            = $model->save();
+                    $model->action = $action;
+                    $saved = $model->save();
                     if ($saved) {
                         return array(
                             "status" => "success",
                             "resultcode" => "0",
                             "message" => "Successfully saved"
                         );
-                        
+
                     } //$saved
                     else {
                         return array(
@@ -53,9 +58,9 @@ class feedCount extends Eloquent
                             "resultcode" => "1",
                             "message" => "Please try again"
                         );
-                        
+
                     }
-                    
+
                 } //!isset($countCheck) || count($countCheck) == 0
                 else {
                     return array(
@@ -63,7 +68,7 @@ class feedCount extends Eloquent
                         "resultcode" => "1",
                         "message" => "Already viewed"
                     );
-                    
+
                 }
             } //isset($feed) || count($feed) != 0
             else {
@@ -72,10 +77,10 @@ class feedCount extends Eloquent
                     "resultcode" => "1",
                     "message" => "Incorrect feed Id received"
                 );
-                
+
             }
-            
-            
+
+
         } //isset($check) || count($check) != 0
         else {
             return array(
@@ -83,21 +88,20 @@ class feedCount extends Eloquent
                 "resultcode" => "1",
                 "message" => "Incorrect session received"
             );
-            
+
         }
     }
-    
-    
-    
-    public static function userCount($input)
-    {
-        
-        $id               = $input['sessionHandle'];
-        $uid              = $input['uId'];
-        $count            = $input['feedCount'];
-        $guest            = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
+
+
+//    public static function userCount($input)
+    /*{
+
+        $id = $input['sessionHandle'];
+        $uid = $input['uId'];
+        $count = $input['feedCount'];
+        $guest = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
         $guest->feedCount = $count;
-        $is               = $guest->save();
+        $is = $guest->save();
         if ($is) {
             return array(
                 "status" => "success",
@@ -110,9 +114,9 @@ class feedCount extends Eloquent
                 "resultCode" => "0",
                 "message" => "Try again you scapegoat"
             );
-            
+
         }
-        
-        
-    }
+
+
+    }*/
 }

@@ -19,18 +19,19 @@ class like extends Eloquent
 
         $model = new self();
         $session = $input['session'];
-        $user = addUser::where('usrSessionHdl', '=', $session)->first();
+		$uId=$input['uID'];
+        $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
         $feedId = $input['feedId'];
         if (!isset($user) || count($user) == 0) {
-            return array("resultCode" => "1", "status" => "error", "message" => "User can't be found");
+            return array("resultCode" => "1", "status" => "error", "message" => "User can't be found","likeCount"=>$feed['likeCount']);
 
 
         } else {
             if (isset($user['liked'])) {
                 $ar = $user['liked'];
                 if (in_array($input['feedId'], $user['liked'])) {
-                    return array("resultCode" => "1", "status" => "error", "message" => "Already liked");
+                    return array("resultCode" => "1", "status" => "error", "message" => "Already liked","likeCount"=>$feed['likeCount']);
                 } else {
                     if (!isset($feed['likeCount'])) {
                         $count = $feed['likeCount'] = 0;
@@ -50,7 +51,7 @@ class like extends Eloquent
                     $user->liked = $ar;
                     $user->save();
 
-                    return array("resultCode" => "0", "status" => "success", "message" => "Successfully Liked");
+                    return array("resultCode" => "0", "status" => "success", "message" => "Successfully Liked","likeCount"=>$feed['likeCount']);
                 }
 
             }
@@ -108,16 +109,17 @@ class like extends Eloquent
 
         $model = new self();
         $session = $input['session'];
-        $user = addUser::where('usrSessionHdl', '=', $session)->first();
+		$uId=$input['uID'];
+        $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
 
         if (!isset($user) || count($user) == 0) {
-            return array("resultCode" => "1", "status" => "error", "message" => "User can't be found");
+            return array("resultCode" => "1", "status" => "error", "message" => "User can't be found","likeCount"=>$feed['likeCount']);
 
 
         } else {
             if (in_array($input['feedId'], $user['liked'])==False) {
-                return array("resultCode" => "1", "status" => "error", "message" => "Already Unliked");
+                return array("resultCode" => "1", "status" => "error", "message" => "Already Unliked","likeCount"=>$feed['likeCount']);
             } else {
 
             if (isset($feed) || count($feed) == 0) {
@@ -139,9 +141,8 @@ class like extends Eloquent
                         $feed->save();
 
                     }
-                    return $user['liked'];
 
-                    return array("resultCode" => "0", "status" => "success", "message" => "Successfully Unliked");
+                    return array("resultCode" => "0", "status" => "success", "message" => "Successfully Unliked","likeCount"=>$feed['likeCount']);
 
 
                 }

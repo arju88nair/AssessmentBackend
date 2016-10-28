@@ -38,6 +38,9 @@ echo $tag2;
 
 <body>
 <style type="text/css">
+    #feedContent{
+        word-wrap: break-word;
+    }
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
@@ -234,7 +237,7 @@ echo $tag2;
                 <input type="hidden" value="<?=$user?>" name="user">
 
                 <div class="col-sm-2">
-                    <label>Channel
+                    <label>Category
                     </label>
 
                     <div class="input-group">
@@ -336,7 +339,7 @@ echo $tag2;
                     </h4>
                 </div>
                 <div id="<?= $page['_id'] ?>" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div class="panel-body" style="word-wrap: break-word">
                         <?= $page['feedContent'] ?>
                         <img src="<?= $page["feedImage"] ?>" class="img-rounded" alt="Cinque Terre" width="60"
                              height="60" style="float:right">
@@ -532,14 +535,7 @@ echo $tag2;
                             </div>
 
 
-                            <h3>OR</h3>
 
-                            <div class="form-group">
-                                <label for="usr">Feed Image URL:
-                                </label>
-                                <input type="text" class="form-control" id="feedImaged" name="feedImage"
-                                       placeholder="Feed Image URL">
-                            </div>
 
                             <div class="form-group">
                                 <label for="usr">Send Notifications:
@@ -547,7 +543,7 @@ echo $tag2;
                                 <input type="checkbox" class="" name="gcm" style="margin-left:4%">
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB </small>
+                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB of MP3 format </small>
                                 </label>
                                 <input type="file" accept="audio/*" class="form-control" name="images[]" id="audio">
                             </div>
@@ -564,7 +560,7 @@ echo $tag2;
                                        placeholder="Fedd Audio URL">
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Schedule Date:
+                                <label for="usr">Feed Publishing Date:
                                 </label>
                                 <input type="date" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
@@ -575,7 +571,7 @@ echo $tag2;
 
                             <br>
                             <label for="sel1"
-                                   class="">Channel
+                                   class="">Category
                             </label>
 
                             <div class="">
@@ -718,7 +714,7 @@ echo $tag2;
                     <div class="modal-body">
                         <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
                               enctype="multipart/form-data"
-                              accept-charset="UTF-8" onsubmit="return check();">
+                              accept-charset="UTF-8" onsubmit="return editSubmit(); check();">
                             <div class="form-group">
                                 <label for="usr">Feed title:
                                 </label>
@@ -731,7 +727,7 @@ echo $tag2;
                             <div class="form-group">
                                 <label for="usr">Feed Image:&nbsp;<small>File should be less than 1MB </small>
                                 </label>
-                                <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
+                                <input type="file" class="form-control" accept="image/*" name="image[]" id="imaged">
                             </div>
 
 
@@ -742,11 +738,18 @@ echo $tag2;
                                 </label>
                                 <input type="text" class="form-control" id="feedImages" name="feedImage"
                                        placeholder="Feed Image URL">
+                            </div>  <h3>OR</h3>
+
+                            <div class="form-group">
+                                <label for="usr">Feed Image URL:
+                                </label>
+                                <input type="text" class="form-control" id="feedImages" name="feedImage"
+                                       placeholder="Feed Image URL">
                             </div>
 
 
                             <div class="form-group">
-                                <label for="usr">Feed Schedule Date:
+                                <label for="usr">Feed Publishing Date:
                                 </label>
                                 <input type="text" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
@@ -759,7 +762,7 @@ echo $tag2;
 
                             <br>
                             <label for="sel1"
-                                   class="">Channel
+                                   class="">Category
                             </label>
 
                             <div class="">
@@ -788,7 +791,7 @@ echo $tag2;
                             <br>
 
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB </small>
+                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB of MP3 format</small>
                                 </label>
                                 <input type="file" class="form-control" name="images[]" accept="audio/*" id="audio">
                             </div>
@@ -862,7 +865,7 @@ echo $tag2;
                                 <div class="form-group">
                                     <label for="usr">Feed Expiry date:
                                     </label>
-                                    <input type="text" class="form-control" name="feedDate" id="feedDate"
+                                    <input type="date" class="form-control" name="feedDate" id="feedDate"
                                            placeholder="YYYY/MM/DD">
                                 </div>
                                 <div class="form-group">
@@ -1182,16 +1185,26 @@ echo $tag2;
         return r;
     }
     function confSubmit() {
-        $("#image").change(function () {
-            var fileExtension = ['jpeg', 'jpg', 'png'];
-            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                alert("Only formats are allowed : " + fileExtension.join(', '));
-                return false;
-            }
-        });
+
 
         if (document.getElementById("image").files.length == 0) {
-            if ($("#feedImaged").val().length == 0) {
+            alert("Please add an image file or URL");
+            return false;
+
+
+
+        }
+        else{
+            var r = confirm('Are you sure you want to save??');
+            return r;
+        }
+
+
+    }
+    function editSubmit() {
+
+        if (document.getElementById("imaged").files.length == 0) {
+            if ($("#feedImages").val().length == 0) {
                 alert("Please add an image file or URL");
                 return false;
             }
@@ -1202,24 +1215,15 @@ echo $tag2;
 
         }
         else{
+
             var r = confirm('Are you sure you want to save??');
             return r;
         }
 
 
+
     }
 </script>
-<script>
-    $(document).ready(function () {
-        $('input[type=file]').change(function () {
-            var val = $(this).val().toLowerCase();
-            var regex = new RegExp("(.*?)\.(mp4|mp3|jpg|jpeg|png)$");
-            if (!(regex.test(val))) {
-                $(this).val('');
-                alert('Please select correct file format');
-            }
-        });
-    });
-</script>
+
 </body>
 </html>
