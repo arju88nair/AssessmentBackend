@@ -18,6 +18,20 @@ use App\Http\Requests;
 class addUser extends Eloquent
 {
     //
+    /*For whoever may it concern,
+"Long ago all classes livedtogether in harmony.Then everything changed when poor managment attacked.Only the Avatar ,the master of all classes
+could stop them.But when the project needed him most, he vanished. A hundred commits passed.Me and my blackened soul  discovered a new Job. And although my progrmaming skills are great,
+ he still has a lot to learn before he's ready to commit more. But I don't believe anyone can save this project."
+
+
+But seriously,in the start all classes were well written.They came forth withtoo many changes and reverting back and everything which made this whle  code a living nightmare
+ Sorry for whoever lays hand on this.
+
+Best of luck,
+Rain04
+
+
+*/
 
     protected $connection = 'mongodb';
     protected $collection = "addedusers";
@@ -84,10 +98,10 @@ class addUser extends Eloquent
         $array_plt = ['android', 'ios', 'webApp','Guest'];
         $array_device = ['smartphone', 'tablet', 'phablet','Guest'];
         $userTypes=['guest', 'normal'];
-		$testEmailArray=['mail2appzoy@gmail.com','appzoytest@gmail.com','aditya.shankar@gmai.com','dheeraj@ipl.edu.in','Kaushik.Balasubramanian@ipl.edu.in','marya.wani@ipl.edu.in','padmaja.narsipur@ipl.edu.in','pshah@ipl.edu.in','rahul@ipl.edu.in','rahul@appzoy.com','arju88nair@gmail.com','ramanan@productleadership.com','rajesh@ipl.edu.in','rohan.krishna@ipl.edu.in','aditya.shankar@ipl.edu.in','jobin.john@ipl.edu.in','kavitha@appzoy.com','ramanan@ipl.edu.in','seema.joshi@ipl.edu.in','shwetha@clearlyblue.in','vishy@ipl.edu.in'];
-		
+        $testEmailArray=['mail2appzoy@gmail.com','rahulsadafule@gmail.com','appzoytest@gmail.com','aditya.shankar@gmai.com','dheeraj@ipl.edu.in','Kaushik.Balasubramanian@ipl.edu.in','marya.wani@ipl.edu.in','padmaja.narsipur@ipl.edu.in','pshah@ipl.edu.in','rahul@ipl.edu.in','rahul@appzoy.com','arju88nair@gmail.com','ramanan@productleadership.com','rajesh@ipl.edu.in','rohan.krishna@ipl.edu.in','aditya.shankar@ipl.edu.in','jobin.john@ipl.edu.in','kavitha@appzoy.com','ramanan@ipl.edu.in','seema.joshi@ipl.edu.in','shwetha@clearlyblue.in','vishy@ipl.edu.in','pinkesh.shah@ipl.edu.in','rahulsadafule@gmail.com','rishikesh.pathak16@gmail.com','bharath.keshava.25@gmail.com'];
 
-         
+
+
         if (!in_array($authenticationType, $array_auth)) {
             return array("status" => "failure", "resultCode" => "1", "message" => "Incorrect authentication ");
         }
@@ -104,7 +118,7 @@ class addUser extends Eloquent
             $emailId = $model->userId = "";
             $authenticationType = $model->auth_type = "";
             $snsHandle = $model->snsHandle = "";
-			$model->userType="Guest";
+            $model->userType="Guest";
             $platform = $model->clientPlf = "";
             $model->imageUrl = "http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg";
             $device_model = $model->deviceType = $input['deviceType'];
@@ -123,7 +137,7 @@ class addUser extends Eloquent
             else{
                 $users = $model::where('auth_type', '=', $authenticationType)->where('uniqueDeviceID','=',$input['uniqueDeviceID'])->first();
                 if (!isset($users) || count($users) == 0) {
-					$model->liked = array();
+                    $model->liked = array();
                     $model->feedCount=0;
                     $uniqueID = $model->usrSessionHdl="Guest";
                     $model->save();
@@ -157,28 +171,28 @@ class addUser extends Eloquent
             $now = date($str);
             $coupons = coupon::where('Coupon', '=', $couponGet)->where('Date', '>', $now)->get();
             $users = $model::where('userId', '=', $emailId)->take(1)->get();
-			$idUser=$model::where('uniqueDeviceID', '=', $input['uniqueDeviceID'])->first();
-			
+            $idUser=$model::where('uniqueDeviceID', '=', $input['uniqueDeviceID'])->first();
+
 
 
             if (!isset($users) || count($users) == 0) {
                 $model->liked = array();
-					if (in_array($emailId, $testEmailArray)) {
-					$model->userType="Test";
-					$userType="Test";
-					}
-					else{
-						$model->userType="Normal";
-						$userType="Normal";
-					}
+                if (in_array($emailId, $testEmailArray)) {
+                    $model->userType="Test";
+                    $userType="Test";
+                }
+                else{
+                    $model->userType="Normal";
+                    $userType="Normal";
+                }
                 if (!isset($coupons) || count($coupons) == 0 || $couponGet == "") {
-					$model->pushNotificationID = $input['pushNotificationID'];
+                    $model->pushNotificationID = $input['pushNotificationID'];
                     $model->corporateName = "";
                     $model->save();
                     return array("status" => "success", "resultCode" => "11", "userType" => $userType, "message" => "New user created", "sessionHandle" => $uniqueID,'feedCount'=>0);
 
                 } else {
-					$model->pushNotificationID = $input['pushNotificationID'];
+                    $model->pushNotificationID = $input['pushNotificationID'];
                     $coupon = coupon::where('Coupon', '=', $couponGet)->first();
                     $com_name = $coupon['Name'];
                     $model->corporateName = $com_name;
@@ -188,14 +202,14 @@ class addUser extends Eloquent
 
 
             } else {
-				if (in_array($emailId, $testEmailArray)) {
-					$model->userType="Test";
-					$userType="Test";
-					}
-					else{
-						$model->userType="Normal";
-						$userType="Normal";
-					}
+                if (in_array($emailId, $testEmailArray)) {
+                    $model->userType="Test";
+                    $userType="Test";
+                }
+                else{
+                    $model->userType="Normal";
+                    $userType="Normal";
+                }
                 foreach ($users as $user) {
 
                     $userHandle = $user->usrSessionHdl;
@@ -348,7 +362,7 @@ class addUser extends Eloquent
     }
 
 
-    
+
 
 
     public static function gcm($file, $id, $name,$testName,$testScore,$testId)

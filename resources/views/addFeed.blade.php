@@ -8,8 +8,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
+    <link href="{!! asset('css/star-rating.css') !!}" media="all" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{!! asset('script/star-rating.js') !!}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <script>
+
         $(document).ready(function () {
             document.getElementById("cat").value = '<?php
 echo $tag;
@@ -23,10 +26,15 @@ echo $tag2;
         $(document).ready(function () {
             var user = localStorage.getItem('user');
             if (user == "content_admin") {
-                $('#setId').show()
+                $('#setId').show();
+                $('#accept').show();
+                $('#reject').show();
+
             }
             else {
-                $('#setId').hide()
+                $('#setId').hide();
+                $('#accept').hide();
+                $('#reject').hide();
             }
             if (user == "" || user == "null" || user == "undefined" || user == undefined) {
                 window.location.href = "loginAdmin"
@@ -38,9 +46,10 @@ echo $tag2;
 
 <body>
 <style type="text/css">
-    #feedContent{
+    #feedContent {
         word-wrap: break-word;
     }
+
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
@@ -160,20 +169,23 @@ echo $tag2;
 <nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
+            <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"><span class="glyphicon glyphicon-list"
+                                                                               aria-hidden="true"></span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li id="Mikrolearn" style="font-size: 1.8em"><a href="addFeed"> Mikrolearn</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="loginAdmin"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a></li>
+                <li><a href="loginAdmin"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a>
+                </li>
             </ul>
             <!--             <form class="navbar-form navbar-right" action="#" method="GET">
                                <div class="input-group">
@@ -200,10 +212,12 @@ echo $tag2;
                 {{--</a>--}}
                 {{--</li>--}}
                 <li style="font-size: 1.2em">
-                    <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp; Add feeds</a>
+                    <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+                        Add feeds</a>
                 </li>
                 <li id="setId" style="font-size: 1.2em">
-                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Set Today's Feeds</a>
+                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Set
+                        Today's Feeds</a>
                 </li>
 
 
@@ -234,7 +248,7 @@ echo $tag2;
                   enctype="multipart/form-data"
                   accept-charset="UTF-8">
                 <input type="hidden" value="first" name="first">
-                <input type="hidden" value="<?=$user?>" name="user">
+                <input type="hidden" value="<?= $user ?>" name="user">
 
                 <div class="col-sm-2">
                     <label>Category
@@ -316,7 +330,7 @@ echo $tag2;
             <div class="panel panel-default" style="width:94%">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-
+<span><?= $page['feedRating'] ?></span> <span class="glyphicon glyphicon-star-empty"></span>  &nbsp;&nbsp;
                         <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
                            href="#<?= $page['_id'] ?>">
                             <?= $page['feedTitle'] ?>
@@ -324,10 +338,12 @@ echo $tag2;
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $page['likeCount'] ?></span>
 							<span style="color:grey" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
                   </span>
+                        &nbsp;&nbsp;
+                        <span style="font-size: 72%">&nbsp;&nbsp;&nbsp;<b>Status :</b>&nbsp;&nbsp;<small><?= $page['feedStatus'] ?></small></span>
 
 
-                        <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:69%">
-                            <?=   $page['category'] ?>
+                        <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:72%">
+                            <?= $page['category'] ?>
                         </p>
 
                         <p style="font-size: 60%;color: grey;margin-top: -1.9%;float: right;">
@@ -353,9 +369,13 @@ echo $tag2;
                         </a>
 
 
-                        <?php if ($user != "content_admin") { ?>
+                        <?php
+                        if ($user != "content_admin") {
+                        ?>
 
-                        <?php if ($user == $page['feedOwner']) { ?>
+                        <?php
+                        if ($user == $page['feedOwner']) {
+                        ?>
 
                         <?php
                         $id = $page['_id']?>
@@ -380,11 +400,11 @@ echo $tag2;
                            data-idtag="<?= $page['_id'] ?>">Edit feed
                         </a>
                         <a style="margin-left: 77%;margin-top: -5%"
-                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?=$user?>"
+                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
                            class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
                         </a>
-                        <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
-                                class="btn btn-info btn-lg"
+                        <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
+                                class="btn btn-info"
                                 data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
                                 data-image="<?= $page['feedImage'] ?>"
                                 data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
@@ -400,10 +420,15 @@ echo $tag2;
                                 data-added="<?= $page['addedBy'] ?>"
                                 data-schedule="<?= $page['feedSchedule'] ?>"
                                 data-idtag="<?= $page['_id'] ?>"
+                                data-status="<?= $page['feedStatus'] ?>"
+                                data-remark="<?= $page['feedRemark'] ?>"
+                                data-rating="<?= $page['feedRating'] ?>"
                                 data-target="#myModal3">Preview
                         </button>
 
-                        <?php } else { ?>
+                        <?php
+                        } else {
+                        ?>
                         <a style="margin-left: 54%;margin-top: 1%" href="#"
                            class="btn btn-primary disabled"
                            role="button" data-toggle="modal" data-target="#myModal2"
@@ -413,8 +438,8 @@ echo $tag2;
                            href="#?>"
                            class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete feed
                         </a>
-                        <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
-                                class="btn btn-info btn-lg"
+                        <button style="margin-left: 89%;margin-top: -8.75%" type="button"
+                                class="btn btn-info"
                                 data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
                                 data-image="<?= $page['feedImage'] ?>"
                                 data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
@@ -430,13 +455,20 @@ echo $tag2;
                                 data-added="<?= $page['addedBy'] ?>"
                                 data-schedule="<?= $page['feedSchedule'] ?>"
                                 data-idtag="<?= $page['_id'] ?>"
+                                data-status="<?= $page['feedStatus'] ?>"
+                                data-remark="<?= $page['feedRemark'] ?>"
+                                data-rating="<?= $page['feedRating'] ?>"
                                 data-target="#myModal3">Preview
                         </button>
 
-                        <?php } ?>
+                        <?php
+                        }
+                        ?>
 
 
-                        <?php } else { ?>
+                        <?php
+                        } else {
+                        ?>
                         <?php
                         $id = $page['_id']?>
                         <a style="margin-left: 54%;margin-top: 1%" href="#<?php
@@ -460,11 +492,11 @@ echo $tag2;
                            data-idtag="<?= $page['_id'] ?>">Edit feed
                         </a>
                         <a style="margin-left: 77%;margin-top: -5%"
-                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?=$user?>"
+                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
                            class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
                         </a>
-                        <button style="margin-left: 89%;margin-top: -8.5% ;line-height: 81%;" type="button"
-                                class="btn btn-info btn-lg"
+                        <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
+                                class="btn btn-info "
                                 data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
                                 data-image="<?= $page['feedImage'] ?>"
                                 data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
@@ -480,10 +512,15 @@ echo $tag2;
                                 data-added="<?= $page['addedBy'] ?>"
                                 data-schedule="<?= $page['feedSchedule'] ?>"
                                 data-idtag="<?= $page['_id'] ?>"
+                                data-status="<?= $page['feedStatus'] ?>"
+                                data-remark="<?= $page['feedRemark'] ?>"
+                                data-rating="<?= $page['feedRating'] ?>"
                                 data-target="#myModal3">Preview
                         </button>
 
-                        <?php } ?>
+                        <?php
+                        }
+                        ?>
 
 
                     </div>
@@ -494,9 +531,7 @@ echo $tag2;
         endforeach;
         ?>
         <div class="modal fade" id="myModal" role="dialog">
-            <script type="text/javascript">
 
-            </script>
             <script type="text/javascript">
                 function check() {
                     var r = confirm('Are you sure you want to save??');
@@ -529,12 +564,11 @@ echo $tag2;
                                        required>
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Image:&nbsp;<small>File should be less than 1MB </small>
+                                <label for="usr">Feed Image:&nbsp;
+                                    <small>File should be less than 1MB</small>
                                 </label>
                                 <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
                             </div>
-
-
 
 
                             <div class="form-group">
@@ -543,14 +577,15 @@ echo $tag2;
                                 <input type="checkbox" class="" name="gcm" style="margin-left:4%">
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB of MP3 format </small>
+                                <label for="usr">Feed Audio:&nbsp;
+                                    <small>File should be less than 2MB of MP3 format</small>
                                 </label>
-                                <input type="file" accept="audio/*" class="form-control" name="images[]" id="audio">
+                                <input type="file" accept="audio/*" class="form-control" name="images[]" id="audioSave">
                             </div>
 
 
                             <h3>OR</h3>
-                            <input type="hidden" value="<?=$user?>" name="user">
+                            <input type="hidden" value="<?= $user ?>" name="user">
 
                             <div class="form-group">
                                 <label for="usr">Feed Audio URL:
@@ -722,10 +757,11 @@ echo $tag2;
                                        placeholder="Title of the feed" required>
                             </div>
 
-                            <input type="hidden" value="<?=$user?>" name="user">
+                            <input type="hidden" value="<?= $user ?>" name="user">
 
                             <div class="form-group">
-                                <label for="usr">Feed Image:&nbsp;<small>File should be less than 1MB </small>
+                                <label for="usr">Feed Image:&nbsp;
+                                    <small>File should be less than 1MB</small>
                                 </label>
                                 <input type="file" class="form-control" accept="image/*" name="image[]" id="imaged">
                             </div>
@@ -738,20 +774,12 @@ echo $tag2;
                                 </label>
                                 <input type="text" class="form-control" id="feedImages" name="feedImage"
                                        placeholder="Feed Image URL">
-                            </div>  <h3>OR</h3>
-
-                            <div class="form-group">
-                                <label for="usr">Feed Image URL:
-                                </label>
-                                <input type="text" class="form-control" id="feedImages" name="feedImage"
-                                       placeholder="Feed Image URL">
                             </div>
-
 
                             <div class="form-group">
                                 <label for="usr">Feed Publishing Date:
                                 </label>
-                                <input type="text" class="form-control" name="feedSchedule" id="feedSchedule"
+                                <input type="date" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
                             </div>
                             <div class="form-group">
@@ -791,9 +819,10 @@ echo $tag2;
                             <br>
 
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;<small>File should be less than 2MB of MP3 format</small>
+                                <label for="usr">Feed Audio:&nbsp;
+                                    <small>File should be less than 2MB of MP3 format</small>
                                 </label>
-                                <input type="file" class="form-control" name="images[]" accept="audio/*" id="audio">
+                                <input type="file" class="form-control" name="images[]" accept="audio/*" id="audioTag">
                             </div>
 
 
@@ -929,7 +958,7 @@ echo $tag2;
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                       style=" font-size: 0.75em;color: skyblue;"></span>
                         </div>
@@ -941,8 +970,15 @@ echo $tag2;
                         <img id="btimg"
                              style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                              src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
+                        <input type="hidden" id="previewHidden"/>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="accept" data-toggle="modal"
+                                onclick="accept()" ; data-target="#acceptModal">Accept
+                        </button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#acceptModal" id="reject"
+                                onclick="reject()" ;> Reject
+                        </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -975,7 +1011,7 @@ echo $tag2;
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                       style=" font-size: 0.75em;color: skyblue;"></span>
                         </div>
@@ -1021,7 +1057,7 @@ echo $tag2;
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:29% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                       style=" font-size: 0.75em;color: skyblue;"></span>
                         </div>
@@ -1041,6 +1077,36 @@ echo $tag2;
 
             </div>
         </div>
+        <div class="modal fade" id="acceptModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="head" class="modal-title">Remark</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="accept" id="form-id">
+                            <span>Remarks</span>
+                            <textarea id="remarkArea" class="form-control" rows="3" name="remarks"
+                                      placeholder="Leave remarks here" required></textarea>
+                            <hr>
+                            <input id="rating-input" type="number" name="star" />
+
+                            <input type="hidden" class="form-control" name="id" id="acceptId">
+                            <input type="hidden" class="form-control" name="clickedType" id="clickedType">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info"
+                                onclick="document.getElementById('form-id').submit();">Submit
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
 
     </div>
@@ -1051,7 +1117,7 @@ echo $tag2;
 <!-- /#wrapper -->
 
 <script type="text/javascript">
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
@@ -1120,13 +1186,21 @@ echo $tag2;
                 var loc = button.data('loc');
                 var schedule = button.data('schedule');
                 var date = button.data('date');
-                var summ = button.data('summ');
-                var added = button.data('added');
+                var status = button.data('status');
+                var remark = button.data('remark');
+				var added = button.data('added');
+                var rating=button.data('rating');
+                localStorage.setItem('remark', remark);
+                localStorage.setItem('id', idTag);
+                localStorage.setItem('star', rating);
+
+
                 // Extract info from data-* attributes
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this);
                 modal.find('#feedTitle').text(title);
+                modal.find('#accept').data('remark', remark);
                 modal.find('#feedImage').attr('src', image);
                 modal.find('#feedContent').text(content);
                 modal.find('#source').text(sourceTag + " >");
@@ -1178,6 +1252,46 @@ echo $tag2;
             }
     );
 </script>
+<script>
+
+    $('#acceptModal').on('show.bs.modal', function (event) {
+//                var button = $(event.relatedTarget);
+//                // Button that triggered the modal
+//                 var remark = button.data('remark');
+//                // Extract info from data-* attributes
+//                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+//                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+//                var modal = $(this);
+//                modal.find('#head').text(remark);
+                var remark = localStorage.getItem('remark');
+                var id = localStorage.getItem('id');
+                var type = localStorage.getItem('clicked');
+                var rating = localStorage.getItem('star');
+                $('#clickedType').val(type);
+                $('#acceptId').val(id);
+                $('#remarkArea').val(remark);
+                $('#rating-input').val(rating);
+                $(document).ready(function () {
+                    $('#rating-input').rating({
+                        min: 0,
+                        max: 5,
+                        step: 1,
+                        size: 'lg',
+                        showClear: false
+                    });
+
+
+
+                    $('#rating-input').on('rating.change', function() {
+                    });
+
+
+                });
+
+
+            }
+    )
+</script>
 
 <script type="text/javascript">
     function confSubmit2() {
@@ -1185,16 +1299,26 @@ echo $tag2;
         return r;
     }
     function confSubmit() {
+        var input = document.getElementById("audioSave");
 
+        // check for browser support (may need to be modified)
+        if(input.files && input.files.length == 1)
+        {
+
+            if (input.files[0].size > 2097152)
+            {
+                alert("The file must be less than 2 MB");
+                return false;
+            }
+        }
 
         if (document.getElementById("image").files.length == 0) {
-            alert("Please add an image file or URL");
+            alert("Please add an image file ");
             return false;
 
 
-
         }
-        else{
+        else {
             var r = confirm('Are you sure you want to save??');
             return r;
         }
@@ -1202,27 +1326,46 @@ echo $tag2;
 
     }
     function editSubmit() {
+        var input = document.getElementById("audioTag");
 
-        if (document.getElementById("imaged").files.length == 0) {
-            if ($("#feedImages").val().length == 0) {
-                alert("Please add an image file or URL");
+        // check for browser support (may need to be modified)
+        if(input.files && input.files.length == 1)
+        {
+
+            if (input.files[0].size > 2097152)
+            {
+                alert("The file must be less than 2 MB");
                 return false;
             }
-            else{
+        }
+        if (document.getElementById("imaged").files.length == 0) {
+            if ($("#feedImages").val().length == 0) {
+                alert("Please add an image file");
+                return false;
+            }
+            else {
                 var r = confirm('Are you sure you want to save??');
                 return r;
             }
 
         }
-        else{
+        else {
 
             var r = confirm('Are you sure you want to save??');
             return r;
         }
 
 
-
     }
+
+    function accept() {
+        localStorage.setItem('clicked', 'Accept');
+    }
+    function reject() {
+        localStorage.setItem('clicked', 'Reject');
+    }
+
+
 </script>
 
 </body>
