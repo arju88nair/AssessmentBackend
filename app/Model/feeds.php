@@ -70,6 +70,8 @@ class feeds extends Eloquent
 
             $guest = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
             if ($guest['feedCount'] >= 10) {
+				
+
                 if (count($cat) == 0) {
                     $feedArray = array();
 
@@ -113,15 +115,18 @@ class feeds extends Eloquent
 
                         $feed = $feedArray;
 
-                        $feed = feeds::where('category', '=', $item)->get();
-                        foreach ($feed as $items) {
+                         foreach ($feed as $item) {
+                        $userArray = $user['liked'];
 
-                            $feedid = $items['_id'];
+                        $feedid = $item['_id'];
+                        if (in_array($feedid, $userArray)) {
+                            $item->liked = "Yes";
+                        } else {
                             $item->liked = "No";
-                            $feedid = $items['_id'];
-                            array_push($array, $items);
 
                         }
+                        array_push($array, $item);
+                    }
 
                     }
                     $category = extra::first();
@@ -166,10 +171,17 @@ class feeds extends Eloquent
                         $feed = $feedArray;
                         $array = array();
                         foreach ($feed as $item) {
-                            $feedid = $item['_id'];
+                        $userArray = $guest['liked'];
+
+                        $feedid = $item['_id'];
+                        if (in_array($feedid, $userArray)) {
+                            $item->liked = "Yes";
+                        } else {
                             $item->liked = "No";
-                            array_push($array, $item);
+
                         }
+                        array_push($array, $item);
+                    }
                         $category = extra::first();
 
 

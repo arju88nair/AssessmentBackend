@@ -84,7 +84,7 @@ class addUser extends Eloquent
         $array_plt = ['android', 'ios', 'webApp','Guest'];
         $array_device = ['smartphone', 'tablet', 'phablet','Guest'];
         $userTypes=['guest', 'normal'];
-		$testEmailArray=['mail2appzoy@gmail.com','appzoytest@gmail.com'];
+		$testEmailArray=['mail2appzoy@gmail.com','appzoytest@gmail.com','aditya.shankar@gmai.com','dheeraj@ipl.edu.in','Kaushik.Balasubramanian@ipl.edu.in','marya.wani@ipl.edu.in','padmaja.narsipur@ipl.edu.in','pshah@ipl.edu.in','rahul@ipl.edu.in','rahul@appzoy.com','arju88nair@gmail.com','ramanan@productleadership.com','rajesh@ipl.edu.in','rohan.krishna@ipl.edu.in','aditya.shankar@ipl.edu.in','jobin.john@ipl.edu.in','kavitha@appzoy.com','ramanan@ipl.edu.in','seema.joshi@ipl.edu.in','shwetha@clearlyblue.in','vishy@ipl.edu.in'];
 		
 
          
