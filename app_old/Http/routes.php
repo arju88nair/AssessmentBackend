@@ -144,6 +144,8 @@ Route::get('test','DashboardController@testFeed');
 
 Route::post('saveSetFeed','DashboardController@saveSetFeed');
 
+Route::post('accept','DashboardController@accept');
+
 
 
 

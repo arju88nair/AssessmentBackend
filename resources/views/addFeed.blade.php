@@ -8,17 +8,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
-    <link href="{!! asset('css/star-rating.css') !!}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{!! asset('css/star-rating.css') !!}" media="all" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{!! asset('script/star-rating.js') !!}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <script>
 
         $(document).ready(function () {
+
             document.getElementById("cat").value = '<?php
 echo $tag;
 ?>';
             document.getElementById("own").value = '<?php
 echo $tag2;
+?>';
+            document.getElementById("statusTag").value = '<?php
+echo $tag3;
 ?>';
         });
     </script>
@@ -257,8 +261,7 @@ echo $tag2;
                     <div class="input-group">
                         <div class="">
                             <select name="Category" class="form-control" id="cat">
-                                <option value="All">All
-                                </option>
+                                <option value="All">All</option>
                                 <option value="Product Management">Product Management
                                 </option>
                                 <option value="Agile Planning">Agile Planning
@@ -300,15 +303,41 @@ echo $tag2;
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-2" id="statusId">
+                    <label>Status
+                    </label>
+
+                    <div class="input-group">
+                        <div class="">
+                            <select name="statusTags" class="form-control" id="statusTag">
+                                <option value="All">All</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Published">Published</option>
+                                <option value="Major Pending Edits"> Major Pending Edits</option>
+                                <option value="Minor Pending Edits"> Minor Pending Edits</option>
+                                <option value="Waiting for Approval">Waiting for Approval</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <br>
-                <button style="line-height: 207%" type="submit" class="btn btn-default" name="button"
+                &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                <button style="line-height: 207%" type="submit" class="btn btn-primary" name="button"
                         value="filter">Filter
                 </button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
 
-                <button style="line-height: 207%" type="submit" class="btn btn-default" name="button" value="sort">
+                <button style="line-height: 207%" type="submit" class="btn btn-info" name="button" value="sort">
                     Sort by likes
                 </button>
+                &nbsp;&nbsp
+
+                {{--<button style="line-height: 207%" type="button" class="btn btn-default"--}}
+                {{--onclick="location.href='addFeed'">--}}
+                {{--Reset--}}
+                {{--</button>--}}
             </form>
         </div>
         <div class="second">
@@ -330,7 +359,8 @@ echo $tag2;
             <div class="panel panel-default" style="width:94%">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-<span><?= $page['feedRating'] ?></span> <span class="glyphicon glyphicon-star-empty"></span>  &nbsp;&nbsp;
+                        <span><?= $page['feedRating'] ?></span> <span class="glyphicon glyphicon-star-empty"></span>
+                        &nbsp;&nbsp;
                         <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
                            href="#<?= $page['_id'] ?>">
                             <?= $page['feedTitle'] ?>
@@ -339,10 +369,10 @@ echo $tag2;
 							<span style="color:grey" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
                   </span>
                         &nbsp;&nbsp;
+
                         <span style="font-size: 72%">&nbsp;&nbsp;&nbsp;<b>Status :</b>&nbsp;&nbsp;<small><?= $page['feedStatus'] ?></small></span>
 
-
-                        <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:72%">
+                        <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:74%">
                             <?= $page['category'] ?>
                         </p>
 
@@ -973,12 +1003,10 @@ echo $tag2;
                         <input type="hidden" id="previewHidden"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="accept" data-toggle="modal"
-                                onclick="accept()" ; data-target="#acceptModal">Accept
+                        <button type="button" class="btn btn-success" id="acceptButton" data-toggle="modal"
+                                onclick="accept()" ; data-target="#acceptModal">Rate
                         </button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#acceptModal" id="reject"
-                                onclick="reject()" ;> Reject
-                        </button>
+
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -1091,7 +1119,7 @@ echo $tag2;
                             <textarea id="remarkArea" class="form-control" rows="3" name="remarks"
                                       placeholder="Leave remarks here" required></textarea>
                             <hr>
-                            <input id="rating-input" type="number" name="star" />
+                            <input id="rating-input" type="number" name="star"/>
 
                             <input type="hidden" class="form-control" name="id" id="acceptId">
                             <input type="hidden" class="form-control" name="clickedType" id="clickedType">
@@ -1188,17 +1216,30 @@ echo $tag2;
                 var date = button.data('date');
                 var status = button.data('status');
                 var remark = button.data('remark');
-				var added = button.data('added');
-                var rating=button.data('rating');
+                var added = button.data('added');
+                var rating = button.data('rating');
                 localStorage.setItem('remark', remark);
                 localStorage.setItem('id', idTag);
                 localStorage.setItem('star', rating);
-
 
                 // Extract info from data-* attributes
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this);
+                if (status != "Approved") {
+
+                    modal.find('#acceptButton').show();
+                }
+                else {
+                    modal.find('#acceptButton').hide();
+                }
+        if (status != "Published") {
+
+            modal.find('#acceptButton').show();
+        }
+        else {
+            modal.find('#acceptButton').hide();
+        }
                 modal.find('#feedTitle').text(title);
                 modal.find('#accept').data('remark', remark);
                 modal.find('#feedImage').attr('src', image);
@@ -1277,12 +1318,11 @@ echo $tag2;
                         max: 5,
                         step: 1,
                         size: 'lg',
-                        showClear: false
+                        showClear: true
                     });
 
 
-
-                    $('#rating-input').on('rating.change', function() {
+                    $('#rating-input').on('rating.change', function () {
                     });
 
 
@@ -1302,11 +1342,9 @@ echo $tag2;
         var input = document.getElementById("audioSave");
 
         // check for browser support (may need to be modified)
-        if(input.files && input.files.length == 1)
-        {
+        if (input.files && input.files.length == 1) {
 
-            if (input.files[0].size > 2097152)
-            {
+            if (input.files[0].size > 2097152) {
                 alert("The file must be less than 2 MB");
                 return false;
             }
@@ -1329,11 +1367,9 @@ echo $tag2;
         var input = document.getElementById("audioTag");
 
         // check for browser support (may need to be modified)
-        if(input.files && input.files.length == 1)
-        {
+        if (input.files && input.files.length == 1) {
 
-            if (input.files[0].size > 2097152)
-            {
+            if (input.files[0].size > 2097152) {
                 alert("The file must be less than 2 MB");
                 return false;
             }
@@ -1361,12 +1397,10 @@ echo $tag2;
     function accept() {
         localStorage.setItem('clicked', 'Accept');
     }
-    function reject() {
-        localStorage.setItem('clicked', 'Reject');
-    }
 
 
 </script>
 
 </body>
 </html>
+

@@ -15,7 +15,20 @@ use Input;
 
 class questions extends Eloquent
 {
-    //
+    /*For whoever may it concern,
+ "Long ago all classes lived together in harmony.Then everything changed when poor management attacked.Only the Avatar ,the master of all classes
+ could stop them.But when the project needed him most, he vanished. A hundred commits passed.Me and my blackened soul  discovered a new Job. And although my progrmaming skills are great,
+  he still has a lot to learn before he's ready to commit more. But I don't believe anyone can save this project."
+
+
+ But seriously,in the start all classes were well written.They came forth withtoo many changes and reverting back and everything which made this whle  code a living nightmare
+  Sorry for whoever lays hand on this.
+
+ Best of luck,
+ Rain04
+
+
+ */
     protected $connection = "mongodb";
     protected $collection = "Dashboard";
     /*    protected $primaryKey = "testId";*/

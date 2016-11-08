@@ -81,7 +81,8 @@
                     data: {"ids": liIds},
                     success: function (response) {
                         console.log(response);
-                        $('#success').show()
+                        $('#success').show();
+                        window.setTimeout(function(){location.reload()},500)
                     },
                     error: function (response) {
                         console.log(response);
@@ -394,7 +395,7 @@
         <button id="Shareitem" class="btn btn-primary btn-lg btn-block" type="button">Update Today's feed</button>
 
         <div class="col1 col-md-6" style="margin-left: 3%;padding-top: 2%">
-            <h4 style="">Add Feed</h4>
+            <h4 style="">Approved Feed</h4>
             <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
 
                 <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
@@ -411,7 +412,7 @@
             <div class="col-lg-1"></div>
 
             <div class="col-lg-5" id="second" style="margin-top: 2%">
-                <h4 style="padding-left: 5%">Today's Feed</h4>
+                <h4 style="padding-left: 5%">Published Feed</h4>
                 <ul id="sortable1" class="connectedSortable">
                     <?php
                     foreach ($main as $page):

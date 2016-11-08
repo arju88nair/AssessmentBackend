@@ -83,4 +83,10 @@ class DashboardController extends Controller
     {
         return admin::saveSetFeed($request->all());
     }
+
+    public function accept(Request $request)
+    {
+        return admin::accept($request->all());
+    }
+
 }

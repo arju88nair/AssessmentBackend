@@ -16,6 +16,19 @@ class feeds extends Eloquent
 {
     //
 
+    /*For whoever may it concern,
+"Long ago all classes lived together in harmony.Then everything changed when poor management attacked.Only the Avatar ,the master of all classes
+could stop them.But when the project needed him most, he vanished. A hundred commits passed.Me and my blackened soul  discovered a new Job. And although my progrmaming skills are great,
+ he still has a lot to learn before he's ready to commit more. But I don't believe anyone can save this project."
+
+
+
+    "I pity the fool who have to take up on this project,I pity the fool." (Read in Mr.T's voice)
+Best of luck,
+Rain04
+
+
+*/
     protected $connection = "mongodb";
     protected $collection = "newsFeed";
 
@@ -70,13 +83,13 @@ class feeds extends Eloquent
 
             $guest = addUser::where('uniqueDeviceID', '=', $input['uId'])->where('usrSessionHdl', '=', 'Guest')->first();
             if ($guest['feedCount'] >= 10) {
-				
+
 
                 if (count($cat) == 0) {
                     $feedArray = array();
 
                     foreach ($idArray as $id) {
-                        $feed = $model::where('_id', '=', $id)->first();
+                        $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                         array_push($feedArray, $feed);
                     }
 
@@ -109,24 +122,24 @@ class feeds extends Eloquent
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->first();
+                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                             array_push($feedArray, $feed);
                         }
 
                         $feed = $feedArray;
 
-                         foreach ($feed as $item) {
-                        $userArray = $user['liked'];
+                        foreach ($feed as $item) {
+                            $userArray = $user['liked'];
 
-                        $feedid = $item['_id'];
-                        if (in_array($feedid, $userArray)) {
-                            $item->liked = "Yes";
-                        } else {
-                            $item->liked = "No";
+                            $feedid = $item['_id'];
+                            if (in_array($feedid, $userArray)) {
+                                $item->liked = "Yes";
+                            } else {
+                                $item->liked = "No";
 
+                            }
+                            array_push($array, $item);
                         }
-                        array_push($array, $item);
-                    }
 
                     }
                     $category = extra::first();
@@ -164,24 +177,24 @@ class feeds extends Eloquent
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->first();
+                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                             array_push($feedArray, $feed);
                         }
 
                         $feed = $feedArray;
                         $array = array();
                         foreach ($feed as $item) {
-                        $userArray = $guest['liked'];
+                            $userArray = $guest['liked'];
 
-                        $feedid = $item['_id'];
-                        if (in_array($feedid, $userArray)) {
-                            $item->liked = "Yes";
-                        } else {
-                            $item->liked = "No";
+                            $feedid = $item['_id'];
+                            if (in_array($feedid, $userArray)) {
+                                $item->liked = "Yes";
+                            } else {
+                                $item->liked = "No";
 
+                            }
+                            array_push($array, $item);
                         }
-                        array_push($array, $item);
-                    }
                         $category = extra::first();
 
 
@@ -203,7 +216,7 @@ class feeds extends Eloquent
                             $feedArray = array();
 
                             foreach ($idArray as $id) {
-                                $feed = $model::where('_id', '=', $id)->first();
+                                $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                                 array_push($feedArray, $feed);
                             }
 
@@ -252,7 +265,7 @@ class feeds extends Eloquent
                     $feedArray = array();
 
                     foreach ($idArray as $id) {
-                        $feed = $model::where('_id', '=', $id)->first();
+                        $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                         array_push($feedArray, $feed);
                     }
 
@@ -291,12 +304,12 @@ class feeds extends Eloquent
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->first();
+                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
                             array_push($feedArray, $feed);
                         }
 
                         $feed = $feedArray;
-                        $feed = feeds::where('category', '=', $item)->get();
+                        $feed = feeds::where('category', '=', $item)->where('feedStatus', '=', 'Approved')->get();
                         foreach ($feed as $items) {
                             $userArray = $user['liked'];
                             $feedid = $items['_id'];
@@ -339,10 +352,13 @@ class feeds extends Eloquent
         $model->summarised = $input['summarised'];
         $model->addedBy = $input['addedBy'];
         $model->feedOwner = $_POST['feedOwner'];
+        $model->feedStatus = "Pending";
+        $model->feedRemark = "";
+        $model->feedRating=0;
         $model->feedSchedule = $input['feedSchedule'];
         $model->feedType = $_POST['type'];
-        if($_POST['feedOwner']==""||$_POST['feedOwner']==null){
-            $model->feedOwner="content_admin";
+        if ($_POST['feedOwner'] == "" || $_POST['feedOwner'] == null) {
+            $model->feedOwner = "content_admin";
         }
         $model->trending = $_POST['trending'];
         $model->location = $_POST['loc'];
@@ -351,21 +367,21 @@ class feeds extends Eloquent
 //        $model->feedImage = $input['feedImage'];
         $model->likeCount = 0;
 
-        
-            //Image upoading
-            $images = Input::file('image');
 
-            foreach ($images as $file) {
-                $destinationPath = public_path() . '/image/';
-                $extension = $file->getClientOriginalExtension(); // getting image extension
-                $fileName = rand() . '.' . $extension; // renaming image[
-                $file->move($destinationPath, $fileName); // uploading file to given path
-                $pathToFile = $destinationPath . $fileName;
-                $string = "/var/www/html/Assessment/public";
-                $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
-                $model->feedImage = $path;
-            }
-            //Image end
+        //Image upoading
+        $images = Input::file('image');
+
+        foreach ($images as $file) {
+            $destinationPath = public_path() . '/image/';
+            $extension = $file->getClientOriginalExtension(); // getting image extension
+            $fileName = rand() . '.' . $extension; // renaming image[
+            $file->move($destinationPath, $fileName); // uploading file to given path
+            $pathToFile = $destinationPath . $fileName;
+            $string = "/var/www/html/Assessment/public";
+            $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
+            $model->feedImage = $path;
+        }
+        //Image end
 
         $model->feedContent = $input['feedContent'];
         $model->feedSource = $input['sourceUrl'];
@@ -445,12 +461,11 @@ class feeds extends Eloquent
                         $test = questions::all();
                         $report = upload::all();
                         $assistance = assistance::all();
-                        $feed=array();
-                        foreach($feeds as $item)
-                        {
-                            array_push($feed,$item);
+                        $feed = array();
+                        foreach ($feeds as $item) {
+                            array_push($feed, $item);
                         }
-                        $feed= array_reverse($feed);
+                        $feed = array_reverse($feed);
 
                         return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
 
@@ -522,12 +537,11 @@ class feeds extends Eloquent
             $test = questions::all();
             $report = upload::where('status', '=', 'Pending')->get();
             $assistance = assistance::all();
-            $feed=array();
-            foreach($feeds as $item)
-            {
-                array_push($feed,$item);
+            $feed = array();
+            foreach ($feeds as $item) {
+                array_push($feed, $item);
             }
-            $feed= array_reverse($feed);
+            $feed = array_reverse($feed);
             return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
 
         } else {
@@ -564,18 +578,23 @@ class feeds extends Eloquent
             $new->trending = $_POST['trending'];
             $new->feedContent = $input['feedContent'];
             $new->feedSource = $input['sourceUrl'];
+            $new->feedStatus = "Pending";
+            $new->feedRemark = "";
             $new->feedSourceTag = $input['sourceTitle'];
         }
 
         $title = $model->feedTitle = $input['feedTitle'];
         $model->summarised = $input['summarised'];
+        $model->feedStatus = "Pending";
+        $model->feedRemark = "";
         $model->addedBy = $input['addedBy'];
+        $model->feedRating=0;
         $model->feedOwner = $_POST['feedOwner'];
         $model->feedDate = $_POST['feedDate'];
         $model->feedSchedule = $input['feedSchedule'];
-if($_POST['feedOwner']==""||$_POST['feedOwner']==null){
-    $model->feedOwner="content_admin";
-}
+        if ($_POST['feedOwner'] == "" || $_POST['feedOwner'] == null) {
+            $model->feedOwner = "content_admin";
+        }
         $model->feedType = $_POST['type'];
         $model->category = $_POST['Category'];
         $model->location = $_POST['loc'];
