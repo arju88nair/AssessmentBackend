@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Set Today's Feed</title>
+    <title>Publish Shot</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -358,7 +358,7 @@
                     <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp; Add feeds</a>
                 </li>
                 <li id="setId" style="font-size: 1.2em">
-                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Set Todays Shots</a>
+                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish Shots</a>
                 </li>
 
 
@@ -382,20 +382,23 @@
     <div id="container" style="background-color: #F0F2F5">
 
         <br>
-        <div id="help" style="text-align: center;font-weight: bold;font-size: 1.4em">Drag and drop to set today's shots!</div>
+        <div id="help" style="text-align: center;font-weight: bold;font-size: 1.4em">Drag and drop to publish shots!</div>
         <br>
         <div class="alert alert-success fade in" id="success">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Success!</strong> Feeds have been updated.
+            <strong>Success!</strong> Shots have been updated.
         </div>
         <div class="alert alert-danger fade in" id="error">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Error!</strong> Something went wrong.Refresh and try again.
         </div>
-        <button id="Shareitem" class="btn btn-primary btn-lg btn-block" type="button">Update Today's feed</button>
+        <div id="wrapper">
+            <button id="Shareitem"  class="btn btn-primary btn-lg btn-block" type="button" style="width:78%">Publish Shots</button>
+
+        </div>
 
         <div class="col1 col-md-6" style="margin-left: 3%;padding-top: 2%">
-            <h4 style="">Approved Feed</h4>
+            <h4 style="">Approved Shots</h4>
             <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
 
                 <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
@@ -412,7 +415,7 @@
             <div class="col-lg-1"></div>
 
             <div class="col-lg-5" id="second" style="margin-top: 2%">
-                <h4 style="padding-left: 5%">Published Feed</h4>
+                <h4 style="padding-left: 5%">Published Shots</h4>
                 <ul id="sortable1" class="connectedSortable">
                     <?php
                     foreach ($main as $page):

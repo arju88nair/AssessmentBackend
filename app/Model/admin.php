@@ -709,11 +709,10 @@ class admin extends Eloquent
 
 
         $feed = feeds::where('_id', '=', $_POST['id'])->first();
-
         if ($feed != null || !isset($feed)) {
             $feed->feedRating = $rating;
             if ($feed['feedRemark'] == "") {
-                $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
+                $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d",time()) . "]  " ."\n". '--------------------';
                 $feed->feedRemark = $feedRemark;
                 $saved = $feed->save();
                 if ($saved) {
@@ -736,7 +735,7 @@ class admin extends Eloquent
                     return Redirect::to('addFeed');
                 }
             }
-            $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
+            $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d",time()) . "]  " ."\n". '--------------------'."\n".$feed['feedRemark'];
             $feed->feedRemark = $feedRemark;
             $saved = $feed->save();
             if ($saved) {

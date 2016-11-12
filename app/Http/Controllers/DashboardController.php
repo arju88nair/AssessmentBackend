@@ -88,5 +88,10 @@ class DashboardController extends Controller
     {
         return admin::accept($request->all());
     }
+	
+	 public function apply(Request $request)
+    {
+        return feeds::apply($request->all());
+    }
 
 }

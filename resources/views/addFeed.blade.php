@@ -30,14 +30,15 @@ echo $tag3;
         $(document).ready(function () {
             var user = localStorage.getItem('user');
             if (user == "content_admin") {
-                $('#setId').show();
-                $('#accept').show();
+//                $('#setId').show();
+
                 $('#reject').show();
 
             }
             else {
-                $('#setId').hide();
-                $('#accept').hide();
+
+//                $('#setId').hide();
+
                 $('#reject').hide();
             }
             if (user == "" || user == "null" || user == "undefined" || user == undefined) {
@@ -217,11 +218,10 @@ echo $tag3;
                 {{--</li>--}}
                 <li style="font-size: 1.2em">
                     <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;
-                        Add feeds</a>
+                        Add Shots</a>
                 </li>
                 <li id="setId" style="font-size: 1.2em">
-                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Set
-                        Today's Feeds</a>
+                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish Shots</a>
                 </li>
 
 
@@ -242,8 +242,7 @@ echo $tag3;
 
 
     <div class="container">
-        <h2>Filter
-        </h2>
+        
         <br>
         <br>
 
@@ -344,9 +343,10 @@ echo $tag3;
 
         </div>
         <br>
+        <h4><?= count($feed)?> shot(s) below</h4>
         <br>
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Add new
-            feed
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">Add new
+            shot
             item
         </button>
         <br>
@@ -370,7 +370,7 @@ echo $tag3;
                   </span>
                         &nbsp;&nbsp;
 
-                        <span style="font-size: 72%">&nbsp;&nbsp;&nbsp;<b>Status :</b>&nbsp;&nbsp;<small><?= $page['feedStatus'] ?></small></span>
+                        <span style="font-size: 72%">&nbsp;&nbsp;&nbsp;<small><?= $page['feedStatus'] ?></small></span>
 
                         <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:74%">
                             <?= $page['category'] ?>
@@ -409,9 +409,7 @@ echo $tag3;
 
                         <?php
                         $id = $page['_id']?>
-                        <a style="margin-left: 54%;margin-top: 1%" href="#<?php
-                        echo '' . $id . '';
-                        ?>"
+                        <a style="margin-left: 54%;margin-top: 1%" href="#<?php echo '' . $id . '';?>"
                            class="btn btn-primary"
                            role="button" data-toggle="modal" data-target="#myModal2"
                            data-title="<?= $page['feedTitle'] ?>" data-image="<?= $page['feedImage'] ?>"
@@ -426,12 +424,13 @@ echo $tag3;
                            data-date="<?= $page['feedDate'] ?>"
                            data-summ="<?= $page['summarised'] ?>"
                            data-added="<?= $page['addedBy'] ?>"
+                           data-remark="<?= $page['feedRemark'] ?>"
                            data-schedule="<?= $page['feedSchedule'] ?>"
-                           data-idtag="<?= $page['_id'] ?>">Edit feed
+                           data-idtag="<?= $page['_id'] ?>" data-backdrop="static">Edit Shot
                         </a>
                         <a style="margin-left: 77%;margin-top: -5%"
                            href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
-                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
+                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete Shot
                         </a>
                         <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
                                 class="btn btn-info"
@@ -453,7 +452,7 @@ echo $tag3;
                                 data-status="<?= $page['feedStatus'] ?>"
                                 data-remark="<?= $page['feedRemark'] ?>"
                                 data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3">Preview
+                                data-target="#myModal3" data-backdrop="static" >Preview
                         </button>
 
                         <?php
@@ -462,11 +461,11 @@ echo $tag3;
                         <a style="margin-left: 54%;margin-top: 1%" href="#"
                            class="btn btn-primary disabled"
                            role="button" data-toggle="modal" data-target="#myModal2"
-                        >Edit feed
+                        >Edit Shot
                         </a>
                         <a style="margin-left: 77%;margin-top: -5%"
                            href="#?>"
-                           class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete feed
+                           class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete Shot
                         </a>
                         <button style="margin-left: 89%;margin-top: -8.75%" type="button"
                                 class="btn btn-info"
@@ -488,7 +487,7 @@ echo $tag3;
                                 data-status="<?= $page['feedStatus'] ?>"
                                 data-remark="<?= $page['feedRemark'] ?>"
                                 data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3">Preview
+                                data-target="#myModal3" data-backdrop="static" data-keyboard="false">Preview
                         </button>
 
                         <?php
@@ -501,9 +500,7 @@ echo $tag3;
                         ?>
                         <?php
                         $id = $page['_id']?>
-                        <a style="margin-left: 54%;margin-top: 1%" href="#<?php
-                        echo '' . $id . '';
-                        ?>"
+                        <a style="margin-left: 54%;margin-top: 1%" href=""
                            class="btn btn-primary"
                            role="button" data-toggle="modal" data-target="#myModal2"
                            data-title="<?= $page['feedTitle'] ?>" data-image="<?= $page['feedImage'] ?>"
@@ -518,12 +515,13 @@ echo $tag3;
                            data-date="<?= $page['feedDate'] ?>"
                            data-summ="<?= $page['summarised'] ?>"
                            data-added="<?= $page['addedBy'] ?>"
-                           data-schedule="<?= $page['feedSchedule'] ?>"
-                           data-idtag="<?= $page['_id'] ?>">Edit feed
+                           data-schedule="<?= $page['feedSchedule']?>"
+                           data-remark="<?= $page['feedRemark'] ?>"
+                           data-idtag="<?= $page['_id'] ?>" data-backdrop="static" >Edit Shot
                         </a>
                         <a style="margin-left: 77%;margin-top: -5%"
                            href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
-                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete feed
+                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete Shot
                         </a>
                         <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
                                 class="btn btn-info "
@@ -545,7 +543,7 @@ echo $tag3;
                                 data-status="<?= $page['feedStatus'] ?>"
                                 data-remark="<?= $page['feedRemark'] ?>"
                                 data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3">Preview
+                                data-target="#myModal3" data-backdrop="static" >Preview
                         </button>
 
                         <?php
@@ -579,7 +577,7 @@ echo $tag3;
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;
                         </button>
-                        <h4 class="modal-title">Add new feed
+                        <h4 class="modal-title">Add new Shot
                         </h4>
                     </div>
                     <div class="modal-body">
@@ -587,14 +585,14 @@ echo $tag3;
                               enctype="multipart/form-data"
                               accept-charset="UTF-8" onsubmit="return confSubmit(); check();">
                             <div class="form-group">
-                                <label for="usr">Feed title:
+                                <label for="usr">Shot title:
                                 </label>
                                 <input type="text" class="form-control" id="feedTitles" name="feedTitle"
-                                       placeholder="Feed Title"
+                                       placeholder="Shot Title"
                                        required>
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Image:&nbsp;
+                                <label for="usr">Shot Image:&nbsp;
                                     <small>File should be less than 1MB</small>
                                 </label>
                                 <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
@@ -607,7 +605,7 @@ echo $tag3;
                                 <input type="checkbox" class="" name="gcm" style="margin-left:4%">
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;
+                                <label for="usr">Shot Audio:&nbsp;
                                     <small>File should be less than 2MB of MP3 format</small>
                                 </label>
                                 <input type="file" accept="audio/*" class="form-control" name="images[]" id="audioSave">
@@ -618,14 +616,14 @@ echo $tag3;
                             <input type="hidden" value="<?= $user ?>" name="user">
 
                             <div class="form-group">
-                                <label for="usr">Feed Audio URL:
+                                <label for="usr">Shot Audio URL:
                                 </label>
                                 <input type="text" class="form-control" name="feedaudio" accept="audio/*"
                                        id="feedaudio"
                                        placeholder="Fedd Audio URL">
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Publishing Date:
+                                <label for="usr">Shot Publishing Date:
                                 </label>
                                 <input type="date" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
@@ -664,13 +662,13 @@ echo $tag3;
                             <br>
 
                             <div class="form-group">
-                                <label for="comment">Feed content:
+                                <label for="comment">Shot content:
                                 </label>
                       <textarea class="form-control" rows="5" name="feedContent" maxlength="400" id="contents">
                       </textarea>
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Source URL:
+                                <label for="usr">Shot Source URL:
                                 </label>
                                 <input type="text" class="form-control" name="sourceUrl"
                                        placeholder="Source of the field">
@@ -682,7 +680,7 @@ echo $tag3;
                                 <br>
 
                                 <div class="form-group">
-                                    <label for="usr">Feed Expiry date:
+                                    <label for="usr">Shot Expiry date:
                                     </label>
                                     <input type="date" class="form-control" name="feedDate"
                                            placeholder="YYYY/MM/DD">
@@ -714,7 +712,7 @@ echo $tag3;
                                 </div>
                                 <br>
                                 <label for="sel1"
-                                       class="">Feed Type
+                                       class="">Shot Type
                                 </label>
 
                                 <div class="">
@@ -726,17 +724,17 @@ echo $tag3;
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Summarised By:
+                                    <label for="usr">Shot Summarised By:
                                     </label>
                                     <input type="text" class="form-control" name="summarised">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Added By:
+                                    <label for="usr">Shot Added By:
                                     </label>
                                     <input type="text" class="form-control" name="addedBy" id="addedBy">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Source Tag:
+                                    <label for="usr">Shot Source Tag:
                                     </label>
                                     <input type="text" class="form-control" name="sourceTitle"
                                            placeholder="Source Name" id="title">
@@ -748,7 +746,7 @@ echo $tag3;
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close
                             </button>
                             <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#myModal5">Preview
+                                    data-target="#myModal5" data-backdrop="static" data-keyboard="false">Preview
                             </button>
                         </form>
                     </div>
@@ -773,7 +771,7 @@ echo $tag3;
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;
                         </button>
-                        <h4 class="modal-title">Edit feed
+                        <h4 class="modal-title">Edit Shot
                         </h4>
                     </div>
                     <div class="modal-body">
@@ -781,16 +779,16 @@ echo $tag3;
                               enctype="multipart/form-data"
                               accept-charset="UTF-8" onsubmit="return editSubmit(); check();">
                             <div class="form-group">
-                                <label for="usr">Feed title:
+                                <label for="usr">Shot title:
                                 </label>
                                 <input type="text" class="form-control" name="feedTitle" id="feedTitle"
-                                       placeholder="Title of the feed" required>
+                                       placeholder="Title of the shot" required>
                             </div>
 
                             <input type="hidden" value="<?= $user ?>" name="user">
 
                             <div class="form-group">
-                                <label for="usr">Feed Image:&nbsp;
+                                <label for="usr">Shot Image:&nbsp;
                                     <small>File should be less than 1MB</small>
                                 </label>
                                 <input type="file" class="form-control" accept="image/*" name="image[]" id="imaged">
@@ -800,14 +798,14 @@ echo $tag3;
                             <h3>OR</h3>
 
                             <div class="form-group">
-                                <label for="usr">Feed Image URL:
+                                <label for="usr">Shot Image URL:
                                 </label>
                                 <input type="text" class="form-control" id="feedImages" name="feedImage"
-                                       placeholder="Feed Image URL">
+                                       placeholder="Shot Image URL">
                             </div>
 
                             <div class="form-group">
-                                <label for="usr">Feed Publishing Date:
+                                <label for="usr">Shot Publishing Date:
                                 </label>
                                 <input type="date" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
@@ -849,7 +847,7 @@ echo $tag3;
                             <br>
 
                             <div class="form-group">
-                                <label for="usr">Feed Audio:&nbsp;
+                                <label for="usr">Shot Audio:&nbsp;
                                     <small>File should be less than 2MB of MP3 format</small>
                                 </label>
                                 <input type="file" class="form-control" name="images[]" accept="audio/*" id="audioTag">
@@ -857,7 +855,7 @@ echo $tag3;
 
 
                             <h3>OR</h3>
-
+                            k
                             <div class="form-group">
                                 <label for="inputPassword">Audio
                                 </label>
@@ -865,17 +863,24 @@ echo $tag3;
                                 >
                             </div>
                             <div class="form-group">
-                                <label for="comment">Feed content:
+                                <label for="comment">Shot content:
                                 </label>
 								<textarea class="form-control" rows="5" name="feedContent" id="feedContent"
                                           maxlength="400" id="feedContent">
 						</textarea>
                             </div>
                             <div class="form-group">
-                                <label for="usr">Feed Source URL:
+                                <label for="usr">Shot Source URL:
                                 </label>
                                 <input type="text" class="form-control" name="sourceUrl" id="sourceUrl"
-                                       placeholder="Source URL of the feed">
+                                       placeholder="Source URL of the shot">
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Shot Remarks:
+                                </label>
+								<textarea class="form-control" rows="5" name="feedRemark" id="feedRemarks"
+                                          id="feedRemarks" disabled>
+						</textarea>
                             </div>
                             <div class="form-group">
                                 <input type="hidden" class="form-control" name="feedOwner" id="owner">
@@ -910,7 +915,7 @@ echo $tag3;
                                 </div>
                                 <br>
                                 <label for="sel1"
-                                       class="">Feed Type
+                                       class="">Shot Type
                                 </label>
 
                                 <div class="">
@@ -922,26 +927,26 @@ echo $tag3;
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Expiry date:
+                                    <label for="usr">Shot Expiry date:
                                     </label>
                                     <input type="date" class="form-control" name="feedDate" id="feedDate"
                                            placeholder="YYYY/MM/DD">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Summarised By:
+                                    <label for="usr">Shot Summarised By:
                                     </label>
                                     <input type="text" class="form-control" name="summarised" id="summarised">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Added By:
+                                    <label for="usr">Shot Added By:
                                     </label>
                                     <input type="text" class="form-control" name="addedBy" id="added">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Feed Source Tag:
+                                    <label for="usr">Shot Source Tag:
                                     </label>
                                     <input type="text" class="form-control" name="sourceTitle" id="sourceTitle"
-                                           placeholder="Feed source name">
+                                           placeholder="Shot source name">
                                 </div>
                             </div>
 
@@ -953,7 +958,7 @@ echo $tag3;
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close
                             </button>
                             <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#myModal4">Preview
+                                    data-target="#myModal4" data-backdrop="static" data-keyboard="false">Preview
                             </button>
 
                         </form>
@@ -972,7 +977,7 @@ echo $tag3;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Preview of the feed</h4>
+                        <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
@@ -1003,8 +1008,8 @@ echo $tag3;
                         <input type="hidden" id="previewHidden"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="acceptButton" data-toggle="modal"
-                                onclick="accept()" ; data-target="#acceptModal">Rate
+                        <button type="button" class="btn btn-success" id="acceptRate" data-toggle="modal"
+                                onclick="accept()" ; data-target="#acceptModal" data-backdrop="static" data-keyboard="false">Rate
                         </button>
 
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1023,7 +1028,7 @@ echo $tag3;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Preview of the feed</h4>
+                        <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
@@ -1069,7 +1074,7 @@ echo $tag3;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Preview of the feed</h4>
+                        <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
@@ -1085,9 +1090,9 @@ echo $tag3;
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:25% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
-                                                                                      style=" font-size: 0.75em;color: skyblue;"></span>
+                                                                                      style=" font-size: 0.65em;color: skyblue;"></span>
                         </div>
                         <div id="bottom "
                              style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
@@ -1111,7 +1116,7 @@ echo $tag3;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id="head" class="modal-title">Remark</h4>
+                        <h4 id="head" class="modal-title">Review the shot</h4>
                     </div>
                     <div class="modal-body">
                         <form method="post" action="accept" id="form-id">
@@ -1119,6 +1124,7 @@ echo $tag3;
                             <textarea id="remarkArea" class="form-control" rows="3" name="remarks"
                                       placeholder="Leave remarks here" required></textarea>
                             <hr>
+                            <p>Rate</p>
                             <input id="rating-input" type="number" name="star"/>
 
                             <input type="hidden" class="form-control" name="id" id="acceptId">
@@ -1126,10 +1132,10 @@ echo $tag3;
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info"
+                        <button type="submit" id="modalSubmit" class="btn btn-info"
                                 onclick="document.getElementById('form-id').submit();">Submit
                         </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick = "window.location.reload();">Close</button>
                     </div>
                 </div>
 
@@ -1170,6 +1176,7 @@ echo $tag3;
                 var date = button.data('date');
                 var summ = button.data('summ');
                 var added = button.data('added');
+                var remark=button.data('remark');
                 // Extract info from data-* attributes
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -1190,6 +1197,7 @@ echo $tag3;
                 modal.find('#feedSchedule').val(schedule);
                 modal.find('#summarised').val(summ);
                 modal.find('#added').val(added);
+                modal.find('#feedRemarks').val(remark);
                 var user = localStorage.getItem('user');
                 modal.find('#owner').val(user);
 
@@ -1226,20 +1234,35 @@ echo $tag3;
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this);
-                if (status != "Approved") {
 
-                    modal.find('#acceptButton').show();
+                var user = localStorage.getItem('user');
+                if (user == "content_admin") {
+                    if (status == "Approved") {
+
+                        $('button#acceptRate').hide();
+                    }
+                    else {
+                        $('button#acceptRate').show();
+                    }
+                    if (status == "Published") {
+
+                        $('button#acceptRate').hide();
+                    }
+                    else {
+
+                        $('button#acceptRate').show();
+                    }
+
+
+
                 }
                 else {
-                    modal.find('#acceptButton').hide();
-                }
-        if (status != "Published") {
 
-            modal.find('#acceptButton').show();
-        }
-        else {
-            modal.find('#acceptButton').hide();
-        }
+
+                    $('button#acceptRate').hide();
+
+                }
+
                 modal.find('#feedTitle').text(title);
                 modal.find('#accept').data('remark', remark);
                 modal.find('#feedImage').attr('src', image);
@@ -1308,9 +1331,9 @@ echo $tag3;
                 var id = localStorage.getItem('id');
                 var type = localStorage.getItem('clicked');
                 var rating = localStorage.getItem('star');
+
                 $('#clickedType').val(type);
                 $('#acceptId').val(id);
-                $('#remarkArea').val(remark);
                 $('#rating-input').val(rating);
                 $(document).ready(function () {
                     $('#rating-input').rating({
@@ -1327,6 +1350,7 @@ echo $tag3;
 
 
                 });
+
 
 
             }

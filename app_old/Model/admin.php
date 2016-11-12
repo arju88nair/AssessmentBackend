@@ -111,6 +111,11 @@ class admin extends Eloquent
             $assistance = assistance::all();
             $feed = array();
             foreach ($feeds as $item) {
+//                if(new DateTime() > new DateTime($item['feedDate'])){
+//                    // $var is before today so use it
+//                    return $item;
+//                }
+
                 array_push($feed, $item);
             }
             $feed = array_reverse($feed);
@@ -406,6 +411,7 @@ class admin extends Eloquent
             } //$tag != "All" && $owner == "All"
             if ($tag == "All" && $owner != "All"  && $staus == "All" ) {
                 $feeds = feeds::where('feedOwner', '=', $owner)->get();
+
             } //$tag == "All" && $owner != "All"
             if ($tag != "All" && $owner != "All" && $staus != "All") {
                 $feeds = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->where('feedStatus', '=', $staus)->get();
@@ -475,6 +481,7 @@ class admin extends Eloquent
     public static function setFeed()
     {
         $main = mainFeed::where('feedStatus', '=', 'Approved')->orWhere('feedStatus', '=', 'Published')->get();
+
 
 
         if (count($main) == 0 || !isset($main)) {
@@ -702,39 +709,49 @@ class admin extends Eloquent
 
 
         $feed = feeds::where('_id', '=', $_POST['id'])->first();
+
         if ($feed != null || !isset($feed)) {
             $feed->feedRating = $rating;
             if ($feed['feedRemark'] == "") {
-                $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
+                $feedRemark = $content . "  " ."\n". "[Added at -" . $feed['updated_at'] . "]  " ."\n". '--------------------';
                 $feed->feedRemark = $feedRemark;
                 $saved = $feed->save();
                 if ($saved) {
                     if ($rating == "5") {
                         $feed->feedStatus = "Approved";
                     }
-                    if ($rating == "3" || $rating == "4") {
-                        $feed->feedStatus = "Minor Edits";
+                    if ($rating == "0") {
+                        $feed->feedStatus = "Rejected";
                     }
-                    if ($rating == "1" || $rating == "2" || $rating == "0") {
-                        $feed->feedStatus = "Major Edits";
+                    if ($rating == "3" || $rating == "4"  ) {
+                        $feed->feedStatus = "Minor Pending Edits";
                     }
+
+                    if ($rating == "1" || $rating == "2" ) {
+                        $feed->feedStatus = "Major Pending Edits";
+                    }
+
                     $feed->feedRating = $rating;
                     $feed->save();
                     return Redirect::to('addFeed');
                 }
             }
-            $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
+            $feedRemark = $content . "  " ."\n". "[Added at -" . $feed['updated_at'] . "]  " ."\n". '--------------------';
             $feed->feedRemark = $feedRemark;
             $saved = $feed->save();
             if ($saved) {
                 if ($rating == "5") {
                     $feed->feedStatus = "Approved";
                 }
-                if ($rating == "3" || $rating == "4") {
-                    $feed->feedStatus = "Minor Edits";
+                if ($rating == "0") {
+                    $feed->feedStatus = "Rejected";
                 }
-                if ($rating == "1" || $rating == "2") {
-                    $feed->feedStatus = "Major Edits";
+                if ($rating == "3" || $rating == "4"  ) {
+                    $feed->feedStatus = "Minor Pending Edits";
+                }
+
+                if ($rating == "1" || $rating == "2" ) {
+                    $feed->feedStatus = "Major Pending Edits";
                 }
                 $feed->feedRating = $rating;
                 $feed->save();

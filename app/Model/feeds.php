@@ -89,7 +89,7 @@ Rain04
                     $feedArray = array();
 
                     foreach ($idArray as $id) {
-                        $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                        $feed = $model::where('_id', '=', $id)->first();
                         array_push($feedArray, $feed);
                     }
 
@@ -122,7 +122,7 @@ Rain04
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                            $feed = $model::where('_id', '=', $id)->first();
                             array_push($feedArray, $feed);
                         }
 
@@ -177,7 +177,7 @@ Rain04
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                            $feed = $model::where('_id', '=', $id)->first();
                             array_push($feedArray, $feed);
                         }
 
@@ -216,7 +216,7 @@ Rain04
                             $feedArray = array();
 
                             foreach ($idArray as $id) {
-                                $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                                $feed = $model::where('_id', '=', $id)->first();
                                 array_push($feedArray, $feed);
                             }
 
@@ -265,7 +265,7 @@ Rain04
                     $feedArray = array();
 
                     foreach ($idArray as $id) {
-                        $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                        $feed = $model::where('_id', '=', $id)->first();
                         array_push($feedArray, $feed);
                     }
 
@@ -304,12 +304,12 @@ Rain04
                         $feedArray = array();
 
                         foreach ($idArray as $id) {
-                            $feed = $model::where('_id', '=', $id)->where('feedStatus', '=', 'Approved')->first();
+                            $feed = $model::where('_id', '=', $id)->first();
                             array_push($feedArray, $feed);
                         }
 
                         $feed = $feedArray;
-                        $feed = feeds::where('category', '=', $item)->where('feedStatus', '=', 'Approved')->get();
+                        $feed = feeds::where('category', '=', $item)->get();
                         foreach ($feed as $items) {
                             $userArray = $user['liked'];
                             $feedid = $items['_id'];
@@ -567,6 +567,7 @@ Rain04
         $id = $input['id'];
         $model = self::find($id);
         $new = mainFeed::find($id);
+		
 
         if ($new != "") {
 
@@ -591,7 +592,7 @@ Rain04
         $title = $model->feedTitle = $input['feedTitle'];
         $model->summarised = $input['summarised'];
         $model->feedStatus = "Waiting for Approval";
-        $model->feedRemark = "";
+//        $model->feedRemark = "";
         $model->addedBy = $input['addedBy'];
         $model->feedRating = 0;
         $model->feedOwner = $_POST['feedOwner'];
@@ -648,6 +649,7 @@ Rain04
         if (!Input::hasFile('images')) {
             $model->feedAudio = $input['feedaudio'];
             $isSaved = $model->save();
+			
             if ($new != "") {
 
                 $newSaved = $new->save();
@@ -737,7 +739,7 @@ Rain04
             $arr = array();
             $array = array();
 
-            $feeds = feeds::all();
+            $feeds = feeds::where('feedStatus', '=', 'Published')->orWhere('feedStatus','=','Approved')->get();
             foreach ($feeds as $feed) {
                 unset($feed['category']);
                 unset($feed['summarised']);
@@ -778,5 +780,15 @@ Rain04
         }
     }
 
+public  static  function apply()
+    {
+        $feeds=feeds::all();
+        foreach($feeds as $feed)
+        {
+             $feed->updated_at="2016-11-08 11:02:13";
+            $feed->save();
+        }
+        return $feeds;
+    }
 
 }
