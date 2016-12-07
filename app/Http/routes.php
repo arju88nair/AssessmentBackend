@@ -74,6 +74,8 @@ Route::post('userCount','userController@userCount');
 
 Route::post('getFeedIds','userController@getFeedIds');
 
+Route::post('postComments','userController@comments');
+
 
 
 
@@ -85,6 +87,7 @@ Route::post('getFeedIds','userController@getFeedIds');
 
 
 //   Admin routes
+Route::get('/', 'userController@redirect');
 
 Route::get('loginAdmin','userController@login');
 
@@ -147,6 +150,9 @@ Route::post('saveSetFeed','DashboardController@saveSetFeed');
 Route::post('accept','DashboardController@accept');
 
 Route::get('apply','DashboardController@apply');
+
+Route::get('comments','DashboardController@comments');
+
 
 
 

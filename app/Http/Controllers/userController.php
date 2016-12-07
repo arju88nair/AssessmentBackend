@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\comments;
 use App\Model\coupon;
 use App\Model\extra;
 use App\Model\feedCount;
@@ -322,5 +323,14 @@ class userController extends Controller
         return feeds::getFeedIds($request->all());
     }
 
+
+    public function comments(Request $request)
+    {
+        return comments::comments($request->all());
+    }
+	 public function redirect(Request $request)
+    {
+        return redirect()->away('http://get.mikrolearn.com/');
+    }
 
 }

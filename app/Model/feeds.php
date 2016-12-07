@@ -347,8 +347,20 @@ Rain04
 
     public static function saveFeed($input)
     {
+
+
         $model = new self();
+
+        $lastId = $model::all()->last()['feedId'];
         $model->category = $_POST['Category'];
+        $categories = extra::first()['categories'];
+        foreach ($categories as $category) {
+            if ($category['name'] == $_POST['Category']) {
+                $cat_id = $category['id'];
+            }
+        }
+        $feedId = self::uID($lastId, $cat_id);
+        $model->feedId = $feedId;
         $model->summarised = $input['summarised'];
         $model->addedBy = $input['addedBy'];
         $model->feedOwner = $_POST['feedOwner'];
@@ -363,7 +375,7 @@ Rain04
         $model->trending = $_POST['trending'];
         $model->location = $_POST['loc'];
         $model->feedDate = $_POST['feedDate'];
-        $title = $model->feedTitle = $input['feedTitle'];
+        $title = $model->feedTitle = htmlspecialchars($input['feedTitle'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
 //        $model->feedImage = $input['feedImage'];
         $model->likeCount = 0;
 
@@ -383,7 +395,7 @@ Rain04
         }
         //Image end
 
-        $model->feedContent = $input['feedContent'];
+        $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
 
@@ -565,10 +577,15 @@ Rain04
     {
 
         $id = $input['id'];
+
         $model = self::find($id);
         $new = mainFeed::find($id);
-		
-
+        $content = $_POST['feedShotRemark'];
+        if ($content != "" || $content != null) {
+            $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
+            $feedRemark = $content . "  " . "\n" . "[Added at " . date("Y-m-d h:i:sa", time()) . "  By " . $_POST['feedOwner'] . " as the content writer" . " ]  " . "\n" . '--------------------' . "\n" . $model['feedRemark'];
+            $model->feedRemark = $feedRemark;
+        }
         if ($new != "") {
 
 
@@ -588,14 +605,13 @@ Rain04
             $new->feedRemark = "";
             $new->feedSourceTag = $input['sourceTitle'];
         }
-
-        $title = $model->feedTitle = $input['feedTitle'];
+        $title = $model->feedTitle = htmlspecialchars($input['feedTitle'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->summarised = $input['summarised'];
         $model->feedStatus = "Waiting for Approval";
-//        $model->feedRemark = "";
+        
         $model->addedBy = $input['addedBy'];
         $model->feedRating = 0;
-        $model->feedOwner = $_POST['feedOwner'];
+        $model->feedOwner = "shwetha@clearlyblue.in";
         $model->feedDate = $_POST['feedDate'];
         $model->feedSchedule = $input['feedSchedule'];
         if ($_POST['feedOwner'] == "" || $_POST['feedOwner'] == null) {
@@ -605,7 +621,7 @@ Rain04
         $model->category = $_POST['Category'];
         $model->location = $_POST['loc'];
         $model->trending = $_POST['trending'];
-        $model->feedContent = $input['feedContent'];
+        $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
         $model->feedSourceTag = $input['sourceTitle'];
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
@@ -649,7 +665,7 @@ Rain04
         if (!Input::hasFile('images')) {
             $model->feedAudio = $input['feedaudio'];
             $isSaved = $model->save();
-			
+
             if ($new != "") {
 
                 $newSaved = $new->save();
@@ -739,7 +755,7 @@ Rain04
             $arr = array();
             $array = array();
 
-            $feeds = feeds::where('feedStatus', '=', 'Published')->orWhere('feedStatus','=','Approved')->get();
+            $feeds = feeds::where('feedStatus', '=', 'Published')->get();
             foreach ($feeds as $feed) {
                 unset($feed['category']);
                 unset($feed['summarised']);
@@ -780,15 +796,58 @@ Rain04
         }
     }
 
-public  static  function apply()
+    public static function apply()
     {
-        $feeds=feeds::all();
-        foreach($feeds as $feed)
-        {
-             $feed->updated_at="2016-11-08 11:02:13";
+        $feeds = feeds::all();
+        foreach ($feeds as $feed) {
+            $feed->updated_at = "2016-11-08 11:02:13";
             $feed->save();
         }
         return $feeds;
+    }
+
+    private static function uId($lastId, $cat)
+    {
+
+
+        $date =date("dMy", time());
+        if($lastId =="")
+        {
+            return $cat . "_$date" . "_001";
+        }
+        $suffix = explode('_', $lastId)[2];
+        $incremented = (int)$suffix + 1;
+        if (strpos($lastId, $date) !== false) {
+            //same
+            if (strpos($suffix, '001') !== false) {//same
+                return $cat . "_$date" . "_00" . $incremented;
+
+            } else {
+                $model = feeds::where('feedId', '=', $lastId)->get();
+                if ($model == []) {
+                    return $cat . "_$date" . "_001";
+                } else {
+                    return $cat . "_$date" . "_00" . $incremented;
+                }
+                return $cat . "_$date" . "_001";
+            }
+        } else {
+            return $cat . "_$date" . "_001";
+            if (strpos($suffix, '001') !== false) {//same
+
+                return $cat . "_$date" . "_00" . $incremented;
+
+            } else {
+                $model = feeds::where('feedId', '=', $lastId)->get();
+                if ($model == []) {
+                    return $cat . "_$date" . "_001";
+                } else {
+                    return $cat . "_$date" . "_00" . $incremented;
+                }
+                return $cat . "_$date" . "_001";
+            }
+
+        }
     }
 
 }

@@ -10,6 +10,7 @@
     <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
     <link href="{!! asset('css/star-rating.css') !!}" media="all" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{!! asset('script/star-rating.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('script/main.js') !!}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <script>
 
@@ -29,6 +30,9 @@ echo $tag3;
     <script>
         $(document).ready(function () {
             var user = localStorage.getItem('user');
+            if (user == "ssharma@clearlyblue.in") {
+                $('#setId').hide();
+            }
             if (user == "content_admin") {
 //                $('#setId').show();
 
@@ -143,7 +147,18 @@ echo $tag3;
         background: none;
         color: #fff;
     }
+    div#acceptModal{
+        top:-4%;
+        left:50%;
+        outline: none;
+    }
+    .modal { overflow: auto !important; }
 
+    div#firstPreview{
+        top:-4%;
+        right:50%;
+        outline: none;
+    }
     @media (min-width: 768px) {
         #wrapper {
             padding-left: 250px;
@@ -186,10 +201,11 @@ echo $tag3;
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
-                <li id="Mikrolearn" style="font-size: 1.8em"><a href="addFeed"> Mikrolearn</a></li>
+                <li id="Mikrolearn" style="font-size: 1.8em"><a href="addFeed"> Mikrolearn Content Portal</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="loginAdmin"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a>
+                <li onclick=localStorage.clear();><a href="loginAdmin"><span class="glyphicon glyphicon-off"
+                                                                             aria-hidden="true"></span> Log Out</a>
                 </li>
             </ul>
             <!--             <form class="navbar-form navbar-right" action="#" method="GET">
@@ -221,7 +237,12 @@ echo $tag3;
                         Add Shots</a>
                 </li>
                 <li id="setId" style="font-size: 1.2em">
-                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish Shots</a>
+                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish
+                        Shots</a>
+                </li>
+                <li id="setId" style="font-size: 1.2em">
+                    <a href="comments"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp; &nbsp;User
+                        Suggestions</a>
                 </li>
 
 
@@ -242,7 +263,7 @@ echo $tag3;
 
 
     <div class="container">
-        
+
         <br>
         <br>
 
@@ -345,220 +366,28 @@ echo $tag3;
         <br>
         <h4><?= count($feed)?> shot(s) below</h4>
         <br>
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">Add new
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addFeed"
+                data-backdrop="static" data-keyboard="false">Add new
             shot
             item
         </button>
         <br>
 
         <br>
-        <?php
-        foreach ($feed as $page):
-        ?>
-        <div class="panel-group">
-            <div class="panel panel-default" style="width:94%">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <span><?= $page['feedRating'] ?></span> <span class="glyphicon glyphicon-star-empty"></span>
-                        &nbsp;&nbsp;
-                        <a style="text-align: center;font-weight: bolder;color:lightseagreen" data-toggle="collapse"
-                           href="#<?= $page['_id'] ?>">
-                            <?= $page['feedTitle'] ?>
-                        </a>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $page['likeCount'] ?></span>
-							<span style="color:grey" class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
-                  </span>
-                        &nbsp;&nbsp;
-
-                        <span style="font-size: 72%">&nbsp;&nbsp;&nbsp;<small><?= $page['feedStatus'] ?></small></span>
-
-                        <p style="color: grey;margin-top: -1.5%;font-size: 60%;margin-left:74%">
-                            <?= $page['category'] ?>
-                        </p>
-
-                        <p style="font-size: 60%;color: grey;margin-top: -1.9%;float: right;">
-                            <strong>Added
-                                date:
-                            </strong>
-                            <?= $page['updated_at'] ?>
-                        </p>
-                    </h4>
-                </div>
-                <div id="<?= $page['_id'] ?>" class="panel-collapse collapse">
-                    <div class="panel-body" style="word-wrap: break-word">
-                        <?= $page['feedContent'] ?>
-                        <img src="<?= $page["feedImage"] ?>" class="img-rounded" alt="Cinque Terre" width="60"
-                             height="60" style="float:right">
-                    </div>
-                    <div class="panel-footer">
-                        <a style="margin-left: 0%"
-                           href="<?= $page['feedSource'] ?>">Source
-                        </a>
-                        <a style="margin-left: 4%"
-                           href="<?= $page['feedAudio'] ?>">Audio
-                        </a>
 
 
-                        <?php
-                        if ($user != "content_admin") {
-                        ?>
+        <div class="panel-group" id="accordion">
 
-                        <?php
-                        if ($user == $page['feedOwner']) {
-                        ?>
-
-                        <?php
-                        $id = $page['_id']?>
-                        <a style="margin-left: 54%;margin-top: 1%" href="#<?php echo '' . $id . '';?>"
-                           class="btn btn-primary"
-                           role="button" data-toggle="modal" data-target="#myModal2"
-                           data-title="<?= $page['feedTitle'] ?>" data-image="<?= $page['feedImage'] ?>"
-                           data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
-                           data-sourcetag="<?= $page['feedSourceTag'] ?>"
-                           data-image_lw="<?= $page['feedImage_lw'] ?>"
-                           data-audio="<?= $page['feedAudio'] ?>"
-                           data-cat="<?= $page['category'] ?>"
-                           data-trend="<?= $page['trending'] ?>"
-                           data-type="<?= $page['feedType'] ?>"
-                           data-loc="<?= $page['location'] ?>"
-                           data-date="<?= $page['feedDate'] ?>"
-                           data-summ="<?= $page['summarised'] ?>"
-                           data-added="<?= $page['addedBy'] ?>"
-                           data-remark="<?= $page['feedRemark'] ?>"
-                           data-schedule="<?= $page['feedSchedule'] ?>"
-                           data-idtag="<?= $page['_id'] ?>" data-backdrop="static">Edit Shot
-                        </a>
-                        <a style="margin-left: 77%;margin-top: -5%"
-                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
-                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete Shot
-                        </a>
-                        <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
-                                class="btn btn-info"
-                                data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
-                                data-image="<?= $page['feedImage'] ?>"
-                                data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
-                                data-sourcetag="<?= $page['feedSourceTag'] ?>"
-                                data-image_lw="<?= $page['feedImage_lw'] ?>"
-                                data-audio="<?= $page['feedAudio'] ?>"
-                                data-cat="<?= $page['category'] ?>"
-                                data-trend="<?= $page['trending'] ?>"
-                                data-type="<?= $page['feedType'] ?>"
-                                data-loc="<?= $page['location'] ?>"
-                                data-date="<?= $page['feedDate'] ?>"
-                                data-summ="<?= $page['summarised'] ?>"
-                                data-added="<?= $page['addedBy'] ?>"
-                                data-schedule="<?= $page['feedSchedule'] ?>"
-                                data-idtag="<?= $page['_id'] ?>"
-                                data-status="<?= $page['feedStatus'] ?>"
-                                data-remark="<?= $page['feedRemark'] ?>"
-                                data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3" data-backdrop="static" >Preview
-                        </button>
-
-                        <?php
-                        } else {
-                        ?>
-                        <a style="margin-left: 54%;margin-top: 1%" href="#"
-                           class="btn btn-primary disabled"
-                           role="button" data-toggle="modal" data-target="#myModal2"
-                        >Edit Shot
-                        </a>
-                        <a style="margin-left: 77%;margin-top: -5%"
-                           href="#?>"
-                           class="btn btn-danger disabled" role="button" onclick="return confSubmit2();">Delete Shot
-                        </a>
-                        <button style="margin-left: 89%;margin-top: -8.75%" type="button"
-                                class="btn btn-info"
-                                data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
-                                data-image="<?= $page['feedImage'] ?>"
-                                data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
-                                data-sourcetag="<?= $page['feedSourceTag'] ?>"
-                                data-image_lw="<?= $page['feedImage_lw'] ?>"
-                                data-audio="<?= $page['feedAudio'] ?>"
-                                data-cat="<?= $page['category'] ?>"
-                                data-trend="<?= $page['trending'] ?>"
-                                data-type="<?= $page['feedType'] ?>"
-                                data-loc="<?= $page['location'] ?>"
-                                data-date="<?= $page['feedDate'] ?>"
-                                data-summ="<?= $page['summarised'] ?>"
-                                data-added="<?= $page['addedBy'] ?>"
-                                data-schedule="<?= $page['feedSchedule'] ?>"
-                                data-idtag="<?= $page['_id'] ?>"
-                                data-status="<?= $page['feedStatus'] ?>"
-                                data-remark="<?= $page['feedRemark'] ?>"
-                                data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3" data-backdrop="static" data-keyboard="false">Preview
-                        </button>
-
-                        <?php
-                        }
-                        ?>
-
-
-                        <?php
-                        } else {
-                        ?>
-                        <?php
-                        $id = $page['_id']?>
-                        <a style="margin-left: 54%;margin-top: 1%" href=""
-                           class="btn btn-primary"
-                           role="button" data-toggle="modal" data-target="#myModal2"
-                           data-title="<?= $page['feedTitle'] ?>" data-image="<?= $page['feedImage'] ?>"
-                           data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
-                           data-sourcetag="<?= $page['feedSourceTag'] ?>"
-                           data-image_lw="<?= $page['feedImage_lw'] ?>"
-                           data-audio="<?= $page['feedAudio'] ?>"
-                           data-cat="<?= $page['category'] ?>"
-                           data-trend="<?= $page['trending'] ?>"
-                           data-type="<?= $page['feedType'] ?>"
-                           data-loc="<?= $page['location'] ?>"
-                           data-date="<?= $page['feedDate'] ?>"
-                           data-summ="<?= $page['summarised'] ?>"
-                           data-added="<?= $page['addedBy'] ?>"
-                           data-schedule="<?= $page['feedSchedule']?>"
-                           data-remark="<?= $page['feedRemark'] ?>"
-                           data-idtag="<?= $page['_id'] ?>" data-backdrop="static" >Edit Shot
-                        </a>
-                        <a style="margin-left: 77%;margin-top: -5%"
-                           href="deleteFeed?action=<?= $page['_id'] ?>&user=<?= $user ?>"
-                           class="btn btn-danger" role="button" onclick="return confSubmit2();">Delete Shot
-                        </a>
-                        <button style="margin-left: 89%;margin-top: -8.75%;" type="button"
-                                class="btn btn-info "
-                                data-toggle="modal" data-title="<?= $page['feedTitle'] ?>"
-                                data-image="<?= $page['feedImage'] ?>"
-                                data-source="<?= $page['feedSource'] ?>" data-content="<?= $page['feedContent'] ?>"
-                                data-sourcetag="<?= $page['feedSourceTag'] ?>"
-                                data-image_lw="<?= $page['feedImage_lw'] ?>"
-                                data-audio="<?= $page['feedAudio'] ?>"
-                                data-cat="<?= $page['category'] ?>"
-                                data-trend="<?= $page['trending'] ?>"
-                                data-type="<?= $page['feedType'] ?>"
-                                data-loc="<?= $page['location'] ?>"
-                                data-date="<?= $page['feedDate'] ?>"
-                                data-summ="<?= $page['summarised'] ?>"
-                                data-added="<?= $page['addedBy'] ?>"
-                                data-schedule="<?= $page['feedSchedule'] ?>"
-                                data-idtag="<?= $page['_id'] ?>"
-                                data-status="<?= $page['feedStatus'] ?>"
-                                data-remark="<?= $page['feedRemark'] ?>"
-                                data-rating="<?= $page['feedRating'] ?>"
-                                data-target="#myModal3" data-backdrop="static" >Preview
-                        </button>
-
-                        <?php
-                        }
-                        ?>
-
-
-                    </div>
-                </div>
-            </div>
         </div>
-        <?php
-        endforeach;
-        ?>
-        <div class="modal fade" id="myModal" role="dialog">
+
+        <hr id="hr" style="border:1px solid grey;">
+
+
+        <ul class="pager">
+            <li class="previous"><a href="" onclick="prevPage(); return false;">Previous</a></li>
+            <li class="next"><a href="" onclick="nextPage(); return false;">Next</a></li>
+        </ul>
+        <div class="modal fade" id="addFeed" role="dialog">
 
             <script type="text/javascript">
                 function check() {
@@ -566,10 +395,12 @@ echo $tag3;
                     return r;
                 }
                 $(document).ready(function () {
+                    $('#contents').val('');
                     var user = localStorage.getItem('user');
 
                     document.getElementById('owner').value = user;
                 });
+
             </script>
             <div class="modal-dialog">
                 <!-- Modal content-->
@@ -577,7 +408,7 @@ echo $tag3;
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;
                         </button>
-                        <h4 class="modal-title">Add new Shot
+                        <h4 class="modal-title">Add New Shot
                         </h4>
                     </div>
                     <div class="modal-body">
@@ -595,8 +426,10 @@ echo $tag3;
                                 <label for="usr">Shot Image:&nbsp;
                                     <small>File should be less than 1MB</small>
                                 </label>
-                                <input type="file" class="form-control" accept="image/*" name="image[]" id="image">
+                                <input type="file" class="form-control" accept="image/*" name="image[]" id="image"
+                                       onchange='openFile(event)'>
                             </div>
+                            <img id='output'>
 
 
                             <div class="form-group">
@@ -668,10 +501,21 @@ echo $tag3;
                       </textarea>
                             </div>
                             <div class="form-group">
+                                <label for="usr">Shot Summarised By:
+                                </label>
+                                <input type="text" class="form-control" name="summarised" placeholder="Summarised by" id="addedtext" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="usr">Shot Source URL:
                                 </label>
                                 <input type="text" class="form-control" name="sourceUrl"
-                                       placeholder="Source of the field">
+                                       placeholder="Source of the field" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">Shot Source Tag:
+                                </label>
+                                <input type="text" class="form-control" name="sourceTitle"
+                                       placeholder="Source Name" id="title" required>
                             </div>
 
                             <a href="#demo" class="btn btn-info" data-toggle="collapse">Advanced Options</a>
@@ -724,29 +568,19 @@ echo $tag3;
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Shot Summarised By:
-                                    </label>
-                                    <input type="text" class="form-control" name="summarised">
-                                </div>
-                                <div class="form-group">
                                     <label for="usr">Shot Added By:
                                     </label>
-                                    <input type="text" class="form-control" name="addedBy" id="addedBy">
+                                    <input type="text" class="form-control" name="addedBy" id="added">
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">Shot Source Tag:
-                                    </label>
-                                    <input type="text" class="form-control" name="sourceTitle"
-                                           placeholder="Source Name" id="title">
-                                </div>
+
                             </div>
 
                             <button type="submit" class="btn btn-primary" onsubmit="return check();">Save
                             </button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                            <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="localStorage.removeItem('val')">Close
                             </button>
                             <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#myModal5" data-backdrop="static" data-keyboard="false">Preview
+                                    data-target="#savePreview" data-backdrop="static" data-keyboard="false">Preview
                             </button>
                         </form>
                     </div>
@@ -756,7 +590,7 @@ echo $tag3;
             </div>
         </div>
         <!--Modal2-->
-        <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal fade" id="editFeed" role="dialog">
             <script type="text/javascript">
 
                 $(document).ready(function () {
@@ -772,7 +606,7 @@ echo $tag3;
                         <button type="button" class="close" data-dismiss="modal">&times;
                         </button>
                         <h4 class="modal-title">Edit Shot
-                        </h4>
+                        </h4> <span id="feedId" style="font-size: 72%;color:grey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     </div>
                     <div class="modal-body">
                         <form role="form" method="post" action="{{ action('DashboardController@saveEditFeed') }}"
@@ -791,7 +625,8 @@ echo $tag3;
                                 <label for="usr">Shot Image:&nbsp;
                                     <small>File should be less than 1MB</small>
                                 </label>
-                                <input type="file" class="form-control" accept="image/*" name="image[]" id="imaged">
+                                <input type="file" class="form-control" accept="image/*" name="image[]" id="imaged"
+                                       onchange='openFile(event)'>
                             </div>
 
 
@@ -855,7 +690,7 @@ echo $tag3;
 
 
                             <h3>OR</h3>
-                            k
+
                             <div class="form-group">
                                 <label for="inputPassword">Audio
                                 </label>
@@ -866,21 +701,40 @@ echo $tag3;
                                 <label for="comment">Shot content:
                                 </label>
 								<textarea class="form-control" rows="5" name="feedContent" id="feedContent"
-                                          maxlength="400" id="feedContent">
+                                          maxlength="400" >
 						</textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="usr">Shot Source URL:
-                                </label>
-                                <input type="text" class="form-control" name="sourceUrl" id="sourceUrl"
-                                       placeholder="Source URL of the shot">
-                            </div>
+
                             <div class="form-group">
                                 <label for="comment">Shot Remarks:
                                 </label>
 								<textarea class="form-control" rows="5" name="feedRemark" id="feedRemarks"
                                           id="feedRemarks" disabled>
 						</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Add Remark:
+                                </label>
+								<textarea class="form-control" rows="4" name="feedShotRemark"
+                                >
+						</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">Shot Summarised By:
+                                </label>
+                                <input type="text" class="form-control" name="summarised" id="summarised" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">Shot Source URL:
+                                </label>
+                                <input type="text" class="form-control" name="sourceUrl" id="sourceUrl"
+                                       placeholder="Source URL of the shot" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">Shot Source Tag:
+                                </label>
+                                <input type="text" class="form-control" name="sourceTitle" id="sourceTitle"
+                                       placeholder="Shot source name" required>
                             </div>
                             <div class="form-group">
                                 <input type="hidden" class="form-control" name="feedOwner" id="owner">
@@ -933,21 +787,11 @@ echo $tag3;
                                            placeholder="YYYY/MM/DD">
                                 </div>
                                 <div class="form-group">
-                                    <label for="usr">Shot Summarised By:
-                                    </label>
-                                    <input type="text" class="form-control" name="summarised" id="summarised">
-                                </div>
-                                <div class="form-group">
                                     <label for="usr">Shot Added By:
                                     </label>
                                     <input type="text" class="form-control" name="addedBy" id="added">
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">Shot Source Tag:
-                                    </label>
-                                    <input type="text" class="form-control" name="sourceTitle" id="sourceTitle"
-                                           placeholder="Shot source name">
-                                </div>
+
                             </div>
 
                             <div class="form-group">
@@ -955,10 +799,10 @@ echo $tag3;
                             </div>
                             <button type="submit" class="btn btn-primary">Save
                             </button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="localStorage.removeItem('val')">Close
                             </button>
                             <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#myModal4" data-backdrop="static" data-keyboard="false">Preview
+                                    data-target="#editPreview" data-backdrop="static" data-keyboard="false">Preview
                             </button>
 
                         </form>
@@ -969,7 +813,7 @@ echo $tag3;
             </div>
         </div>
         <!-- First Preview -->
-        <div class="modal fade" id="myModal3" role="dialog">
+        <div class="modal fade" id="firstPreview" role="dialog">
 
             <div class="modal-dialog">
 
@@ -982,25 +826,25 @@ echo $tag3;
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
 
-                        <img id="feedImage" src="" style=" width: 100%;  height: 230px;">
+                        <img id="feedImage" src="" style=" width: 100%;  height: 40%;">
 
                         <div class="pa" style="padding: 5%;">
                             <article>
                                 <h4 id="feedTitle"
-                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
+                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%;"></h4>
 
-                                <p id="feedContent" style="font-size:0.7em"></p>
+                                <p id="feedContent" style="font-size:0.78em;line-height:157%;word-spacing:4px"></p>
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:20% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
-                                                                                      style=" font-size: 0.75em;color: skyblue;"></span>
+                                                                                      style=" font-size: 0.55em;color: skyblue;"></span>
                         </div>
                         <div id="bottom "
-                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
-                            <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
-                            <span id="added" style=" font-size: 0.7em;color: black;"></span>
+                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:76px;margin-left: -16px">
+                            <span id="category" style="font-size: 0.8em;font-weight:400"></span><br>
+                            <span id="added" style=" font-size: 0.68em;color: black;"></span>
                         </div>
                         <img id="btimg"
                              style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
@@ -1009,7 +853,8 @@ echo $tag3;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="acceptRate" data-toggle="modal"
-                                onclick="accept()" ; data-target="#acceptModal" data-backdrop="static" data-keyboard="false">Rate
+                                onclick="accept()" ; data-target="#acceptModal" data-backdrop="static"
+                                data-keyboard="false">Rate
                         </button>
 
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1020,7 +865,7 @@ echo $tag3;
         </div>
 
         <!-- Edit Preview -->
-        <div class="modal fade" id="myModal4" role="dialog">
+        <div class="modal fade" id="editPreview" role="dialog">
 
             <div class="modal-dialog">
 
@@ -1033,32 +878,34 @@ echo $tag3;
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
 
-                        <img id="feedImage" src="" style=" width: 100%;  height: 230px;">
+                        <img id="feedImage" src="" style=" width: 100%;  height: 40%;">
 
                         <div class="pa" style="padding: 5%;">
                             <article>
                                 <h4 id="feedTitle"
-                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
+                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%"></h4>
 
-                                <p id="feedContent" style="font-size:0.7em"></p>
+                                <p id="feedContent" style="font-size:0.77em;line-height:157%;word-spacing:4px"></p>
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:27% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:20% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
-                                                                                      style=" font-size: 0.75em;color: skyblue;"></span>
+                                                                                      style=" font-size: 0.55em;color: skyblue;"></span>
                         </div>
                         <div id="bottom "
-                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
-                            <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
-                            <span id="added" style=" font-size: 0.7em;color: black;"></span>
+                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:76px;margin-left: -16px">
+                            <span id="category" style="font-size: 0.8em;font-weight:400"></span><br>
+                            <span id="added" style=" font-size: 0.68em;color: black;"></span>
                         </div>
                         <img id="btimg"
                              style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                              src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                >Close
+                        </button>
                     </div>
                 </div>
 
@@ -1066,7 +913,7 @@ echo $tag3;
         </div>
 
         <!-- Save Preview -->
-        <div class="modal fade" id="myModal5" role="dialog">
+        <div class="modal fade" id="savePreview" role="dialog">
 
             <div class="modal-dialog">
 
@@ -1079,32 +926,34 @@ echo $tag3;
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
 ">
 
-                        <img id="feedImage" src="" style=" width: 100%;  height: 230px;">
+                        <img id="feedImage" src="" style=" width: 100%;  height: 40%;">
 
                         <div class="pa" style="padding: 5%;">
                             <article>
                                 <h4 id="feedTitle"
-                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:400"></h4>
+                                    style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%"></h4>
 
-                                <p id="feedContent" style="font-size:0.7em"></p>
+                                <p id="feedContent" style="font-size:0.77em;line-height:157%;word-spacing:4px"></p>
                             </article>
                         </div>
                         <div class="tag"
-                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:25% ">
+                             style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:20% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
-                                                                                      style=" font-size: 0.65em;color: skyblue;"></span>
+                                                                                      style=" font-size: 0.55em;color: skyblue;"></span>
                         </div>
                         <div id="bottom "
-                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:99px;margin-left: -16px">
-                            <span id="category" style="color: black;font-size: 0.9em;font-weight:400"></span><br>
-                            <span id="added" style=" font-size: 0.7em;color: black;"></span>
+                             style="margin-top: 7%;padding-left: 5%;position: fixed;bottom:76px;margin-left: -16px">
+                            <span id="category" style="font-size: 0.8em;font-weight:400"></span><br>
+                            <span id="added" style=" font-size: 0.68em;color: black;"></span>
                         </div>
                         <img id="btimg"
                              style="width:28%;float:right;margin-top:16%;padding-right: 3%;position: absolute;margin-left: 70%;bottom:8px"
                              src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                >Close
+                        </button>
                     </div>
                 </div>
 
@@ -1120,14 +969,27 @@ echo $tag3;
                     </div>
                     <div class="modal-body">
                         <form method="post" action="accept" id="form-id">
-                            <span>Remarks</span>
-                            <textarea id="remarkArea" class="form-control" rows="3" name="remarks"
+                            <span><b>Remarks</b></span>
+                            <textarea class="form-control" rows="3" name="remarks"
                                       placeholder="Leave remarks here" required></textarea>
                             <hr>
-                            <p>Rate</p>
+                            <div class="form-group">
+                                <label for="comment">Remark History:
+                                </label>
+								<textarea class="form-control" rows="5" id="remarkArea"
+                                          id="feedRemarks" disabled>
+						</textarea>
+                            </div>
+                            <hr>
+                            <p><b>Rate</b></p>
                             <input id="rating-input" type="number" name="star"/>
 
                             <input type="hidden" class="form-control" name="id" id="acceptId">
+                            <input type="hidden" class="form-control" name="tag" id="tag">
+                            <input type="hidden" class="form-control" name="tag2" id="tag2">
+                            <input type="hidden" class="form-control" name="tag3" id="tag3">
+                            <input type="hidden" class="form-control" name="feed" id="feed">
+                            <input type="hidden" class="form-control" name="user" id="acceptUser">
                             <input type="hidden" class="form-control" name="clickedType" id="clickedType">
                         </form>
                     </div>
@@ -1135,7 +997,9 @@ echo $tag3;
                         <button type="submit" id="modalSubmit" class="btn btn-info"
                                 onclick="document.getElementById('form-id').submit();">Submit
                         </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick = "window.location.reload();">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                onclick="window.location.reload();">Close
+                        </button>
                     </div>
                 </div>
 
@@ -1156,272 +1020,116 @@ echo $tag3;
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-<script>
-    $('#myModal2').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                // Button that triggered the modal
-                var title = button.data('title');
-                var image = button.data('image');
-                var image_lw = button.data('image_lw');
-                var source = button.data('source');
-                var content = button.data('content');
-                var sourceTag = button.data('sourcetag');
-                var idTag = button.data('idtag');
-                var audio = button.data('audio');
-                var cat = button.data('cat');
-                var trend = button.data('trend');
-                var type = button.data('type');
-                var loc = button.data('loc');
-                var schedule = button.data('schedule');
-                var date = button.data('date');
-                var summ = button.data('summ');
-                var added = button.data('added');
-                var remark=button.data('remark');
-                // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                var modal = $(this);
-                modal.find('#feedTitle').val(title);
-                modal.find('#feedImages').val(image);
-                modal.find('#feedImage_lw').val(image_lw);
-                modal.find('#sourceUrl').val(source);
-                modal.find('#feedContent').val(content);
-                modal.find('#sourceTitle').val(sourceTag);
-                modal.find('#idTag').val(idTag);
-                modal.find('#category').val(cat);
-                modal.find('#type').val(type);
-                modal.find('#trend').val(trend);
-                modal.find('#loc').val(loc);
-                modal.find('#feedaudio').val(audio);
-                modal.find('#feedDate').val(date);
-                modal.find('#feedSchedule').val(schedule);
-                modal.find('#summarised').val(summ);
-                modal.find('#added').val(added);
-                modal.find('#feedRemarks').val(remark);
-                var user = localStorage.getItem('user');
-                modal.find('#owner').val(user);
-
-            }
-    )
-</script>
-<script>
-    $('#myModal3').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                // Button that triggered the modal
-                var title = button.data('title');
-                var image = button.data('image');
-                var image_lw = button.data('image_lw');
-                var source = button.data('source');
-                var content = button.data('content');
-                var sourceTag = button.data('sourcetag');
-                var idTag = button.data('idtag');
-                var audio = button.data('audio');
-                var cat = button.data('cat');
-                var trend = button.data('trend');
-                var type = button.data('type');
-                var loc = button.data('loc');
-                var schedule = button.data('schedule');
-                var date = button.data('date');
-                var status = button.data('status');
-                var remark = button.data('remark');
-                var added = button.data('added');
-                var rating = button.data('rating');
-                localStorage.setItem('remark', remark);
-                localStorage.setItem('id', idTag);
-                localStorage.setItem('star', rating);
-
-                // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                var modal = $(this);
-
-                var user = localStorage.getItem('user');
-                if (user == "content_admin") {
-                    if (status == "Approved") {
-
-                        $('button#acceptRate').hide();
-                    }
-                    else {
-                        $('button#acceptRate').show();
-                    }
-                    if (status == "Published") {
-
-                        $('button#acceptRate').hide();
-                    }
-                    else {
-
-                        $('button#acceptRate').show();
-                    }
-
-
-
-                }
-                else {
-
-
-                    $('button#acceptRate').hide();
-
-                }
-
-                modal.find('#feedTitle').text(title);
-                modal.find('#accept').data('remark', remark);
-                modal.find('#feedImage').attr('src', image);
-                modal.find('#feedContent').text(content);
-                modal.find('#source').text(sourceTag + " >");
-                modal.find('#category').text(cat);
-                modal.find('#added').text("Shot by  " + added + "  1 day ago");
-
-            }
-    )
-</script>
-<script>
-
-    $('#myModal4').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                // Button that triggered the modal
-                var title = $('#feedTitle').val();
-                var image = $('#feedImages').val();
-                var content = $('#feedContent').val();
-                var added = $('#added').val();
-                var sourceTag = $('#sourceTitle').val();
-                var cata = $('#category option:selected').text()
-                var modal = $(this);
-                modal.find('#feedTitle').text(title);
-                modal.find('#feedImage').attr('src', image);
-                modal.find('#feedContent').text(content);
-                modal.find('#source').text(sourceTag + " >");
-                modal.find('#category').text(cata);
-                modal.find('#added').text("Shot by  " + added + "  1 day ago");
-            }
-    );
-</script>
-<script>
-
-    $('#myModal5').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                // Button that triggered the modal
-                var title = $('#feedTitles').val();
-                var image = $('#feedImaged').val();
-                var content = $('#contents').val();
-                var added = $('#addedBy').val();
-                var sourceTag = $('#title').val();
-                var cata = $('#category option:selected').text()
-                var modal = $(this);
-                modal.find('#feedTitle').text(title);
-                modal.find('#feedImage').attr('src', image);
-                modal.find('#feedContent').text(content);
-                modal.find('#source').text(sourceTag + " >");
-                modal.find('#category').text(cata);
-                modal.find('#added').text("Shot by  " + added + "  1 day ago");
-            }
-    );
-</script>
-<script>
-
-    $('#acceptModal').on('show.bs.modal', function (event) {
-//                var button = $(event.relatedTarget);
-//                // Button that triggered the modal
-//                 var remark = button.data('remark');
-//                // Extract info from data-* attributes
-//                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-//                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-//                var modal = $(this);
-//                modal.find('#head').text(remark);
-                var remark = localStorage.getItem('remark');
-                var id = localStorage.getItem('id');
-                var type = localStorage.getItem('clicked');
-                var rating = localStorage.getItem('star');
-
-                $('#clickedType').val(type);
-                $('#acceptId').val(id);
-                $('#rating-input').val(rating);
-                $(document).ready(function () {
-                    $('#rating-input').rating({
-                        min: 0,
-                        max: 5,
-                        step: 1,
-                        size: 'lg',
-                        showClear: true
-                    });
-
-
-                    $('#rating-input').on('rating.change', function () {
-                    });
-
-
-                });
-
-
-
-            }
-    )
-</script>
 
 <script type="text/javascript">
-    function confSubmit2() {
-        var li = confirm('Are you sure you want to delete??');
-        return r;
-    }
-    function confSubmit() {
-        var input = document.getElementById("audioSave");
-
-        // check for browser support (may need to be modified)
-        if (input.files && input.files.length == 1) {
-
-            if (input.files[0].size > 2097152) {
-                alert("The file must be less than 2 MB");
-                return false;
-            }
-        }
-
-        if (document.getElementById("image").files.length == 0) {
-            alert("Please add an image file ");
-            return false;
-
-
-        }
-        else {
-            var r = confirm('Are you sure you want to save??');
-            return r;
-        }
-
-
-    }
-    function editSubmit() {
-        var input = document.getElementById("audioTag");
-
-        // check for browser support (may need to be modified)
-        if (input.files && input.files.length == 1) {
-
-            if (input.files[0].size > 2097152) {
-                alert("The file must be less than 2 MB");
-                return false;
-            }
-        }
-        if (document.getElementById("imaged").files.length == 0) {
-            if ($("#feedImages").val().length == 0) {
-                alert("Please add an image file");
-                return false;
-            }
-            else {
-                var r = confirm('Are you sure you want to save??');
-                return r;
-            }
-
-        }
-        else {
-
-            var r = confirm('Are you sure you want to save??');
-            return r;
-        }
-
-
-    }
 
     function accept() {
         localStorage.setItem('clicked', 'Accept');
     }
 
+    var openFile = function (event) {
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            localStorage.setItem('val', dataURL);
+        };
+        reader.readAsDataURL(input.files[0]);
+    };
+
+
+    var items = '<?php echo json_encode($feed,JSON_HEX_APOS);  ?>';
+        if(items.length<4)
+        {
+
+            $(".previous").hide();
+            $(".next").hide();
+
+
+            }
+    var tag="<?php echo $tag ?>";
+    var tag2="<?php echo $tag2 ?>";
+    var tag3="<?php echo $tag3 ?>";
+    items = items
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\/g, "\\\\")
+            .replace(/\\f/g, "\\f")
+
+            .replace(/\s+/g, ' ');
+    var pager = {};
+    //    for (var i = 0; i < JSON.parse(items).length; i++) {
+    //        console.log(item[i]['_id']);
+    //
+    //    }
+
+    // remove non-printable and other non-valid JSON chars
+    pager.items = JSON.parse(items);
+    pager.itemsPerPage = 10;
+    pagerInit(pager);
+    function bindList() {
+        var pgItems = pager.pagedItems[pager.currentPage];
+        $("#accordion").empty();
+        for (var i = 0; i < pgItems.length; i++) {
+            var b=pgItems[i]['category'].toString();
+//            for (var key in pgItems[i]) {
+//                console.log(pgItems[i]['_id'])
+//                var option = $('<li class="ui-state-highlight"  ><div class="panel-group">');
+////                option.html("<div class=\"panel-group\"> <div class=\"panel panel-default\" style=\"width:94%\"> <div class=\"panel-heading\"> <h4 class=\"panel-title\"> <span>" + pgItems[i]['feedRating'] + "</span> <span class=\"glyphicon glyphicon-star-empty\"></span> <span id=\"feedId\" style=\"font-size: 72%;color:grey\"> " + pgItems[i]['feedId'] + "   </span>   <a style=\"text-align: center;font-weight: bolder;color:lightseagreen;font-size: 85%\" data-toggle=\"collapse\" href=" + pgItems[i]['_id'] + ">" + pgItems[i]['feedTitle'] + "  </a> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; " + pgItems[i]['likeCount'] + "   </span> <span style=\"color:grey\" class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"> </span>&nbsp;&nbsp;   <span style=\"font-size: 72%\">   <small>" + pgItems[i]['feedStatus'] + "</small></span><p style=\"color: grey;margin-top: -1.5%;font-size: 60%;margin-left:74%\">" + pgItems[i]['category'] + "  </p><p style=\"font-size: 60%;color: grey;margin-top: -1.9%;float: right;\"> " + pgItems[i]['created_at'] + " </p> </h4> </div> <div id=" + pgItems[i]['_id'] + " class=\"panel-collapse collapse\"> <div class=\"panel-body\" style=\"word-wrap: break-word\">" + pgItems[i]['feedContent'] + " <img src=" + pgItems[i]['feedImage'] + " class=\"img-rounded\" alt=\"Cinque Terre\" width=\"60\" height=\"60\" style=\"float:right\"> </div> <div class=\"panel-footer\"> <a style=\"margin-left: 0%\" href=" + pgItems[i]['feedSource'] + ">Source </a> <a style=\"margin-left: 4%\" href=" + pgItems[i]['feedAudio'] + ">Audio </a>  </div> </div> </div> </div></li> ");
+//
+//                option.html(' <div class=\"panel panel-default\"> <div class=\"panel-heading\"> <h4 class=\"panel-title\"> <a data-toggle=\"collapse\" href=" + pgItems[i]['_id'] + ">Collapsible panel</a> </h4> </div> <div id=" + pgItems[i]['_id'] + "  class=\"panel-collapse collapse\"> <div class=\"panel-body\">Panel Body</div> <div class=\"panel-footer\">Panel Footer</div> </div> </div> </li>');
+//            }
+            var feedId=pgItems[i]['feedId']
+            if(pgItems[i]['feedId'] === "" || pgItems[i]['feedId'] ==undefined)
+            {
+                feedId="";
+            };
+            $("#accordion").append("<div class=\"panel panel-default\" style=\"width:94%\"> <div class=\"panel-heading\"> <h4 class=\"panel-title\"> <span>" + pgItems[i]['feedRating'] + "</span> <span class=\"glyphicon glyphicon-star-empty\"></span> <span id=\"feedId\" style=\"font-size: 72%;color:grey\"> " + feedId + "   </span>   <a style=\"text-align: center;font-weight: bolder;color:lightseagreen;font-size: 85%\" data-parent=\"#accordion\" data-toggle=\"collapse\" href=#"+pgItems[i]['_id']+">" + pgItems[i]['feedTitle'] + "  </a> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; " + pgItems[i]['likeCount'] + "   </span> <span style=\"color:grey\" class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"> </span>&nbsp;&nbsp;   <span style=\"font-size: 72%\">   <small>" + pgItems[i]['feedStatus'] + "</small></span><p style=\"color: grey;margin-top: -1.5%;font-size: 60%;margin-left:74%\">" + pgItems[i]['category'] + "  </p><p style=\"font-size: 60%;color: grey;margin-top: -1.9%;float: right;\"> " + pgItems[i]['created_at'] + " </p> </h4> </div> <div id="+ pgItems[i]['_id'] + " class=\"panel-collapse collapse\"> <div class=\"panel-body\" style=\"word-wrap: break-word\">" + pgItems[i]['feedContent'] + " <img src=" + pgItems[i]['feedImage'] + " class=\"img-rounded\" alt=\"Cinque Terre\" width=\"60\" height=\"60\" style=\"float:right\"> </div> <div class=\"panel-footer\" style=\"line-height:50px\"> <a style=\"margin-left: 0%\" href=" + pgItems[i]['feedSource'] + ">Source </a> <a style=\"margin-left: 4%\" href=" + pgItems[i]['feedAudio'] + ">Audio </a><div class=\"buttonDiv\" style=\"float:right\"><button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#editFeed\" data-title=\""+pgItems[i]['feedTitle']+"\" data-image=\""+pgItems[i]['feedImage']+"\" data-source=\""+pgItems[i]['feedSource']+"\" data-content=\""+pgItems[i]['feedContent']+"\" data-sourcetag=\""+pgItems[i]['feedSourceTag']+"\"  data-audio=\""+pgItems[i]['feedAudio']+"\" data-cat=\""+pgItems[i]['category']+"\" data-trend=\""+pgItems[i]['trending']+"\" data-type=\""+pgItems[i]['feedType']+"\" data-loc=\""+pgItems[i]['location']+"\" data-date=\""+pgItems[i]['feedDate']+"\" data-summ=\""+pgItems[i]['summarised']+"\" data-added=\""+pgItems[i]['addedBy']+"\" data-remark=\""+pgItems[i]['feedRemark']+"\" data-schedule=\""+pgItems[i]['feedSchedule']+"\" data-idtag=\""+pgItems[i]['_id']+"\" data-uId=\""+feedId+"\" data-backdrop=\"static\">Edit Shot</button>&nbsp;&nbsp;<a  href=\"deleteFeed?action=" + pgItems[i]['_id'] + "\" class=\"btn btn-danger\" role=\"button\" onclick=\"return confSubmit2();\">Delete Shot</a>&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-title=\""+pgItems[i]['feedTitle']+"\" data-image=\""+pgItems[i]['feedImage']+"\" data-source=\""+pgItems[i]['feedSource']+"\" data-content=\""+pgItems[i]['feedContent']+"\" data-sourcetag=\""+pgItems[i]['feedSourceTag']+"\" data-image_lw=\""+pgItems[i]['feedImage']+"\" data-audio=\""+pgItems[i]['feedAudio']+"\" data-cat=\""+pgItems[i]['category']+"\" data-trend=\""+pgItems[i]['trending']+"\" data-type=\""+pgItems[i]['feedType']+"\" data-loc=\""+pgItems[i]['location']+"\" data-date=feedDate data-summ=\""+pgItems[i]['summarised']+"\" data-added=\""+pgItems[i]['addedBy']+"\" data-schedule=\""+pgItems[i]['feedSchedule']+"\" data-idtag=\""+pgItems[i]['_id']+"\" data-status=\""+pgItems[i]['feedStatus']+"\" data-remark=\""+pgItems[i]['feedRemark']+"\" data-rating=\""+pgItems[i]['feedRating']+"\" data-uId=\""+feedId+"\" data-tag=" +tag+ " data-tag2="+tag2+ " data-tag3="+tag3+" data-feed=" +pgItems+ " data-target=\"#firstPreview\" data-backdrop=\"static\">Preview</button></div>  </div> </div> </div>");
+        }
+    }
+    function prevPage() {
+        pager.prevPage();
+        bindList();
+    }
+    function nextPage() {
+        pager.nextPage();
+        bindList();
+    }
+    function pagerInit(p) {
+        p.pagedItems = [];
+        p.currentPage = 0;
+        if (p.itemsPerPage === undefined) {
+            p.itemsPerPage = 5;
+        }
+        p.prevPage = function () {
+            if (p.currentPage > 0) {
+                p.currentPage--;
+            }
+        };
+        p.nextPage = function () {
+            if (p.currentPage < p.pagedItems.length - 1) {
+                p.currentPage++;
+            }
+        };
+        init = function () {
+            for (var i = 0; i < p.items.length; i++) {
+                if (i % p.itemsPerPage === 0) {
+                    p.pagedItems[Math.floor(i / p.itemsPerPage)] = [p.items[i]];
+                } else {
+                    p.pagedItems[Math.floor(i / p.itemsPerPage)].push(p.items[i]);
+                }
+            }
+        };
+        init();
+    }
+    $(function () {
+        bindList();
+    });
 
 </script>
 

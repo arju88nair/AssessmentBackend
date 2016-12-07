@@ -1,340 +1,303 @@
 $(function () {
     //BEGIN MENU SIDEBAR
-    $('#sidebar').css('min-height', '100%');
-    $('#side-menu').metisMenu();
 
-    $(window).bind("load resize", function () {
-        if ($(this).width() < 768) {
-            $('div.sidebar-collapse').addClass('collapse');
-        } else {
-            $('div.sidebar-collapse').removeClass('collapse');
-            $('div.sidebar-collapse').css('height', 'auto');
+
+    $('#editFeed').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            // Button that triggered the modal
+            var title = button.data('title');
+            var image = button.data('image');
+            var image_lw = button.data('image_lw');
+            var source = button.data('source');
+            var content = button.data('content');
+            var sourceTag = button.data('sourcetag');
+            var idTag = button.data('idtag');
+            var audio = button.data('audio');
+            var cat = button.data('cat');
+            var trend = button.data('trend');
+            var type = button.data('type');
+            var loc = button.data('loc');
+            var schedule = button.data('schedule');
+            var date = button.data('date');
+            var summ = button.data('summ');
+            var added = button.data('added');
+            var remark = button.data('remark');
+            var uId = button.data('uid');
+            // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
+            modal.find('#feedTitle').val(title);
+            modal.find('#feedImages').val(image);
+            modal.find('#feedImage_lw').val(image_lw);
+            modal.find('#sourceUrl').val(source);
+            modal.find('#feedContent').val(content);
+            modal.find('#sourceTitle').val(sourceTag);
+            modal.find('#idTag').val(idTag);
+            modal.find('#category').val(cat);
+            modal.find('#type').val(type);
+            modal.find('#trend').val(trend);
+            modal.find('#loc').val(loc);
+            modal.find('#feedaudio').val(audio);
+            modal.find('#feedDate').val(date);
+            modal.find('#feedSchedule').val(schedule);
+            modal.find('#summarised').val(summ);
+            modal.find('#added').val(added);
+            modal.find('#feedRemarks').val(remark);
+            modal.find('#feedId').text("Unique Id is " + uId);
+            var user = localStorage.getItem('user');
+            modal.find('#owner').val(user);
+
         }
-        if($('body').hasClass('sidebar-icons')){
-            $('#menu-toggle').hide();
-        } else{
-            $('#menu-toggle').show();
-        }
-    });
-    //END MENU SIDEBAR
+    )
 
-    //BEGIN TOPBAR DROPDOWN
-    $('.dropdown-slimscroll').slimScroll({
-        "height": '250px',
-        "wheelStep": 5
-    });
-    //END TOPBAR DROPDOWN
 
-    //BEGIN CHECKBOX & RADIO
-    if($('#demo-checkbox-radio').length <= 0){
-        $('input[type="checkbox"]:not(".switch")').iCheck({
-            checkboxClass: 'icheckbox_minimal-grey',
-            increaseArea: '20%' // optional
-        });
-        $('input[type="radio"]:not(".switch")').iCheck({
-            radioClass: 'iradio_minimal-grey',
-            increaseArea: '20%' // optional
-        });
-    }
-    //END CHECKBOX & RADIO
+    $('#firstPreview').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            // Button that triggered the modal
+            var title = button.data('title');
+            var image = button.data('image');
+            var image_lw = button.data('image_lw');
+            var source = button.data('source');
+            var content = button.data('content');
+            var sourceTag = button.data('sourcetag');
+            var idTag = button.data('idtag');
+            var audio = button.data('audio');
+            var cat = button.data('cat');
+            var trend = button.data('trend');
+            var type = button.data('type');
+            var loc = button.data('loc');
+            var schedule = button.data('schedule');
+            var date = button.data('date');
+            var status = button.data('status');
+            var remark = button.data('remark');
+            var added = button.data('added');
+            var rating = button.data('rating');
+            localStorage.setItem('remark', remark);
+            localStorage.setItem('id', idTag);
+            localStorage.setItem('star', rating);
 
-    //BEGIN TOOTLIP
-    $("[data-toggle='tooltip'], [data-hover='tooltip']").tooltip();
-    //END TOOLTIP
+            // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
 
-    //BEGIN POPOVER
-    $("[data-toggle='popover'], [data-hover='popover']").popover();
-    //END POPOVER
+            var user = localStorage.getItem('user');
 
-    //BEGIN THEME SETTING
-    $('#theme-setting > a.btn-theme-setting').click(function(){
-        if($('#theme-setting').css('right') < '0'){
-            $('#theme-setting').css('right', '0');
-        } else {
-            $('#theme-setting').css('right', '-250px');
-        }
-    });
+            if (status == "Approved") {
 
-    // Begin Change Theme Color
-    var list_style = $('#theme-setting > .content-theme-setting > select#list-style');
-    var list_color = $('#theme-setting > .content-theme-setting > ul#list-color > li');
-    // FUNCTION CHANGE URL STYLE ON HEAD TAG
-    var setTheme = function (style, color) {
-        $.cookie('style',style);
-        $.cookie('color',color);
-        $('#theme-change').attr('href', 'css/themes/'+ style + '/' + color + '.css');
-    }
-    // INITIALIZE THEME FROM COOKIE
-    // HAVE TO SET VALUE FOR STYLE&COLOR BEFORE AND AFTER ACTIVE THEME
-    if ($.cookie('style')) {
-        list_style.find('option').each(function(){
-            if($(this).attr('value') == $.cookie('style')) {
-                $(this).attr('selected', 'selected');
+                $('button#acceptRate').hide();
             }
-        });
-        list_color.removeClass("active");
-        list_color.each(function(){
-            if($(this).attr('data-color') == $.cookie('color')){
-                $(this).addClass('active');
+            else {
+                $('button#acceptRate').show();
             }
-        });
-        setTheme($.cookie('style'), $.cookie('color'));
-    };
-    // SELECT EVENT
-    list_style.on('change', function() {
-        list_color.each(function() {
-            if($(this).hasClass('active')){
-                color_active  = $(this).attr('data-color');
+            if (status == "Published" || status == "Approved" || status == "Major Pending Edits" || status == "Minor Pending Edits") {
+
+                $('button#acceptRate').hide();
             }
-        });
-        setTheme($(this).val(), color_active);
-    });
-    // LI CLICK EVENT
-    list_color.on('click', function() {
-        list_color.removeClass('active');
-        $(this).addClass('active');
-        setTheme(list_style.val(), $(this).attr('data-color'));
-    });
-    // End Change Theme Color
-    //END THEME SETTING
+            else {
+                if (user == "ssharma@clearlyblue.in") {
+                    $('button#acceptRate').hide();
+                }
+                else {
+                    $('button#acceptRate').show();
+                }
 
-    //BEGIN FULL SCREEN
-    $('.btn-fullscreen').click(function() {
-
-        if (!document.fullscreenElement &&    // alternative standard method
-            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) {
-                document.documentElement.msRequestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
             }
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
+
+
+            modal.find('#feedTitle').text(title);
+            modal.find('#accept').data('remark', remark);
+            modal.find('#feedImage').attr('src', image);
+            modal.find('#feedContent').text(content);
+            modal.find('#source').text(sourceTag + " >");
+            modal.find('#category').text(cat);
+            modal.find('#added').text("Shot by  " + added + "  1 day ago");
+
+        }
+    )
+
+
+    $('#editPreview').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            // Button that triggered the modal
+            var title = $('#feedTitle').val();
+            var image = $('#feedImages').val();
+            var content = $('#feedContent').val();
+            var added = $('#summarised').val();
+            var sourceTag = $('#sourceTitle').val();
+            var val = localStorage.getItem('val');
+
+            var cata = $('#category option:selected').text()
+            var modal = $(this);
+            if (image == "" || image == null) {
+                modal.find('#feedImage').attr('src', val);
+
             }
+            else {
+                modal.find('#feedImage').attr('src', image);
+
+            }
+            modal.find('#feedTitle').text(title);
+            modal.find('#feedContent').text(content);
+            modal.find('#source').text(sourceTag + " >");
+            modal.find('#category').text(cata);
+            modal.find('#added').text("Shot by  " + added + "  1 day ago");
         }
-    });
-    //END FULL SCREEN
+    );
 
-    // BEGIN FORM CHAT
-    $('.btn-chat').click(function () {
-        if($('#chat-box').is(':visible')){
-            $('#chat-form').toggle('slide', {
-                direction: 'right'
-            }, 500);
-            $('#chat-box').hide();
-        } else{
-            $('#chat-form').toggle('slide', {
-                direction: 'right'
-            }, 500);
+
+    $('#savePreview').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            // Button that triggered the modal
+            var title = $('#feedTitles').val();
+            var image = $('#feedImaged').val();
+            var content = $('#contents').val();
+            var added = $('#addedtext').val();
+            var sourceTag = $('#title').val();
+            var val = localStorage.getItem('val');
+
+            var cata = $('#categories option:selected').text()
+
+            var modal = $(this);
+            modal.find('#feedTitle').text(title);
+            modal.find('#feedImage').attr('src', val);
+            modal.find('#feedContent').text(content);
+            modal.find('#source').text(sourceTag + " >");
+            modal.find('#category').text(cata);
+            modal.find('#added').text("Shot by  " + added + "  1 day ago");
         }
-    });
-    $('.chat-box-close').click(function(){
-        $('#chat-box').hide();
-        $('#chat-form .chat-group a').removeClass('active');
-    });
-    $('.chat-form-close').click(function(){
-        $('#chat-form').toggle('slide', {
-            direction: 'right'
-        }, 500);
-        $('#chat-box').hide();
-    });
-
-    $('#chat-form .chat-group a').unbind('*').click(function(){
-        $('#chat-box').hide();
-        $('#chat-form .chat-group a').removeClass('active');
-        $(this).addClass('active');
-        var strUserName = $('> small', this).text();
-        $('.display-name', '#chat-box').html(strUserName);
-        var userStatus = $(this).find('span.user-status').attr('class');
-        $('#chat-box > .chat-box-header > span.user-status').removeClass().addClass(userStatus);
-        var chatBoxStatus = $('span.user-status', '#chat-box');
-        var chatBoxStatusShow = $('#chat-box > .chat-box-header > small');
-        if(chatBoxStatus.hasClass('is-online')){
-            chatBoxStatusShow.html('Online');
-        } else if(chatBoxStatus.hasClass('is-offline')){
-            chatBoxStatusShow.html('Offline');
-        } else if(chatBoxStatus.hasClass('is-busy')){
-            chatBoxStatusShow.html('Busy');
-        } else if(chatBoxStatus.hasClass('is-idle')){
-            chatBoxStatusShow.html('Idle');
-        }
+    );
 
 
-        var offset = $(this).offset();
-        var h_main = $('#chat-form').height();
-        var h_title = $("#chat-box > .chat-box-header").height();
-        var top = ($('#chat-box').is(':visible') ? (offset.top - h_title - 40) : (offset.top + h_title - 20));
+    $('#acceptModal').on('show.bs.modal', function (event) {
+//                var button = $(event.relatedTarget);
+//                // Button that triggered the modal
+//                 var remark = button.data('remark');
+//                // Extract info from data-* attributes
+//                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+//                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+//                var modal = $(this);
+//                modal.find('#head').text(remark);
+            var remark = localStorage.getItem('remark');
+            var id = localStorage.getItem('id');
+            var type = localStorage.getItem('clicked');
+            var rating = localStorage.getItem('star');
+            var user = localStorage.getItem('user');
+            $('#clickedType').val(type);
+            $('#tag').val($('#cat').val());
+            $('#tag2').val($('#own').val());
+            $('#tag3').val($('#statusTag').val());
+            $('#feed').val(feed);
+            $('#acceptId').val(id);
+            $('#acceptUser').val(user);
+            $('#rating-input').val(rating);
+            $('#remarkArea').val(remark);
 
-        if((top + $('#chat-box').height()) > h_main){
-            top = h_main - 	$('#chat-box').height();
-        }
-
-        $('#chat-box').css({'top': top});
-
-        if(!$('#chat-box').is(':visible')){
-            $('#chat-box').toggle('slide',{
-                direction: 'right'
-            }, 500);
-        }
-        // FOCUS INPUT TExT WHEN CLICK
-        $('ul.chat-box-body').scrollTop(500);
-        $("#chat-box .chat-textarea input").focus();
-    });
-    // Add content to form
-    $('.chat-textarea input').on("keypress", function(e){
-
-        var $obj = $(this);
-        var $me = $obj.parent().parent().find('ul.chat-box-body');
-        var $my_avt = 'https://s3.amazonaws.com/uifaces/faces/twitter/kolage/128.jpg';
-        var $your_avt = 'https://s3.amazonaws.com/uifaces/faces/twitter/alagoon/48.jpg';
-        if (e.which == 13) {
-            var $content = $obj.val();
-
-            if ($content !== "") {
-                var d = new Date();
-                var h = d.getHours();
-                var m = d.getMinutes();
-                if (m < 10) m = "0" + m;
-                $obj.val(""); // CLEAR TEXT ON TEXTAREA
-
-                var $element = ""; 
-                $element += "<li>";
-                $element += "<p>";
-                $element += "<img class='avt' src='"+$my_avt+"'>";
-                $element += "<span class='user'>John Doe</span>";
-                $element += "<span class='time'>" + h + ":" + m + "</span>";
-                $element += "</p>";
-                $element = $element + "<p>" + $content +  "</p>";
-                $element += "</li>";
-                
-                $me.append($element);
-                var height = 0;
-                $me.find('li').each(function(i, value){
-                    height += parseInt($(this).height());
+            $(document).ready(function () {
+                $('#rating-input').rating({
+                    min: 0,
+                    max: 5,
+                    step: 1,
+                    size: 'lg',
+                    showClear: true
                 });
 
-                height += '';
-                //alert(height);
-                $me.scrollTop(height);  // add more 400px for #chat-box position      
 
-                // RANDOM RESPOND CHAT
+                $('#rating-input').on('rating.change', function () {
+                });
 
-                var $res = "";
-                $res += "<li class='odd'>";
-                $res += "<p>";
-                $res += "<img class='avt' src='"+$your_avt+"'>";
-                $res += "<span class='user'>Swlabs</span>";
-                $res += "<span class='time'>" + h + ":" + m + "</span>";
-                $res += "</p>";
-                $res = $res + "<p>" + "Yep! It's so funny :)" + "</p>";
-                $res += "</li>";
-                setTimeout(function(){
-                    $me.append($res);
-                    $me.scrollTop(height+100); // add more 500px for #chat-box position             
-                }, 1000);
-            }
+
+            });
+
+
         }
-    });
-    // END FORM CHAT
-
-    //BEGIN PORTLET
-    $(".portlet").each(function(index, element) {
-        var me = $(this);
-        $(">.portlet-header>.tools>i", me).click(function(e){
-            if($(this).hasClass('fa-chevron-up')){
-                $(">.portlet-body", me).slideUp('fast');
-                $(this).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-            }
-            else if($(this).hasClass('fa-chevron-down')){
-                $(">.portlet-body", me).slideDown('fast');
-                $(this).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-            }
-            else if($(this).hasClass('fa-cog')){
-                //Show modal
-            }
-            else if($(this).hasClass('fa-refresh')){
-                //$(">.portlet-body", me).hide();
-                $(">.portlet-body", me).addClass('wait');
-
-                setTimeout(function(){
-                    //$(">.portlet-body>div", me).show();
-                    $(">.portlet-body", me).removeClass('wait');
-                }, 1000);
-            }
-            else if($(this).hasClass('fa-times')){
-                me.remove();
-            }
-        });
-    });
-    //END PORTLET
-
-    //BEGIN BACK TO TOP
-    $(window).scroll(function(){
-        if ($(this).scrollTop() < 200) {
-            $('#totop') .fadeOut();
-        } else {
-            $('#totop') .fadeIn();
-        }
-    });
-    $('#totop').on('click', function(){
-        $('html, body').animate({scrollTop:0}, 'fast');
-        return false;
-    });
-    //END BACK TO TOP
-
-    //BEGIN CHECKBOX TABLE
-    $('.checkall').on('ifChecked ifUnchecked', function(event) {
-        if (event.type == 'ifChecked') {
-            $(this).closest('table').find('input[type=checkbox]').iCheck('check');
-        } else {
-            $(this).closest('table').find('input[type=checkbox]').iCheck('uncheck');
-        }
-    });
-    //END CHECKBOX TABLE
-
-    //BEGIN JQUERY NEWS UPDATE
-    $('#news-update').ticker({
-        controls: false,
-        titleText: ''
-    });
-    //END JQUERY NEWS UPDATE
-
-    $('.option-demo').hover(function() {
-        $(this).append("<div class='demo-layout animated fadeInUp'><i class='fa fa-magic mrs'></i>Demo</div>");
-    }, function() {
-        $('.demo-layout').remove();
-    });
-    $('#header-topbar-page .demo-layout').live('click', function() {
-        var HtmlOption = $(this).parent().detach();
-        $('#header-topbar-option-demo').html(HtmlOption).addClass('animated flash').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).removeClass('animated flash');
-        });
-        $('#header-topbar-option-demo').find('.demo-layout').remove();
-        return false;
-    });
-    $('#title-breadcrumb-page .demo-layout').live('click', function() {
-        var HtmlOption = $(this).parent().html();
-        $('#title-breadcrumb-option-demo').html(HtmlOption).addClass('animated flash').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).removeClass('animated flash');
-        });
-        $('#title-breadcrumb-option-demo').find('.demo-layout').remove();
-        return false;
-    });
-    // CALL FUNCTION RESPONSIVE TABS
-    fakewaffle.responsiveTabs(['xs', 'sm']);
+    )
 
 });
+function confSubmit2() {
+    var li = confirm('Are you sure you want to delete??');
+    return r;
+}
+function confSubmit() {
+    var input = document.getElementById("audioSave");
+    var image = document.getElementById("image");
+    var textArea = document.getElementById("contents").value;
+    if (textArea.length < 1) {
+        alert("The content should not be empty");
+        return false;
+    }
+    if (image.files && image.files.length == 1) {
+
+        if (image.files[0].size > 1048576) {
+            alert("The file must be less than 1 MB");
+            return false;
+        }
+    }
+    // check for browser support (may need to be modified)
+    if (input.files && input.files.length == 1) {
+
+        if (input.files[0].size > 1097152) {
+            alert("The file must be less than 2 MB");
+            return false;
+        }
+    }
+    if (document.getElementById("image").files.length == 0) {
+        alert("Please add an image file ");
+        return false;
+
+
+    }
+    else {
+        var r = confirm('Are you sure you want to save??');
+        return r;
+    }
+
+
+}
+function editSubmit() {
+
+    var input = document.getElementById("audioTag");
+    var imageedit = document.getElementById("imaged");
+    var textArea = document.getElementById("feedContent").value;
+    if (textArea.length < 1) {
+        alert("The content should not be empty");
+        return false;
+    }
+    // check for browser support (may need to be modified)
+    if (input.files && input.files.length == 1) {
+
+        if (input.files[0].size > 2097152) {
+            alert("The file must be less than 2 MB");
+            return false;
+        }
+    }
+    if (imageedit.files && imageedit.files.length == 1) {
+
+        if (imageedit.files[0].size > 1048576) {
+            alert("The file must be less than 1 MB");
+            return false;
+        }
+    }
+    if (document.getElementById("imaged").files.length == 0) {
+        if ($("#feedImages").val().length == 0) {
+            alert("Please add an image file");
+            return false;
+        }
+        else {
+            var r = confirm('Are you sure you want to save??');
+            return r;
+        }
+
+    }
+    else {
+
+        var r = confirm('Are you sure you want to save??');
+        return r;
+    }
+
+
+}
 
 
 

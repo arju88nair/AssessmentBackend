@@ -282,6 +282,7 @@ class admin extends Eloquent
 
     public static function addFeed($input)
     {
+
         $db = user::first();
         $user = $db['user'];
         $array = array();
@@ -291,6 +292,7 @@ class admin extends Eloquent
         } //$admin as $ad
 
         $feeds = feeds::all();
+
         $invitee = invite::all();
         $users = addUser::all();
         $savedtests = savedtests::getAnswers();
@@ -302,6 +304,7 @@ class admin extends Eloquent
             array_push($feed, $item);
         }
         $feed = array_reverse($feed);
+
         return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag', 'All')->with('tag2', 'All')->with('tag3', 'All');
 
     }
@@ -480,16 +483,20 @@ class admin extends Eloquent
 
     public static function setFeed()
     {
-        $main = mainFeed::where('feedStatus', '=', 'Approved')->orWhere('feedStatus', '=', 'Published')->get();
+        $main = mainFeed::where('feedStatus', '=', 'Published')->orWhere('feedStatus', '=', 'Approved')->get();
 
 
 
         if (count($main) == 0 || !isset($main)) {
+
             $array = array();
             $excepted = array();
-            $allFeeds = feeds::where('feedStatus', '=', 'Approved')->orWhere('feedStatus', '=', 'Published')->get();
+            $allFeeds = feeds::where('feedStatus', '=', 'Approved')->get();
             if (count($allFeeds) != 0 || isset($main)) {
                 foreach ($allFeeds as $feed) {
+					unset($feed['feedRemark']);
+					unset($feed['feedSource']);
+					unset($feed['feedContent']);
                     $date = self::dated($feed['updated_at']);
                     if ($date <= 1) {
                         array_push($array, $feed);
@@ -505,15 +512,19 @@ class admin extends Eloquent
         } else {
 
             $mainId = array();
-            $array = mainFeed::where('feedStatus', '=', 'Approved')->orWhere('feedStatus', '=', 'Published')->get();
+            $array = mainFeed::where('feedStatus', '=', 'Published')->orWhere('feedStatus', '=', 'Approved')->get();
             $excepted = array();
-            $feeds = feeds::where('feedStatus', '=', 'Approved')->orWhere('feedStatus', '=', 'Published')->get();
+            $feeds = feeds::where('feedStatus', '=', 'Approved')->get();
             foreach ($array as $main) {
                 array_push($mainId, $main['_id']);
             }
             foreach ($feeds as $feed) {
-
+					
                 if (!in_array($feed['_id'], $mainId)) {
+					unset($feed['feedRemark']);
+					unset($feed['feedSource']);
+					unset($feed['feedContent']);
+					
                     array_push($excepted, $feed);
                 }
             }
@@ -607,6 +618,7 @@ class admin extends Eloquent
                 $foundMainFeed->save();
             }
             if (count($main) != 0) {
+				
                 mainFeed::query()->delete();
                 foreach ($arr as $ar) {
                     $foundFeed = feeds::find($ar['_id']);
@@ -614,25 +626,25 @@ class admin extends Eloquent
                     $foundFeed->save();
                     $main = new mainFeed;
                     $main->_id = $ar['_id'];
-                    $main->category = $ar['category'];
+//                    $main->category = $ar['category'];
                     $main->summarised = $ar['summarised'];
-                    $main->addedBy = $ar['addedBy'];
-                    $main->feedOwner = $ar['feedOwner'];
-                    $main->feedSchedule = $ar['feedSchedule'];
-                    $main->feedType = $ar['feedType'];
-                    $main->trending = $ar['trending'];
-                    $main->location = $ar['location'];
-                    $main->feedDate = $ar['feedDate'];
+//                    $main->addedBy = $ar['addedBy'];
+//                    $main->feedOwner = $ar['feedOwner'];
+//                    $main->feedSchedule = $ar['feedSchedule'];
+//                    $main->feedType = $ar['feedType'];
+//                    $main->trending = $ar['trending'];
+//                    $main->location = $ar['location'];
+//                    $main->feedDate = $ar['feedDate'];
                     $main->feedTitle = $ar['feedTitle'];
-                    $main->feedImage = $ar['feedImage'];
-                    $main->likeCount = $ar['likeCount'];
-                    $main->feedContent = $ar['feedContent'];
-                    $main->feedSource = $ar['feedSource'];
-                    $main->feedSourceTag = $ar['feedSourceTag'];
-                    $main->feedGCM = $ar['feedGCM'];
+//                    $main->feedImage = $ar['feedImage'];
+//                    $main->likeCount = $ar['likeCount'];
+//                    $main->feedContent = $ar['feedContent'];
+//                    $main->feedSource = $ar['feedSource'];
+//                    $main->feedSourceTag = $ar['feedSourceTag'];
+//                    $main->feedGCM = $ar['feedGCM'];
                     $main->feedBirth = $ar['updated_at'];
                     $main->feedStatus = $ar['feedStatus'];
-                    $main->feedRemark = $ar['feedRemark'];
+//                    $main->feedRemark = $ar['feedRemark'];
 
                     $main->save();
                 }
@@ -642,29 +654,29 @@ class admin extends Eloquent
             } else {
                 foreach ($arr as $ar) {
                     $foundFeed = feeds::find($ar['_id']);
-                    $foundFeed->feedStatus = "Published";
+                    $foundFeed->feedStatus = 
                     $foundFeed->save();
                     $main = new mainFeed;
                     $main->_id = $ar['_id'];
-                    $main->category = $ar['category'];
+//                    $main->category = $ar['category'];
                     $main->summarised = $ar['summarised'];
-                    $main->addedBy = $ar['addedBy'];
-                    $main->feedOwner = $ar['feedOwner'];
-                    $main->feedSchedule = $ar['feedSchedule'];
-                    $main->feedType = $ar['feedType'];
-                    $main->trending = $ar['trending'];
-                    $main->location = $ar['location'];
-                    $main->feedDate = $ar['feedDate'];
+//                    $main->addedBy = $ar['addedBy'];
+//                    $main->feedOwner = $ar['feedOwner'];
+//                    $main->feedSchedule = $ar['feedSchedule'];
+//                    $main->feedType = $ar['feedType'];
+//                    $main->trending = $ar['trending'];
+//                    $main->location = $ar['location'];
+//                    $main->feedDate = $ar['feedDate'];
                     $main->feedTitle = $ar['feedTitle'];
-                    $main->feedImage = $ar['feedImage'];
-                    $main->likeCount = $ar['likeCount'];
-                    $main->feedContent = $ar['feedContent'];
-                    $main->feedSource = $ar['feedSource'];
-                    $main->feedSourceTag = $ar['feedSourceTag'];
-                    $main->feedGCM = $ar['feedGCM'];
+//                    $main->feedImage = $ar['feedImage'];
+//                    $main->likeCount = $ar['likeCount'];
+//                    $main->feedContent = $ar['feedContent'];
+//                    $main->feedSource = $ar['feedSource'];
+//                    $main->feedSourceTag = $ar['feedSourceTag'];
+//                    $main->feedGCM = $ar['feedGCM'];
                     $main->feedBirth = $ar['updated_at'];
-                    $main->feedStatus = $ar['feedStatus'];
-                    $main->feedRemark = $ar['feedRemark'];
+                    $main->feedStatus = "Published";
+//                    $main->feedRemark = $ar['feedRemark'];
                     $main->save();
                 }
                 return mainFeed::all();
@@ -679,40 +691,20 @@ class admin extends Eloquent
     {
 
         $rating = $_POST['star'];
-//        if ($_POST['clickedType'] == "Reject") {
-//            $content = $_POST['remarks'];
-//            $feed = feeds::where('_id', '=', $_POST['id'])->first();
-//            if ($feed != null || !isset($feed)) {
-//                $feed->feedRating=$rating;
-//                if ($feed['feedRemark'] == "") {
-//                    $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
-//                    $feed->feedRemark = $feedRemark;
-//                    $saved = $feed->save();
-//                    if ($saved) {
-//                        $feed->feedStatus = "Rejected";
-//                        $feed->save();
-//                        return Redirect::to('addFeed');
-//                    }
-//                }
-//                $feedRemark = $content . "  " . "[Added at -" . $feed['updated_at'] . "]  " . '<-------------->';
-//                $feed->feedRemark = $feedRemark;
-//                $saved = $feed->save();
-//                if ($saved) {
-//                    $feed->feedStatus = "Rejected";
-//                    $feed->save();
-//                    return Redirect::to('addFeed');
-//                }
-//
-//            }
-//        } else {
+        $tag=$_POST['tag'];
+        $tag2=$_POST['tag2'];
+        $tag3=$_POST['tag3'];
+        $feed=$_POST['feed'];
         $content = $_POST['remarks'];
+        $user=$_POST['user'];
+        $content= htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
 
 
         $feed = feeds::where('_id', '=', $_POST['id'])->first();
         if ($feed != null || !isset($feed)) {
             $feed->feedRating = $rating;
             if ($feed['feedRemark'] == "") {
-                $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d",time()) . "]  " ."\n". '--------------------';
+                $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d h:i:sa",time()) . "  By ".$user." and gave " .$rating. "  stars"."]  " ."\n". '--------------------'."\n".$feed['feedRemark'];
                 $feed->feedRemark = $feedRemark;
                 $saved = $feed->save();
                 if ($saved) {
@@ -732,11 +724,13 @@ class admin extends Eloquent
 
                     $feed->feedRating = $rating;
                     $feed->save();
+                    return self::setFilter($tag,$tag2,$tag3);
                     return Redirect::to('addFeed');
                 }
             }
-            $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d",time()) . "]  " ."\n". '--------------------'."\n".$feed['feedRemark'];
+            $feedRemark = $content . "  " ."\n". "[Added at " . date("Y-m-d h:i:sa",time()) . "  By ".$user." and gave " .$rating. "  stars"."]  " ."\n". '--------------------'."\n".$feed['feedRemark'];
             $feed->feedRemark = $feedRemark;
+
             $saved = $feed->save();
             if ($saved) {
                 if ($rating == "5") {
@@ -754,6 +748,7 @@ class admin extends Eloquent
                 }
                 $feed->feedRating = $rating;
                 $feed->save();
+                return self::setFilter($tag,$tag2,$tag3);
                 return Redirect::to('addFeed');
             }
 
@@ -763,4 +758,77 @@ class admin extends Eloquent
     }
 
 
+    private static function setFilter($tag,$tag2,$tag3)
+    {
+        $staus = $tag3;
+
+        $use = $_POST['user'];
+
+            $array = array();
+            $admin = admin::all();
+            foreach ($admin as $ad) {
+                array_push($array, $ad['name']);
+            } //$admin as $ad
+            $tag = $tag;
+            $owner = $tag2;
+//I know the logic is stupid. I was lazy and I am suffering for it now
+            $feeds = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->where('feedStatus', '=', $staus)->get();
+            if ($tag == "All" && $owner == "All" && $staus == "All") {
+                $feeds = feeds::all();
+            } //$tag == "All" && $owner == "All"
+            if ($tag != "All" && $owner == "All" && $staus == "All" ) {
+                $feeds = feeds::where('category', '=', $tag)->get();
+            } //$tag != "All" && $owner == "All"
+            if ($tag == "All" && $owner != "All"  && $staus == "All" ) {
+                $feeds = feeds::where('feedOwner', '=', $owner)->get();
+
+            } //$tag == "All" && $owner != "All"
+            if ($tag != "All" && $owner != "All" && $staus != "All") {
+                $feeds = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->where('feedStatus', '=', $staus)->get();
+            } //$tag != "All" && $owner != "All"
+
+            if ($tag != "All" && $owner != "All" && $staus == "All") {
+                $feeds = feeds::where('category', '=', $tag)->where('feedOwner', '=', $owner)->get();
+            } //$tag != "All" && $owner != "All"
+
+            if ($tag == "All" && $owner == "All" && $staus != "All") {
+                $feeds = feeds::where('feedStatus', '=', $staus)->get();
+            } //$tag != "All" && $owner != "All"
+
+            if ($tag == "All" && $owner != "All" && $staus != "All") {
+                $feeds = feeds::where('feedOwner', '=', $owner)->where('feedStatus', '=', $staus)->get();
+            } //$tag != "All" && $owner != "All"
+
+            if ($tag != "All" && $owner == "All" && $staus != "All") {
+                $feeds = feeds::where('category', '=', $tag)->where('feedStatus', '=', $staus)->get();
+            } //$tag != "All" && $owner != "All"
+
+
+            $invitee = invite::all();
+            $users = addUser::all();
+            $savedtests = savedtests::getAnswers();
+            $test = questions::all();
+            $report = upload::where('status', '=', 'Pending')->get();
+            $assistance = assistance::all();
+
+            $feed = array();
+            foreach ($feeds as $item) {
+                array_push($feed, $item);
+            }
+            $feed = array_reverse($feed);
+            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3',$staus);
+
+
+
+    }
+
+
+    public static function comments()
+    {
+        $comments= comments::all();
+        return View::make('comments')->with('comments',$comments);
+    }
+
+
 }
+

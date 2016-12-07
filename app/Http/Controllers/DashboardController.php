@@ -94,4 +94,9 @@ class DashboardController extends Controller
         return feeds::apply($request->all());
     }
 
+    public function comments(Request $request)
+    {
+        return admin::comments($request->all());
+    }
+
 }
