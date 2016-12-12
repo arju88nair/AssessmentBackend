@@ -3,6 +3,7 @@ $(function () {
 
 
     $('#editFeed').on('show.bs.modal', function (event) {
+		
             var button = $(event.relatedTarget);
             // Button that triggered the modal
             var title = button.data('title');
@@ -38,7 +39,7 @@ $(function () {
             modal.find('#type').val(type);
             modal.find('#trend').val(trend);
             modal.find('#loc').val(loc);
-            modal.find('#feedaudio').val(audio);
+            modal.find('#feedAudioTag').val(audio);
             modal.find('#feedDate').val(date);
             modal.find('#feedSchedule').val(schedule);
             modal.find('#summarised').val(summ);
@@ -53,6 +54,7 @@ $(function () {
 
 
     $('#firstPreview').on('show.bs.modal', function (event) {
+
             var button = $(event.relatedTarget);
             // Button that triggered the modal
             var title = button.data('title');
@@ -76,6 +78,15 @@ $(function () {
             localStorage.setItem('remark', remark);
             localStorage.setItem('id', idTag);
             localStorage.setItem('star', rating);
+            $('source#sourcetag').attr('src', audio).detach().appendTo($("#myAudio"));
+            if (audio == "" || audio == null) {
+                $('img#play').hide();
+
+            }
+            else {
+                $('img#play').show();
+
+            }
 
             // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -126,6 +137,17 @@ $(function () {
             var content = $('#feedContent').val();
             var added = $('#summarised').val();
             var sourceTag = $('#sourceTitle').val();
+            var audio = $('#feedAudioTag').val();
+            console.log(audio)
+            $('source#sourcetag').attr('src', audio).detach().appendTo($("#myAudio"));
+            if (audio == "" || audio == null) {
+                $('img#play').hide();
+
+            }
+            else {
+                $('img#play').show();
+
+            }
             var val = localStorage.getItem('val');
 
             var cata = $('#category option:selected').text()
@@ -156,7 +178,16 @@ $(function () {
             var added = $('#addedtext').val();
             var sourceTag = $('#title').val();
             var val = localStorage.getItem('val');
+            var audio = $('#feedAudio').val();
+            $('source#sourcetag').attr('src', audio).detach().appendTo($("#myAudio"));
+            if (audio == "" || audio == null) {
+                $('img#play').hide();
 
+            }
+            else {
+                $('img#play').show();
+
+            }
             var cata = $('#categories option:selected').text()
 
             var modal = $(this);

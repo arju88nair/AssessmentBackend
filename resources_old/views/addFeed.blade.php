@@ -159,12 +159,6 @@ echo $tag3;
         right:50%;
         outline: none;
     }
-    img#play {
-        width: 40px;
-        margin-top: -37%;
-        float: right;
-        position :relative;
-    }
     @media (min-width: 768px) {
         #wrapper {
             padding-left: 250px;
@@ -412,7 +406,7 @@ echo $tag3;
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" >&times;
+                        <button type="button" class="close" data-dismiss="modal">&times;
                         </button>
                         <h4 class="modal-title">Add New Shot
                         </h4>
@@ -458,7 +452,7 @@ echo $tag3;
                                 <label for="usr">Shot Audio URL:
                                 </label>
                                 <input type="text" class="form-control" name="feedaudio" accept="audio/*"
-                                       id="feedAudio"
+                                       id="feedaudio"
                                        placeholder="Fedd Audio URL">
                             </div>
                             <div class="form-group">
@@ -700,7 +694,7 @@ echo $tag3;
                             <div class="form-group">
                                 <label for="inputPassword">Audio
                                 </label>
-                                <input type="text" class="form-control" name="feedaudio" id="feedAudioTag"
+                                <input class="form-control" name="feedaudio" id="feedaudio" type="text"
                                 >
                             </div>
                             <div class="form-group">
@@ -808,7 +802,7 @@ echo $tag3;
                             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="localStorage.removeItem('val')">Close
                             </button>
                             <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#editPreview" data-backdrop="static" data-audio="" data-keyboard="false">Preview
+                                    data-target="#editPreview" data-backdrop="static" data-keyboard="false">Preview
                             </button>
 
                         </form>
@@ -826,7 +820,7 @@ echo $tag3;
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" onclick="window.location.reload();">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
@@ -838,19 +832,11 @@ echo $tag3;
                             <article>
                                 <h4 id="feedTitle"
                                     style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%;"></h4>
-                                <audio id="myAudio">
-                                <source src=""
-                                        type='audio/mpeg' id="sourcetag">
-                                Your user agent does not support the HTML5 Audio element.
-                                </audio>
-                                <img src="https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png" id="play" onclick="aud_play_pause()">
 
                                 <p id="feedContent" style="font-size:0.78em;line-height:157%;word-spacing:4px"></p>
                             </article>
                         </div>
-
                         <div class="tag"
-
                              style="float: right;padding-right: 0%;position: fixed;bottom:142px;padding-left:20% ">
                             <span style="font-size: 0.7em;">More At</span>&nbsp;<span id="source"
                                                                                       style=" font-size: 0.55em;color: skyblue;"></span>
@@ -871,7 +857,7 @@ echo $tag3;
                                 data-keyboard="false">Rate
                         </button>
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.reload();">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
 
@@ -886,7 +872,7 @@ echo $tag3;
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" onclick="cleared()">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
@@ -898,12 +884,6 @@ echo $tag3;
                             <article>
                                 <h4 id="feedTitle"
                                     style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%"></h4>
-                                <audio id="myAudio">
-                                    <source src=""
-                                            type='audio/mpeg' id="sourcetag">
-                                    Your user agent does not support the HTML5 Audio element.
-                                </audio>
-                                <img src="https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png" id="play" onclick="aud_play_pause()">
 
                                 <p id="feedContent" style="font-size:0.77em;line-height:157%;word-spacing:4px"></p>
                             </article>
@@ -924,7 +904,7 @@ echo $tag3;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"
-                                onclick="cleared()" >Close
+                                >Close
                         </button>
                     </div>
                 </div>
@@ -940,7 +920,7 @@ echo $tag3;
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" onclick="cleared()">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Shot Preview</h4>
                     </div>
                     <div class="modal-body" style="border-radius: 2%;height: 500px;border: 1px solid black; width: 47%; margin: 0 auto;padding: 0px;
@@ -952,12 +932,6 @@ echo $tag3;
                             <article>
                                 <h4 id="feedTitle"
                                     style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%"></h4>
-                                <audio id="myAudio">
-                                    <source src=""
-                                            type='audio/mpeg' id="sourcetag">
-                                    Your user agent does not support the HTML5 Audio element.
-                                </audio>
-                                <img src="https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png" id="play" onclick="aud_play_pause()">
 
                                 <p id="feedContent" style="font-size:0.77em;line-height:157%;word-spacing:4px"></p>
                             </article>
@@ -977,7 +951,7 @@ echo $tag3;
                              src="https://files.slack.com/files-pri/T04T20JQR-F2J6XQKS7/feedscreen.png?pub_secret=e393cfab42">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleared()"
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
                                 >Close
                         </button>
                     </div>
@@ -1156,28 +1130,6 @@ echo $tag3;
     $(function () {
         bindList();
     });
-
-    function aud_play_pause() {
-        var myAudio = document.getElementById("myAudio");
-
-        if (myAudio.paused) {
-            $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3E4FUN95/mediapause.png");
-
-            console.log("ih");
-            myAudio.play();
-        } else {
-            $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png");
-
-            myAudio.pause();
-        }
-    }
-
-
-    function cleared(){
-        var myAudio = document.getElementById("myAudio");
-        $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png");
-        myAudio.pause();
-    }
 
 </script>
 

@@ -711,8 +711,11 @@ Rain04
                 if (!in_array($ext, $allowed)) {
                     return 'Incorrect file extension';
                 }
+				
                 if (in_array($ext, $allowed)) {
-                    $path = $destinationPath . $filename;
+                    $pathToFile = $destinationPath . $filename;
+                    $string = "/var/www/html/Assessment/public";
+                    $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
                     if ($new != "") {
                         $new->feedAudio = $path;
