@@ -103,12 +103,7 @@ class admin extends Eloquent
                 array_push($array, $ad['name']);
             } //$admin as $ad
             $feeds = feeds::all();
-            $invitee = invite::all();
             $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
             $feed = array();
             foreach ($feeds as $item) {
 //                if(new DateTime() > new DateTime($item['feedDate'])){
@@ -120,7 +115,7 @@ class admin extends Eloquent
             }
             $feed = array_reverse($feed);
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $name)->with('tag', 'All')->with('tag2', 'All')->with('tag3', 'All');
+            return View::Make('addFeed')->with('users', $users)->with('feed', $feed)->with('tag1', $array)->with('user', $name)->with('tag', 'All')->with('tag2', 'All')->with('tag3', 'All');
 
 
         }
@@ -140,87 +135,23 @@ class admin extends Eloquent
     }
 
 
-    public static function testDetails($input)
-    {
 
-        $id = $_GET['action'];
-        $fulltest = questions::find($id);
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-        return View::Make('testDetails')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
-
-    }
-
-    public static function deleteTest($input)
-    {
-        $id = $_GET['action'];
-        $delete = questions::find($id)->delete();
-
-        if ($delete) {
-
-            $array = array();
-            $admin = admin::all();
-
-            /* $liked=like::where('feedId','=',$feedid)->get(); */
-            /* 			return count($liked);
-             */
-            foreach ($admin as $ad) {
-                array_push($array, $ad['name']);
-            } //$admin as $ad
-            $feed = feeds::all();
-            $invitee = invite::all();
-            $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
-
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
-
-
-            /*  $invitee = invite::all();
-            $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
-
-
-            return Redirect::to('dashboardAction')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
-            */
-        } //$delete
-        else {
-            return "Please try again";
-        }
-    }
 
 
     public static function dashboard($input)
     {
 
-        $invitee = invite::all();
+
         $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
 
 
-        return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
-
-        $feed = feeds::all();
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-
-        return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+        return View::Make('dashboard')->with('users', $users);
+//
+//        $feed = feeds::all();
+//        $users = addUser::all();
+//
+//
+//        return View::Make('dashboard')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('feed', $feed);
 
 
         /* $invitee = invite::all();
@@ -233,52 +164,6 @@ class admin extends Eloquent
 
         */
     }
-
-
-    public static function edit($input)
-    {
-        $id = $_GET['action'];
-        $fulltest = questions::find($id);
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-        return View::Make('newEdit')->with('tests', $fulltest)->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests);
-
-
-    }
-
-
-    public static function viewUsers()
-    {
-
-        $report = upload::all();
-        $assistance = assistance::all();
-        $users = addUser::orderBy('name', 'asc')->get();
-        $save = "";
-        return View::Make('viewUsers')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('saved', $save);
-
-
-    }
-
-    public static function userTestDetails($input)
-    {
-        $id = $_GET['qId'];
-        $uId = $_GET['uId'];
-        $tId = $_GET['tId'];
-        $fulltest = questions::find($id);
-        $report = upload::where('testId', '=', $id)->first();
-        $assistance = assistance::where('testId', '=', $id)->first();
-        $users = addUser::find($uId);
-        $session = $users['usrSessionHdl'];
-        $test = savedtests::where('testId', '=', $id)->where('_uId', '=', $uId)->where('_id', '=', $tId)->first();
-        $chartDb = chart::where('testId', '=', $id)->where('session', '=', $session)->first();
-        return View::Make('userTestDetails')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('fulltest', $fulltest)->with('itema', $test)->with('data', $chartDb['axes'])->with('scores', $chartDb['scores'])->with('userId', $uId)->with('testId', $id);
-
-    }
-
 
     public static function addFeed($input)
     {
@@ -293,102 +178,23 @@ class admin extends Eloquent
 
         $feeds = feeds::all();
 
-        $invitee = invite::all();
         $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
         $feed = array();
         foreach ($feeds as $item) {
             array_push($feed, $item);
         }
         $feed = array_reverse($feed);
 
-        return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag', 'All')->with('tag2', 'All')->with('tag3', 'All');
+        return View::Make('addFeed')->with('users', $users)->with('feed', $feed)->with('tag1', $array)->with('user', $user)->with('tag', 'All')->with('tag2', 'All')->with('tag3', 'All');
 
     }
 
-    public static function test()
-    {
-        $id = $_GET['id'];
-        $uId = $_GET['uId'];
-        $fulltest = questions::find($id);
-        $test = savedtests::where('testId', '=', $id)->where('_uId', '=', $uId)->first();
-        $users = addUser::find($uId);
-        $pdf = \PDF::loadView('index', compact('fulltest'), compact('test'), compact('users'));
-
-        /*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
-        return $pdf->stream();
-    }
 
 
-    public static function notification()
-    {
-        $feed = feeds::all();
-        $invitee = invite::all();
-        $users = addUser::all();
-        $savedtests = savedtests::getAnswers();
-        $test = questions::all();
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
 
 
-        return View::Make('notifications')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
-
-    }
-
-    public static function userDetails()
-    {
-        $id = $_GET['action'];
-        $report = upload::where('status', '=', 'Pending')->get();
-        $assistance = assistance::all();
-        $user = addUser::find($id);
-        $test = savedtests::where('_uId', '=', $id)->get();
-
-        return View::Make('userDetails')->with('test', $test)->with('users', $user)->with('report', $report)->with('assistance', $assistance);
 
 
-    }
-
-    public static function search($input)
-    {
-        $search = $_POST['name'];
-        $page = "search";
-        $users = addUser::where('name', 'like', '%' . $search . '%')->orderBy('name', 'desc')->get();
-        $save = savedtests::where('testName', 'like', '%' . $search . '%')->orWhere('name', 'like', '%' . $search . '%')->orderBy('testName', 'desc')->get();
-        $report = upload::all();
-        $assistance = assistance::all();
-        return View::Make('search')->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('saved', $save)->with('page', $page)->with('search', $search);
-    }
-
-    public static function chartPdf($input)
-    {
-
-        $test = savedtests::where('testId', '=', '579c637ea94ff4550f1122b2')->where('_uId', '=', '576cec60a94ff4271d47d4d8')->first();
-        $user = addUser::find('579f227da94ff467d85e54ba');
-
-        $pdf = \PDF::loadView('chart', compact('user'));
-
-        /*  $saved=file_put_contents("audio/my_document.pdf", $pdf->output());  */
-        /* return $pdf->stream(); */
-        $saved = file_put_contents("reports/my_document.pdf", $pdf->output());
-        if ($saved) {
-            return "i";
-        } //$saved
-        else {
-            return "no";
-        }
-    }
-
-
-    public static function testView()
-    {
-        $test = savedtests::orderBy('updated_at', 'desc')->take(50)->get();
-        $report = upload::all();
-        $assistance = assistance::all();
-        return View::Make('testView')->with('test', $test)->with('report', $report)->with('assistance', $assistance);
-    }
 
 
     public static function viewFeed()
@@ -437,19 +243,14 @@ class admin extends Eloquent
             } //$tag != "All" && $owner != "All"
 
 
-            $invitee = invite::all();
             $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
 
             $feed = array();
             foreach ($feeds as $item) {
                 array_push($feed, $item);
             }
             $feed = array_reverse($feed);
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3',$staus);
+            return View::Make('addFeed')->with('users', $users)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3',$staus);
 
         } else {
             $array = array();
@@ -461,19 +262,15 @@ class admin extends Eloquent
             $tag = "All";
             $owner = "All";
             $feeds = feeds::orderBy('likeCount', 'desc')->get();
-            $invitee = invite::all();
             $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
+
             $feed = array();
             foreach ($feeds as $item) {
                 array_push($feed, $item);
             }
             $feed = $feeds;
 
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3','All');
+            return View::Make('addFeed')->with('users', $users)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3','All');
 
 
         }
@@ -610,6 +407,11 @@ class admin extends Eloquent
 
             }
         }
+        $mainCount= mainFeed::count();
+        $arrayCount=count($arr);
+        $diff=floor($arrayCount-$mainCount);
+
+
         if (count($arr) != 0) {
             $main = mainFeed::all();
             foreach ($main as $mainFeed) {
@@ -648,6 +450,10 @@ class admin extends Eloquent
 
                     $main->save();
                 }
+                if($diff>0)
+                {
+                    return addUser::countGcm($diff);
+                }
                 return mainFeed::all();
 
 
@@ -678,6 +484,10 @@ class admin extends Eloquent
                     $main->feedStatus = "Published";
 //                    $main->feedRemark = $ar['feedRemark'];
                     $main->save();
+                }
+                if($diff>0)
+                {
+                   return addUser::countGcm($diff);
                 }
                 return mainFeed::all();
             }
@@ -804,19 +614,15 @@ class admin extends Eloquent
             } //$tag != "All" && $owner != "All"
 
 
-            $invitee = invite::all();
             $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
+
 
             $feed = array();
             foreach ($feeds as $item) {
                 array_push($feed, $item);
             }
             $feed = array_reverse($feed);
-            return View::Make('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3',$staus);
+            return View::Make('addFeed')->with('users', $users)->with('feed', $feed)->with('tag', $tag)->with('tag1', $array)->with('tag2', $owner)->with('user', $use)->with('tag3',$staus);
 
 
 

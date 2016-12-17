@@ -5,6 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Jenssegers\Mongodb\Schema\Blueprint;
+use Illuminate\Support\Facades\Log;
 
 class like extends Eloquent
 {
@@ -12,7 +13,6 @@ class like extends Eloquent
 
     protected $connection = "mongodb";
     protected $collection = "like";
-
 
     public static function like($input)
     {
@@ -22,6 +22,11 @@ class like extends Eloquent
 		$uId=$input['uID'];
         $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
+        Log::info("Liked feed API with " .$session." UID ".$uId." and feed  ".$input['feedId']);
+
+        if(empty($feed)){
+            return array("resultCode" => "1", "status" => "error", "message" => "Requested feed not found");
+        }
         $feedId = $input['feedId'];
         if (!isset($user) || count($user) == 0) {
             return array("resultCode" => "1", "status" => "error", "message" => "User can't be found","likeCount"=>$feed['likeCount']);
@@ -103,7 +108,6 @@ class like extends Eloquent
 
     }
 
-
     public static function unlike($input)
     {
 
@@ -112,6 +116,7 @@ class like extends Eloquent
 		$uId=$input['uID'];
         $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
+        Log::info("Liked Feed API with " .$session." UID ".$uId." and feed  ".$input['feedId']);
 
         if (!isset($user) || count($user) == 0) {
             return array("resultCode" => "1", "status" => "error", "message" => "User can't be found","likeCount"=>$feed['likeCount']);

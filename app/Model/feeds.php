@@ -10,7 +10,7 @@ use Jenssegers\Mongodb\Schema\Blueprint;
 use View;
 use Redirect;
 use Input;
-
+use Illuminate\Support\Facades\Log;
 
 class feeds extends Eloquent
 {
@@ -31,32 +31,6 @@ Rain04
 */
     protected $connection = "mongodb";
     protected $collection = "newsFeed";
-
-
-    public static function addFeed($input)
-    {
-        $model = new self();
-        $model->feedTitle = $input['feedTitle'];
-        $model->feedImage = $input['feedImage'];
-        $model->feedImage_lw = $input['feedImage_lw'];
-        $model->feedContent = $input['feedContent'];
-        $model->feedSource = $input['sourceUrl'];
-        $model->feedSourceTag = $input['sourceTitle'];
-        $isSaved = $model->save();
-        if ($isSaved) {
-            return array(
-                "code" => "0",
-                "status" => "Successfully added"
-            );
-        } else {
-            return array(
-                "code" => "1",
-                "status" => "error"
-            );
-
-        }
-
-    }
 
 
     public static function getFeed($input)
@@ -105,10 +79,11 @@ Rain04
 
                     $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
                     $url = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
                     return array(
                         "status" => "success",
-                        "resultCode" => "1",
+                        "resultCode" => "0",
                         "categories" => $categories,
                         'image' => $url,
                         "userFeed" => $array,
@@ -146,6 +121,7 @@ Rain04
 
                     $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
                     $url = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
+                    Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
                     return array(
                         "status" => "success",
@@ -160,14 +136,14 @@ Rain04
                 }
                 return array(
                     "status" => "warning",
-                    "resultCode" => "0",
+                    "resultCode" => "1",
                     "message" => "User Exhausted Feed Limit"
                 );
             } else {
                 if (!isset($guest) || count($guest) == 0) {
                     return array(
                         "status" => "error",
-                        "resultCode" => "0",
+                        "resultCode" => "1",
                         "message" => "User Can't Be Found"
                     );
 
@@ -197,6 +173,7 @@ Rain04
                         }
                         $category = extra::first();
 
+                        Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
                         $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
                         $url = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
@@ -233,6 +210,7 @@ Rain04
 
                         }
                         $category = extra::first();
+                        Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
                         $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
                         $url = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
@@ -284,6 +262,7 @@ Rain04
                         array_push($array, $item);
                     }
                     $category = extra::first();
+                    Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
 
                     $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
@@ -325,6 +304,7 @@ Rain04
 
                     }
                     $category = extra::first();
+                    Log::info("Feed API with " . $id . " UID " . $uid . " and array of " . serialize($idArray));
 
                     $categories = 'All,Product Management,Agile,Product Marketing,UX,Growth Hacking,Roadmapping,Sales Enablement,Career,Leadership,Executive Presence';
                     $url = 'https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LFLKC/product_management.png?pub_secret=b4594be939,https://files.slack.com/files-pri/T04T20JQR-F1X3LA97C/agile.png?pub_secret=168e02e6ed,https://files.slack.com/files-pri/T04T20JQR-F1X3B0T1V/product_marketing.png?pub_secret=c86510df6d,https://files.slack.com/files-pri/T04T20JQR-F1X32A06S/ux_icon.png?pub_secret=4d8a67cca5,https://files.slack.com/files-pri/T04T20JQR-F1X3FB3S5/growth_hack.png?pub_secret=7bd2efd880,https://files.slack.com/files-pri/T04T20JQR-F1X3294J2/road_map.png?pub_secret=8c0e9ba2dc,https://files.slack.com/files-pri/T04T20JQR-F1X3B1M2T/sales.png?pub_secret=5af5c105d1,https://files.slack.com/files-pri/T04T20JQR-F1X3243K8/career.png?pub_secret=6349569c46,https://files.slack.com/files-pri/T04T20JQR-F1X3AUW7R/leadership_icon.png?pub_secret=920e647a14,https://files.slack.com/files-pri/T04T20JQR-F1X3LD5AN/executive_presence.png?pub_secret=4316358c71';
@@ -364,7 +344,7 @@ Rain04
         $model->summarised = $input['summarised'];
         $model->addedBy = $input['addedBy'];
         $model->feedOwner = $_POST['feedOwner'];
-        $model->feedStatus = "Waiting for Approval";
+        $model->feedStatus = "Waiting For Aproval";
         $model->feedRemark = "";
         $model->feedRating = 0;
         $model->feedSchedule = $input['feedSchedule'];
@@ -397,6 +377,8 @@ Rain04
 
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
+        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
+        $model->tinySource = $hi;
         $model->feedSourceTag = $input['sourceTitle'];
 
 
@@ -409,28 +391,21 @@ Rain04
 
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
-            if ($input['feedaudio'] == "" || $input['feedaudio'] == NULL) {
-                $model->feedAudio = "";
-            } else {
-                $model->feedAudio = $input['feedaudio'];
-            }
 
+            $model->feedAudio = "";
             $isSaved = $model->save();
             if ($isSaved) {
                 $feed = feeds::all();
-                $invitee = invite::all();
+
                 $users = addUser::all();
-                $savedtests = savedtests::getAnswers();
-                $test = questions::all();
-                $report = upload::all();
-                $assistance = assistance::all();
+
                 if (isset($_POST['gcm'])) {
                     $gcm = addUser::feedGcm($title, $model['_id']);
 
                 }
 
 
-                return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
             } else {
                 return array(
@@ -443,7 +418,7 @@ Rain04
         }
 
 
-        $model->feedAudio = $input['feedaudio'];
+        $model->feedAudio = "";
         if (Input::hasFile('images')) {
             foreach ($files as $file) {
                 $destinationPath = public_path() . '/audio/';
@@ -463,23 +438,20 @@ Rain04
                     $string = "/var/www/html/Assessment/public";
                     $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
+                    $model->feedAudio = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/audio/Pokemon-PokemonOpeningRingtoneMOSTAWESOMERINGTONEEVE.mp3";
 
                     $isSaved = $model->save();
                     if ($isSaved) {
                         $feeds = feeds::all();
-                        $invitee = invite::all();
                         $users = addUser::all();
-                        $savedtests = savedtests::getAnswers();
-                        $test = questions::all();
-                        $report = upload::all();
-                        $assistance = assistance::all();
+
                         $feed = array();
                         foreach ($feeds as $item) {
                             array_push($feed, $item);
                         }
                         $feed = array_reverse($feed);
 
-                        return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                        return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
                     } else {
                         return array(
@@ -547,18 +519,14 @@ Rain04
                 array_push($array1, $item);
             }
             $feeds = $array1;
-            $invitee = invite::all();
             $users = addUser::all();
-            $savedtests = savedtests::getAnswers();
-            $test = questions::all();
-            $report = upload::where('status', '=', 'Pending')->get();
-            $assistance = assistance::all();
+
             $feed = array();
             foreach ($feeds as $item) {
                 array_push($feed, $item);
             }
             $feed = array_reverse($feed);
-            return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed)->with('tag1', $array);
+            return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed)->with('tag1', $array);
 
         } else {
             return array(
@@ -580,6 +548,9 @@ Rain04
 
         $model = self::find($id);
         $new = mainFeed::find($id);
+        if (isset($new) || $new != []) {
+            $new->delete();
+        }
         $content = $_POST['feedShotRemark'];
         if ($content != "" || $content != null) {
             $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
@@ -608,7 +579,7 @@ Rain04
         $title = $model->feedTitle = htmlspecialchars($input['feedTitle'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->summarised = $input['summarised'];
         $model->feedStatus = "Waiting for Approval";
-        
+
         $model->addedBy = $input['addedBy'];
         $model->feedRating = 0;
         $model->feedOwner = "shwetha@clearlyblue.in";
@@ -623,6 +594,8 @@ Rain04
         $model->trending = $_POST['trending'];
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
+        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
+        $model->tinySource = $hi;
         $model->feedSourceTag = $input['sourceTitle'];
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
@@ -663,7 +636,7 @@ Rain04
         $files = Input::file('images');
 
         if (!Input::hasFile('images')) {
-            $model->feedAudio = $input['feedaudio'];
+
             $isSaved = $model->save();
 
             if ($new != "") {
@@ -673,19 +646,15 @@ Rain04
             }
 
             if ($isSaved) {
-                $feed = feeds::all();
-                $invitee = invite::all();
                 $users = addUser::all();
-                $savedtests = savedtests::getAnswers();
-                $test = questions::all();
-                $report = upload::all();
-                $assistance = assistance::all();
+                $feed = feeds::all();
+
                 if (isset($_POST['gcm'])) {
                     $gcm = addUser::feedGcm($title, $model['_id']);
                 }
 
 
-                return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
             } else {
                 return array(
@@ -711,28 +680,21 @@ Rain04
                 if (!in_array($ext, $allowed)) {
                     return 'Incorrect file extension';
                 }
-				
                 if (in_array($ext, $allowed)) {
-                    $pathToFile = $destinationPath . $filename;
-                    $string = "/var/www/html/Assessment/public";
-                    $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
+                    $path = $destinationPath . $filename;
                     $model->feedAudio = $path;
                     if ($new != "") {
                         $new->feedAudio = $path;
                     }
+//                    $model->feedAudio = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/audio/Pokemon-PokemonOpeningRingtoneMOSTAWESOMERINGTONEEVE.mp3";
 
                     $isSaved = $model->save();
                     if ($isSaved) {
                         $feed = feeds::all();
-                        $invitee = invite::all();
                         $users = addUser::all();
-                        $savedtests = savedtests::getAnswers();
-                        $test = questions::all();
-                        $report = upload::all();
-                        $assistance = assistance::all();
 
 
-                        return Redirect::to('addFeed')->with('test', $test)->with('invitee', $invitee)->with('users', $users)->with('report', $report)->with('assistance', $assistance)->with('savedtests', $savedtests)->with('feed', $feed);
+                        return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
                     } else {
                         return array(
@@ -801,9 +763,10 @@ Rain04
 
     public static function apply()
     {
-        $feeds = feeds::all();
+        $feeds = feeds::where('feedStatus', '=', 'Waiting For Approval')->take(10)->get();
+
         foreach ($feeds as $feed) {
-            $feed->updated_at = "2016-11-08 11:02:13";
+            $feed->feedStatus = "Approved";
             $feed->save();
         }
         return $feeds;
@@ -813,9 +776,8 @@ Rain04
     {
 
 
-        $date =date("dMy", time());
-        if($lastId =="")
-        {
+        $date = date("dMy", time());
+        if ($lastId == "") {
             return $cat . "_$date" . "_001";
         }
         $suffix = explode('_', $lastId)[2];

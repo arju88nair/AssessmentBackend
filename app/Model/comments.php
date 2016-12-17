@@ -39,8 +39,6 @@ Rain04
 
     public static function comments($input)
     {
-
-
         $model=new self();
         $session=$input['sessionHandle'];
         $uID=$input['uId'];

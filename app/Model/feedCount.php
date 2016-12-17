@@ -92,10 +92,8 @@ class feedCount extends Eloquent
         }
     }
 
-
-//    public static function userCount($input)
-    /*{
-
+ /*   public static function userCount($input)
+    {
         $id = $input['sessionHandle'];
         $uid = $input['uId'];
         $count = $input['feedCount'];
@@ -114,9 +112,6 @@ class feedCount extends Eloquent
                 "resultCode" => "0",
                 "message" => "Try again you scapegoat"
             );
-
         }
-
-
     }*/
 }

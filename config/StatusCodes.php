@@ -1,0 +1,34 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: arjunpa
+ * Date: 20/05/16
+ * Time: 3:23 PM
+ */
+
+return array(
+    'USER_STATUS_REGISTRATION'=>'100',
+    'USER_STATUS_LOGIN'=>'101',
+    'STATUS_OK'=>'200',
+    'STATUS_NEED_NO_UPDATE'=>'201',
+    'MISSING_PARAMETER' =>'401',
+    'INVALID_AUTH_TYPE' =>'402',
+    'ACCESS_TOKEN_EXPIRED'=>'403',
+    'INVALID_SESSION_HANDLE'=>'404',
+    'INVALID_VEHICLE_ID'=>'405',
+    'INVALID_VEHICLEDOC_ID'=>'405',
+    'INVALID_REMINDER_ID'=>'406',
+    'INVALID_NOTE_ID'=>'407',
+    'INVALID_PARAMETER_INPUT'=>'408',
+    'INVALID_EXPENSE_ID'=>'409',
+    'DATABASE_SAVE_ERROR'=>'501',
+    'NO_CONTENT_VEHICLE'=>'601',
+    'NO_CONTENT_VEHICLEDOCS'=>'602',
+    'NO_CONTENT_REMINDERS'=>'603',
+    'NO_CONTENT_NOTES'=>'604',
+    'NO_CONTENT_EXPENSES'=>'605',
+    'FAIL_SWITCH'=>'999',
+    'ALREADY_EXIST'=>'410'
+
+);
+?>

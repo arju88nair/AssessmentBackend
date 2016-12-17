@@ -11,16 +11,27 @@ class DashboardController extends Controller
 {
     //
 
-
     public function getFeeds(Request $request)
     {
+        if(!$request->has('sessionHandle')){
+            $statusCode = config('StatusCodes.MISSING_PARAMETER');
+            return response(array('code'=>'1',"status" => "failure",'statusCode'=>$statusCode,'message'=>'session Handle is missing'))->header('Content-Type', 'application/json');
+        }
+        if(!$request->has('uId')){
+            $statusCode = config('StatusCodes.MISSING_PARAMETER');
+            return response(array('code'=>'1',"status" => "failure",'statusCode'=>$statusCode,'message'=>'Unique ID is missing'))->header('Content-Type', 'application/json');
+        }
         return feeds::getFeed($request->all());
     }
-
 
     public function addFeeds(Request $request)
     {
         return feeds::addFeed($request->all());
+    }
+	
+	 public function viewFeed(Request $request)
+    {
+        return admin::viewFeed($request->all());
     }
 
     public function saveFeed(Request $request)
@@ -38,45 +49,9 @@ class DashboardController extends Controller
         return feeds::deleteFeed($request->all());
     }
 
-    public function test(Request $request)
-    {
-		
-        return admin::test($request->all());
-    }
-
-
-    public function notification(Request $request)
-    {
-        return admin::notification($request->all());
-    }
-	
-	
-	public function chartpdf(Request $request)
-	{
-		return admin::chartPdf($request->all());
-	}
-	
-	
-	
-	public function testView(Request $request)
-	{
-		return admin::testView($request->all());
-	}
-
-
-    public function viewFeed(Request $request)
-    {
-        return admin::viewFeed($request->all());
-    }
-
-
     public function setFeed(Request $request)
     {
         return admin::setFeed($request->all());
-    }
-    public function testFeed(Request $request)
-    {
-        return admin::testFeed($request->all());
     }
 
     public function saveSetFeed(Request $request)
@@ -84,11 +59,6 @@ class DashboardController extends Controller
         return admin::saveSetFeed($request->all());
     }
 
-    public function accept(Request $request)
-    {
-        return admin::accept($request->all());
-    }
-	
 	 public function apply(Request $request)
     {
         return feeds::apply($request->all());
@@ -99,4 +69,8 @@ class DashboardController extends Controller
         return admin::comments($request->all());
     }
 
+    public function accept(Request $request)
+    {
+        return admin::accept($request->all());
+    }
 }

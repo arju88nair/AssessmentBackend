@@ -306,6 +306,8 @@ echo $tag3;
                                 </option>
                                 <option value="Data Science">Data Science
                                 </option>
+                                <option value="CISCO Channel">CISCO Channel
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -459,7 +461,7 @@ echo $tag3;
                                 </label>
                                 <input type="text" class="form-control" name="feedaudio" accept="audio/*"
                                        id="feedAudio"
-                                       placeholder="Fedd Audio URL">
+                                       placeholder="Fedd Audio URL" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="usr">Shot Publishing Date:
@@ -495,6 +497,8 @@ echo $tag3;
                                     <option value="Leadership">Leadership
                                     </option>
                                     <option value="Data Science">Data Science
+                                    </option>
+                                    <option value="CISCO Channel">CISCO Channel
                                     </option>
                                 </select>
                             </div>
@@ -683,6 +687,8 @@ echo $tag3;
                                     </option>
                                     <option value="Data Science">Data Science
                                     </option>
+                                    <option value="CISCO Channel">CISCO Channel
+                                    </option>
                                 </select>
                             </div>
                             <br>
@@ -701,7 +707,7 @@ echo $tag3;
                                 <label for="inputPassword">Audio
                                 </label>
                                 <input type="text" class="form-control" name="feedaudio" id="feedAudioTag"
-                                >
+                                disabled>
                             </div>
                             <div class="form-group">
                                 <label for="comment">Shot content:
