@@ -13,7 +13,7 @@
         $(document).ready(function () {
             var user = localStorage.getItem('user');
             if (user == "content_admin") {
-               /*  $('#setId').show() */
+                /*  $('#setId').show() */
             }
             else {
                 /* $('#setId').hide() */
@@ -36,7 +36,7 @@
             list-style-type: none;
             margin: 0;
             padding: 5px 0 0 0;
-			overflow-x:hidden;
+            overflow-x:hidden;
         }
 
         hr.vertical {
@@ -351,9 +351,9 @@
                     <br>
                 </li>
                 {{--<li class="sidebar-brand">--}}
-                    {{--<a href="#" class="navbar-brand">--}}
-                        {{--<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add feeds--}}
-                    {{--</a>--}}
+                {{--<a href="#" class="navbar-brand">--}}
+                {{--<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add feeds--}}
+                {{--</a>--}}
                 {{--</li>--}}
                 <li style="font-size: 1.2em">
                     <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp; Add feeds</a>
@@ -425,7 +425,9 @@
                                                                                 style="margin-left: 2%;font-weight: bold"><?= $page['feedTitle'] ?> </span>
                         &nbsp;
                         <div><span id="date"
-                                   style="font-size: 80%;margin-left: 8%">Updated on <?= date('F Y D', strtotime($page['updated_at'])); ?></span><span
+                                   style="font-size: 80%;margin-left: 8%">Updated on 
+                                <?= date('F Y d h:i:s A', strtotime($page['published_at'])); ?>
+                                </span><span
                                     id="added" style="font-size: 80%">&nbsp; By <?= $page['summarised'] ?></span></div>
                     </li>
 

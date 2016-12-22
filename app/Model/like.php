@@ -22,6 +22,7 @@ class like extends Eloquent
 		$uId=$input['uID'];
         $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
+        $feeds = mainFeed::where('_id', '=', $input['feedId'])->first();
         Log::info("Liked feed API with " .$session." UID ".$uId." and feed  ".$input['feedId']);
 
         if(empty($feed)){
@@ -42,6 +43,8 @@ class like extends Eloquent
                         $count = $feed['likeCount'] = 0;
                         $count = $count + 1;
                         $feed->likeCount = $count;
+                        $feeds->likeCount=$count;
+                        $feeds->save();
                         $feed->save();
 
                     } else {
@@ -49,6 +52,8 @@ class like extends Eloquent
                         $count = $feed['likeCount'];
                         $count = $count + 1;
                         $feed->likeCount = $count;
+                        $feeds->likeCount=$count;
+                        $feeds->save();
                         $feed->save();
 
                     }
@@ -116,6 +121,7 @@ class like extends Eloquent
 		$uId=$input['uID'];
         $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID','=',$uId)->first();
         $feed = feeds::where('_id', '=', $input['feedId'])->first();
+        $feeds = mainFeed::where('_id', '=', $input['feedId'])->first();
         Log::info("Liked Feed API with " .$session." UID ".$uId." and feed  ".$input['feedId']);
 
         if (!isset($user) || count($user) == 0) {
@@ -133,6 +139,8 @@ class like extends Eloquent
                     $count = $feed['likeCount'] = 0;
                     $feed->likeCount = $count;
                     $feed->save();
+                    $feeds->likeCount=$count;
+                    $feeds->save();
                 } else {
                     $count = $feed['likeCount'];
                     if ($count > 0) {
@@ -144,6 +152,8 @@ class like extends Eloquent
                         $count = $count - 1;
                         $feed->likeCount = $count;
                         $feed->save();
+                        $feeds->likeCount=$count;
+                        $feeds->save();
 
                     }
 

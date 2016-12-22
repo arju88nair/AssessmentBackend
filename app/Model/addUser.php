@@ -107,10 +107,14 @@ Rain04
                 else{
                     if($users['feedCount']>=10)
                     {
+						  $users->pushNotificationID = $input['pushNotificationID'];
+                        $users->save();
                         return array("status" => "success", "resultCode" => "1", "userType" => "Guest", "message" => "Access invalid", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
                     }
                     else
                     {
+						  $users->pushNotificationID = $input['pushNotificationID'];
+                        $users->save();
                         Log::info("Exist user ID ".$input['uniqueDeviceID']);
                         return array("status" => "success", "resultCode" => "0", "userType" => "Guest", "message" => "User Already Present", "sessionHandle" => "Guest",'feedCount'=>$users['feedCount'],'createdAt'=>$users['created_at']);
                     }
@@ -349,7 +353,7 @@ Rain04
             $push = $items['pushNotificationID'];
             array_push($array,$push);
         }
-        $registrationIds =$array;
+        $registrationIds =array_unique($array);
 
 // prep the bundle
         $msg = array('message' => $title,"type"=>"Feed","id"=>$id);
@@ -387,11 +391,14 @@ Rain04
         $array = array();
         foreach ($users as $items) {
             $push = $items['pushNotificationID'];
-            array_push($array,$push);
+			if(!in_array($push, $array, true)){
+					array_push($array, $push);
+				}
+           
         }
         $registrationIds =$array;
 
-// prep the bundle
+		// prep the bundle
         $msg = array('message' => $count. "  new shot(s) have been published",'type'=>'Published','count'=>$count);
 
         $fields = array

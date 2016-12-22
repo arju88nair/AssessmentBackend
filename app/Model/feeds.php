@@ -344,7 +344,7 @@ Rain04
         $model->summarised = $input['summarised'];
         $model->addedBy = $input['addedBy'];
         $model->feedOwner = $_POST['feedOwner'];
-        $model->feedStatus = "Waiting For Aproval";
+        $model->feedStatus = "Waiting For Approval";
         $model->feedRemark = "";
         $model->feedRating = 0;
         $model->feedSchedule = $input['feedSchedule'];
@@ -377,8 +377,21 @@ Rain04
 
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
-        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
-        $model->tinySource = $hi;
+		
+		$ur = urlencode($input['sourceUrl']);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://tinyurl.com/api-create.php?url=" . $ur);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        $result = curl_exec($ch);
+
+
+        $model->tinySource = $result;
+		
         $model->feedSourceTag = $input['sourceTitle'];
 
 
@@ -544,12 +557,12 @@ Rain04
     public static function saveEditFeed($input)
     {
 
-        $id = $input['id'];
+         $id = $input['id'];
 
         $model = self::find($id);
         $new = mainFeed::find($id);
         if (isset($new) || $new != []) {
-            $new->delete();
+           echo $new->delete();
         }
         $content = $_POST['feedShotRemark'];
         if ($content != "" || $content != null) {
@@ -594,9 +607,22 @@ Rain04
         $model->trending = $_POST['trending'];
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
-        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
-        $model->tinySource = $hi;
+//        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
+		$ur = urlencode($input['sourceUrl']);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://tinyurl.com/api-create.php?url=" . $ur);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        $result = curl_exec($ch);
+
+
+        $model->tinySource = $result;
         $model->feedSourceTag = $input['sourceTitle'];
+		
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
             if ($new != "") {
@@ -652,9 +678,19 @@ Rain04
                 if (isset($_POST['gcm'])) {
                     $gcm = addUser::feedGcm($title, $model['_id']);
                 }
+                $new = mainFeed::find($id);
+                if (isset($new) || $new != []) {
+                    $saved= $new->delete();
+                    if($saved){
+                        return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
+                    }
+                }
+                else{
+                    return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
-                return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
+                }
+
 
             } else {
                 return array(
@@ -694,8 +730,18 @@ Rain04
                         $users = addUser::all();
 
 
-                        return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
+                        $new = mainFeed::find($id);
+                        if (isset($new) || $new != []) {
+                            $saved= $new->delete();
+                            if($saved){
+                                return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
 
+                            }
+                        }
+                        else{
+                            return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
+
+                        }
                     } else {
                         return array(
                             "code" => "1",
@@ -720,35 +766,45 @@ Rain04
             $arr = array();
             $array = array();
 
-            $feeds = feeds::where('feedStatus', '=', 'Published')->get();
+            $feeds = mainFeed::all();
+
             foreach ($feeds as $feed) {
-                unset($feed['category']);
-                unset($feed['summarised']);
-                unset($feed['addedBy']);
-                unset($feed['feedOwner']);
-                unset($feed['feedSchedule']);
-                unset($feed['feedType']);
-                unset($feed['trending']);
-                unset($feed['location']);
-                unset($feed['feedDate']);
-                unset($feed['feedTitle']);
-                unset($feed['feedImage']);
-                unset($feed['likeCount']);
-                unset($feed['feedContent']);
-                unset($feed['feedSource']);
-                unset($feed['feedSourceTag']);
-                unset($feed['feedSourceTag']);
-                unset($feed['feedAudio']);
-                unset($feed['created_at']);
-                unset($feed['feedGCM']);
-
-
+                array_push($arr, $feed);
             }
+
+//            foreach($feeds as $feed)
+//            {
+//                array_push($arr,$feed);
+//            }
+//            return count($arr);
+//            foreach ($feeds as $feed) {
+//                unset($feed['category']);
+//                unset($feed['summarised']);
+//                unset($feed['addedBy']);
+//                unset($feed['feedOwner']);
+//                unset($feed['feedSchedule']);
+//                unset($feed['feedType']);
+//                unset($feed['trending']);
+//                unset($feed['location']);
+//                unset($feed['feedDate']);
+//                unset($feed['feedTitle']);
+//                unset($feed['feedImage']);
+//                unset($feed['likeCount']);
+//                unset($feed['feedContent']);
+//                unset($feed['feedSource']);
+//                unset($feed['feedSourceTag']);
+//                unset($feed['feedSourceTag']);
+//                unset($feed['feedAudio']);
+//                unset($feed['created_at']);
+//                unset($feed['feedGCM']);
+//
+//
+//            }
 
             return array(
                 "code" => "0",
                 "status" => "success",
-                "feedIdArray" => $feeds
+                "feedIdArray" => array_reverse($arr)
 
             );
 
@@ -763,13 +819,26 @@ Rain04
 
     public static function apply()
     {
-        $feeds = feeds::where('feedStatus', '=', 'Waiting For Approval')->take(10)->get();
 
-        foreach ($feeds as $feed) {
-            $feed->feedStatus = "Approved";
-            $feed->save();
-        }
-        return $feeds;
+/* 	return feeds::find('5826c98ca94ff4629c42be61');
+ */		
+		
+		/* $arr=array();
+		$ar= feeds::where('feedStatus', '=', 'Published')->get();
+		foreach($ar as $a)
+		{
+			array_push($arr,$a['_id']);
+		}
+		$main=array();
+		$mainF=mainFeed::all();
+				return count($mainF);
+
+		foreach($mainF as $ma)
+		{
+			array_push($main,$ma['_id']);
+		}
+		return array_diff($arr,$main); */
+		
     }
 
     private static function uId($lastId, $cat)

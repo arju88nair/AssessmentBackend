@@ -37,7 +37,7 @@ class userController extends Controller
 
     public function addUser(Request $request)
     {
-        if (!$request->has('authType')) {
+       /*  if (!$request->has('authType')) {
             $statusCode = config('StatusCodes.MISSING_PARAMETER');
             return response(array('code' => '1', "status" => "failure", 'statusCode' => $statusCode, 'message' => 'AuthType is missing'))->header('Content-Type', 'application/json');
         }
@@ -87,7 +87,7 @@ class userController extends Controller
         if (!$request->has('uniqueDeviceID')) {
             $statusCode = config('StatusCodes.MISSING_PARAMETER');
             return response(array('code' => '1', "status" => "failure", 'statusCode' => $statusCode, 'message' => 'Unique DeviceID is missing'))->header('Content-Type', 'application/json');
-        }
+        } */
         return addUser::userCheck($request->all());
     }
 
