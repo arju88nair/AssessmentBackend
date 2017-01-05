@@ -36,38 +36,51 @@ Rain04
     protected $collection = "comments";
 
 
-
     public static function comments($input)
     {
-        $model=new self();
-        $session=$input['sessionHandle'];
-        $uID=$input['uId'];
-        $comment=$input['comment'];
-        $user=addUser::where('usrSessionHdl','=',$session)->where('uniqueDeviceID','=',$uID)->first();
-        if($user==null || $user==[])
-        {
+        $model = new self();
+        $session = $input['sessionHandle'];
+        $uID = $input['uId'];
+        $comment = $input['comment'];
+
+        $url = $comment;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $str = curl_exec($curl);
+        curl_close($curl);
+
+        //$str = file_get_contents($comment);
+
+        if (strlen($str) > 0) {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i", $str, $title); // ignore case
+            $title= $title[1];
+        } else {
+            $title="Title Not Found";
+        }
+
+        $model->title = $title;
+        $user = addUser::where('usrSessionHdl', '=', $session)->where('uniqueDeviceID', '=', $uID)->first();
+        if ($user == null || $user == []) {
             return array("status" => "failure", "resultCode" => "1", "message" => "Can't find the user");
         }
 
-        $userId=$user['userId'];
-        if($userId == "" ||$userId == null)
-        {
-            $userId= "Guest";
+        $userId = $user['userId'];
+        if ($userId == "" || $userId == null) {
+            $userId = "Guest";
         }
-        $model->uID=$uID;
-        $model->userId=$userId;
-        $model->sessionHandle=$session;
-        $model->status="New";
-        $model->comments=htmlspecialchars($comment, ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
-        $isSaved=$model->save();
-        if($isSaved)
-        {
+        $model->uID = $uID;
+        $model->userId = $userId;
+        $model->sessionHandle = $session;
+        $model->comments = htmlspecialchars($comment, ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
+        $isSaved = $model->save();
+        if ($isSaved) {
             return array("status" => "success", "resultCode" => "0", "message" => "Successfully added");
 
         }
         return array("status" => "failure", "resultCode" => "1", "message" => "Please try again later");
-
-
 
 
     }

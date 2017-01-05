@@ -383,24 +383,23 @@ Rain04
 
 
     }
-    public static function countGcm($count)
+    public static function countGcm($count,$text)
     {
-
         define('API_ACCESS_KEY', 'AIzaSyCwBLJ-V5Ad7n0wh-n5i4QRKtN9d4XGWEs');
         $users = addUser::all();
         $array = array();
         foreach ($users as $items) {
             $push = $items['pushNotificationID'];
-			if(!in_array($push, $array, true)){
-					array_push($array, $push);
-				}
+            if(!in_array($push, $array, true)){
+                    array_push($array, $push);
+                }
            
         }
         $registrationIds =$array;
 
-		// prep the bundle
-        $msg = array('message' => $count. "  new shot(s) have been published",'type'=>'Published','count'=>$count);
-
+        // prep the bundle
+        $msg = array('message' => $text,'type'=>'Published','count'=>$count,);
+      
         $fields = array
         (
             'registration_ids' => $registrationIds,
@@ -422,8 +421,14 @@ Rain04
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
         $result = curl_exec($ch);
         curl_close($ch);
-        return $result;
 
+ 		$gcm=new gcm();
+        $gcm->message=$text;
+        $gcm->count=$count;
+        $gcm->ids=$registrationIds;
+        $gcm->result=$result;
+        $gcm->save();
+        return $result;
 
     }
 

@@ -6,10 +6,13 @@ use App\Model\admin;
 use App\Model\feeds;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\View;
+use Session;
+use Redirect;
+use App\Model\Survey;
 
 class DashboardController extends Controller
 {
-    //
 
     public function getFeeds(Request $request)
     {
@@ -72,5 +75,20 @@ class DashboardController extends Controller
     public function accept(Request $request)
     {
         return admin::accept($request->all());
+    }
+    public function viewSurvey(){
+        
+        return View::make('survey');
+        
+    }
+    public function addSurvey(Request $request){
+
+        $result = Survey::addSurvey($request->all());
+        if($result){
+            $request->session()->flash('message', 'Successfully Sent!');
+            return Redirect::to("survey");
+        }
+        $request->session()->flash('message', '');
+        return Redirect::to("survey");
     }
 }

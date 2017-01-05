@@ -268,7 +268,7 @@ function confSubmit() {
     // check for browser support (may need to be modified)
     if (input.files && input.files.length == 1) {
 
-        if (input.files[0].size > 1097152) {
+        if (input.files[0].size > 2097152) {
             alert("The file must be less than 2 MB");
             return false;
         }

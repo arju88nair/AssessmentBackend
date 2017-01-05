@@ -250,7 +250,9 @@ echo $tag3;
                     <a href="comments"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp; &nbsp;User
                         Suggestions</a>
                 </li>
-
+                <li id="setId" style="font-size: 1.2em">
+                     <a href="survey"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp; &nbsp;Survey</a>
+                </li>
 
             </ul>
         </div>
@@ -344,7 +346,7 @@ echo $tag3;
                                 <option value="Published">Published</option>
                                 <option value="Major Pending Edits"> Major Pending Edits</option>
                                 <option value="Minor Pending Edits"> Minor Pending Edits</option>
-                                <option value="Waiting for Approval">Waiting for Approval</option>
+                                <option value="Waiting For Approval">Waiting For Approval</option>
 
                             </select>
                         </div>
@@ -440,11 +442,7 @@ echo $tag3;
                             <img id='output'>
 
 
-                            <div class="form-group">
-                                <label for="usr">Send Notifications:
-                                </label>
-                                <input type="checkbox" class="" name="gcm" style="margin-left:4%">
-                            </div>
+
                             <div class="form-group">
                                 <label for="usr">Shot Audio:&nbsp;
                                     <small>File should be less than 2MB of MP3 format</small>
@@ -655,11 +653,7 @@ echo $tag3;
                                 <input type="date" class="form-control" name="feedSchedule" id="feedSchedule"
                                        placeholder="YYYY/MM/DD" required>
                             </div>
-                            <div class="form-group">
-                                <label for="usr">Send Notifications:
-                                </label>
-                                <input type="checkbox" class="" name="gcm" style="margin-left:4%">
-                            </div>
+
 
                             <br>
                             <label for="sel1"
@@ -707,7 +701,7 @@ echo $tag3;
                                 <label for="inputPassword">Audio
                                 </label>
                                 <input type="text" class="form-control" name="feedaudio" id="feedAudioTag"
-                                disabled>
+                                       disabled>
                             </div>
                             <div class="form-group">
                                 <label for="comment">Shot content:
@@ -845,9 +839,9 @@ echo $tag3;
                                 <h4 id="feedTitle"
                                     style=" margin-bottom: 4px;color:black;margin-top:-1%;font-weight:bold;font-size: 110%;"></h4>
                                 <audio id="myAudio">
-                                <source src=""
-                                        type='audio/mpeg' id="sourcetag">
-                                Your user agent does not support the HTML5 Audio element.
+                                    <source src=""
+                                            type='audio/mpeg' id="sourcetag">
+                                    Your user agent does not support the HTML5 Audio element.
                                 </audio>
                                 <img src="https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png" id="play" onclick="aud_play_pause()">
 
@@ -963,7 +957,7 @@ echo $tag3;
                                             type='audio/mpeg' id="sourcetag">
                                     Your user agent does not support the HTML5 Audio element.
                                 </audio>
-                                <img src="https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png" id="play" onclick="aud_play_pause()">
+                                <img src="images/mediaplay.png" id="play" onclick="aud_play_pause()">
 
                                 <p id="feedContent" style="font-size:0.77em;line-height:157%;word-spacing:4px"></p>
                             </article>
@@ -984,7 +978,7 @@ echo $tag3;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleared()"
-                                >Close
+                        >Close
                         </button>
                     </div>
                 </div>
@@ -1072,14 +1066,14 @@ echo $tag3;
 
 
     var items = '<?php echo json_encode($feed,JSON_HEX_APOS);  ?>';
-        if(items.length<4)
-        {
+    if(items.length<4)
+    {
 
-            $(".previous").hide();
-            $(".next").hide();
+        $(".previous").hide();
+        $(".next").hide();
 
 
-            }
+    }
     var tag="<?php echo $tag ?>";
     var tag2="<?php echo $tag2 ?>";
     var tag3="<?php echo $tag3 ?>";
@@ -1167,12 +1161,12 @@ echo $tag3;
         var myAudio = document.getElementById("myAudio");
 
         if (myAudio.paused) {
-            $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3E4FUN95/mediapause.png");
+            $('img#play').attr("src","images/mediapause.png");
 
             console.log("ih");
             myAudio.play();
         } else {
-            $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png");
+            $('img#play').attr("src","images/mediaplay.png");
 
             myAudio.pause();
         }
@@ -1181,7 +1175,7 @@ echo $tag3;
 
     function cleared(){
         var myAudio = document.getElementById("myAudio");
-        $('img#play').attr("src","https://files.slack.com/files-pri/T04T20JQR-F3DBP4WH1/mediaplay.png");
+        $('img#play').attr("src","images/mediaplay.png");
         myAudio.pause();
     }
 

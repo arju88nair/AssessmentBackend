@@ -328,8 +328,7 @@ Rain04
     public static function saveFeed($input)
     {
 
-
-        $model = new self();
+         $model = new self();
 
         $lastId = $model::all()->last()['feedId'];
         $model->category = $_POST['Category'];
@@ -377,8 +376,8 @@ Rain04
 
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
-		
-		$ur = urlencode($input['sourceUrl']);
+
+        $ur = urlencode($input['sourceUrl']);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://tinyurl.com/api-create.php?url=" . $ur);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -391,16 +390,13 @@ Rain04
 
 
         $model->tinySource = $result;
-		
+
         $model->feedSourceTag = $input['sourceTitle'];
 
 
-        if (isset($_POST['gcm'])) {
-            $model->feedGCM = "Yes";
 
-        } else {
-            $model->feedGCM = "No";
-        }
+        $model->feedGCM = "No";
+
 
         $files = Input::file('images');
         if (!Input::hasFile('images')) {
@@ -412,10 +408,7 @@ Rain04
 
                 $users = addUser::all();
 
-                if (isset($_POST['gcm'])) {
-                    $gcm = addUser::feedGcm($title, $model['_id']);
 
-                }
 
 
                 return Redirect::to('addFeed')->with('users', $users)->with('feed', $feed);
@@ -451,8 +444,7 @@ Rain04
                     $string = "/var/www/html/Assessment/public";
                     $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                     $model->feedAudio = $path;
-                    $model->feedAudio = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/audio/Pokemon-PokemonOpeningRingtoneMOSTAWESOMERINGTONEEVE.mp3";
-
+                   
                     $isSaved = $model->save();
                     if ($isSaved) {
                         $feeds = feeds::all();
@@ -477,7 +469,6 @@ Rain04
                 }
             }
         }
-
     }
 
 
@@ -557,12 +548,13 @@ Rain04
     public static function saveEditFeed($input)
     {
 
-         $id = $input['id'];
+        
+        $id = $input['id'];
 
         $model = self::find($id);
         $new = mainFeed::find($id);
         if (isset($new) || $new != []) {
-           echo $new->delete();
+            echo $new->delete();
         }
         $content = $_POST['feedShotRemark'];
         if ($content != "" || $content != null) {
@@ -570,28 +562,10 @@ Rain04
             $feedRemark = $content . "  " . "\n" . "[Added at " . date("Y-m-d h:i:sa", time()) . "  By " . $_POST['feedOwner'] . " as the content writer" . " ]  " . "\n" . '--------------------' . "\n" . $model['feedRemark'];
             $model->feedRemark = $feedRemark;
         }
-        if ($new != "") {
 
-
-            $title = $new->feedTitle = $input['feedTitle'];
-            $new->summarised = $input['summarised'];
-            $new->addedBy = $input['addedBy'];
-            $new->feedOwner = $_POST['feedOwner'];
-            $new->feedDate = $_POST['feedDate'];
-            $new->feedSchedule = $input['feedSchedule'];
-            $new->feedType = $_POST['type'];
-            $new->category = $_POST['Category'];
-            $new->location = $_POST['loc'];
-            $new->trending = $_POST['trending'];
-            $new->feedContent = $input['feedContent'];
-            $new->feedSource = $input['sourceUrl'];
-            $new->feedStatus = "Pending";
-            $new->feedRemark = "";
-            $new->feedSourceTag = $input['sourceTitle'];
-        }
         $title = $model->feedTitle = htmlspecialchars($input['feedTitle'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->summarised = $input['summarised'];
-        $model->feedStatus = "Waiting for Approval";
+        $model->feedStatus = "Waiting For Approval";
 
         $model->addedBy = $input['addedBy'];
         $model->feedRating = 0;
@@ -608,7 +582,7 @@ Rain04
         $model->feedContent = htmlspecialchars($input['feedContent'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_DISALLOWED | ENT_HTML5, 'UTF-8');
         $model->feedSource = $input['sourceUrl'];
 //        $hi = file_get_contents("https://tinyurl.com/api-create.php?url=" . $input['sourceUrl']);
-		$ur = urlencode($input['sourceUrl']);
+        $ur = urlencode($input['sourceUrl']);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://tinyurl.com/api-create.php?url=" . $ur);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -622,12 +596,10 @@ Rain04
 
         $model->tinySource = $result;
         $model->feedSourceTag = $input['sourceTitle'];
-		
+
         if ($input['feedImage'] != "" || $input['feedImage'] != null) {
             $model->feedImage = $input['feedImage'];
-            if ($new != "") {
-                $new->feedImage = $input['feedImage'];
-            }
+
         } else {
             //Image upoading
             $images = Input::file('image');
@@ -641,43 +613,27 @@ Rain04
                 $string = "/var/www/html/Assessment/public";
                 $path = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($string, '', $pathToFile);
                 $model->feedImage = $path;
-                if ($new != "") {
-                    $new->feedImage = $input['feedImage'];
-                }
+
             }
             //Image end
         }
-        if (isset($_POST['gcm'])) {
-            $model->feedGCM = "Yes";
-            if ($new != "") {
-                $new->feedGCM = "Yes";
-            }
 
-        } else {
-            $model->feedGCM = "No";
-        }
-        if ($new != "") {
-            $new->feedGCM = "No";
-        }
+        $model->feedGCM = "No";
+
         $files = Input::file('images');
 
         if (!Input::hasFile('images')) {
 
             $isSaved = $model->save();
 
-            if ($new != "") {
 
-                $newSaved = $new->save();
-
-            }
 
             if ($isSaved) {
                 $users = addUser::all();
                 $feed = feeds::all();
 
-                if (isset($_POST['gcm'])) {
-                    $gcm = addUser::feedGcm($title, $model['_id']);
-                }
+
+
                 $new = mainFeed::find($id);
                 if (isset($new) || $new != []) {
                     $saved= $new->delete();
@@ -719,10 +675,8 @@ Rain04
                 if (in_array($ext, $allowed)) {
                     $path = $destinationPath . $filename;
                     $model->feedAudio = $path;
-                    if ($new != "") {
-                        $new->feedAudio = $path;
-                    }
-//                    $model->feedAudio = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/audio/Pokemon-PokemonOpeningRingtoneMOSTAWESOMERINGTONEEVE.mp3";
+
+                   // $model->feedAudio = "http://ec2-52-33-112-148.us-west-2.compute.amazonaws.com/audio/Saran.mp3";
 
                     $isSaved = $model->save();
                     if ($isSaved) {
@@ -766,7 +720,7 @@ Rain04
             $arr = array();
             $array = array();
 
-            $feeds = mainFeed::all();
+            $feeds = mainFeed::orderBy('published_at', 'desc')->get();
 
             foreach ($feeds as $feed) {
                 array_push($arr, $feed);
@@ -804,7 +758,7 @@ Rain04
             return array(
                 "code" => "0",
                 "status" => "success",
-                "feedIdArray" => array_reverse($arr)
+                "feedIdArray" => $feeds
 
             );
 
@@ -817,27 +771,42 @@ Rain04
         }
     }
 
+
+
     public static function apply()
     {
 
-/* 	return feeds::find('5826c98ca94ff4629c42be61');
- */		
-		
-		/* $arr=array();
-		$ar= feeds::where('feedStatus', '=', 'Published')->get();
-		foreach($ar as $a)
-		{
-			array_push($arr,$a['_id']);
-		}
-		$main=array();
-		$mainF=mainFeed::all();
-				return count($mainF);
 
-		foreach($mainF as $ma)
+return feeds::where('feedStatus', '=', 'Waiting For Approval')->get();
+
+	// return count(mainFeed::all());
+	
+	// 	  $feed=feeds::find('5856bd30a94ff41c5a58e311');
+	// 		$feeds=mainFeed::find('5856bd30a94ff41c5a58e311');
+
+	// 	if($feeds != []){ 
+	// 		$feeds->updated_at="2016-12-23 08:45:09";
+ //        $feeds->published_at="2016-12-23 08:45:09";	
+	// 	$feeds->save();
+	// 	}
+		
+	// 	$feed->updated_at="2016-12-23 08:45:09";
+ //        $feed->published_at="2016-12-23 08:45:09";	
+		
+	// 	$feed->save();
+	// 	return $feeds;  
+		
+
+		/* $feeds= feeds::where('feedStatus', '=', 'Published')->skip(20)->take(5)->get();
+		return $feeds;
+		foreach($feeds as $feed)
 		{
-			array_push($main,$ma['_id']);
+		$feed->updated_at="2016-11-16 11:16:51";
+        $feed->published_at="2016-11-16 11:16:51";	
+		$feed->save();
 		}
-		return array_diff($arr,$main); */
+		return $feeds; */
+		
 		
     }
 

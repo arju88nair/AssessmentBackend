@@ -274,7 +274,7 @@ class admin extends Eloquent
 
     public static function setFeed()
     {
-        $main = mainFeed::all();
+        $main =  mainFeed::orderBy('published_at', 'desc')->get();
 
 
         if (count($main) == 0 || !isset($main)) {
@@ -303,7 +303,7 @@ class admin extends Eloquent
 
 			$mainAr=array();
             $mainId = array();
-            $array = mainFeed::all();
+            $array = mainFeed::orderBy('published_at', 'desc')->get();
             $excepted = array();
             $feeds = feeds::where('feedStatus', '=', 'Approved')->get();
             foreach ($array as $main) {
@@ -323,7 +323,7 @@ class admin extends Eloquent
 			foreach($array as $feedAr){
 				array_push($mainAr,$feedAr);
 			}
-            return View::make('setFeed')->with('main',array_reverse($mainAr) )->with('other', $excepted);
+            return View::make('setFeed')->with('main',$mainAr )->with('other', $excepted);
         }
 
     }
@@ -392,6 +392,8 @@ class admin extends Eloquent
 
     public static function saveSetFeed()
     {
+       
+        $text=$_POST['text'];
         $ids = $_POST['ids'];
         $ids = explode(",", $ids);
         $arr = array();
@@ -422,7 +424,7 @@ class admin extends Eloquent
 
                 }
                 if(count($diffArray)>0){
-                    return addUser::countGcm(count($diffArray));
+                    return addUser::countGcm(count($diffArray),$text);
                 }
             } else {
                 return array("message" => "No change");
@@ -443,112 +445,12 @@ class admin extends Eloquent
                     $main->published_at = $date;
                     $main->summarised = $feed['summarised'];
                     $main->save();
-                    return addUser::countGcm(count($ids));
+                    return addUser::countGcm(count($ids,$text));
                 }
             } else {
                 return array("message" => "No change");
             }
         }
-//        foreach ($allFeeds as $feed) {
-//
-//            $hi = self::testar($feed, $feed['_id'], $ids);
-//            if ($hi != null || count($hi) != 0) {
-//                array_push($arr, $hi);
-//
-//            }
-//        }
-//        return $arr;
-//        $mainCount= mainFeed::count();
-//        $arrayCount=count($arr);
-//        $diff=floor($arrayCount-$mainCount);
-//
-//
-//        if (count($arr) != 0) {
-//            $main = mainFeed::all();
-//            foreach ($main as $mainFeed) {
-//                $foundMainFeed = feeds::find($mainFeed['_id']);
-//                $foundMainFeed->feedStatus = "Approved";
-//                $foundMainFeed->save();
-//            }
-//            if (count($main) != 0) {
-//
-//                mainFeed::query()->delete();
-//                foreach ($arr as $ar) {
-//                    $foundFeed = feeds::find($ar['_id']);
-//                    $foundFeed->feedStatus = "Published";
-//                    $birth=$foundFeed->published_at="hi";
-////                        if($birth=""||empty($birth))
-////                        {
-////                            $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-////                            $foundFeed->published_at=$date->format('d-m-Y H:i:s');
-////                        }
-//                    $foundFeed->save();
-//                    $main = new mainFeed;
-//                    $main->_id = $ar['_id'];
-////                    $main->category = $ar['category'];
-//                    $main->summarised = $ar['summarised'];
-////                    $main->addedBy = $ar['addedBy'];
-////                    $main->feedOwner = $ar['feedOwner'];
-////                    $main->feedSchedule = $ar['feedSchedule'];
-////                    $main->feedType = $ar['feedType'];
-////                    $main->trending = $ar['trending'];
-////                    $main->location = $ar['location'];
-////                    $main->feedDate = $ar['feedDate'];
-//                    $main->feedTitle = $ar['feedTitle'];
-////                    $main->feedImage = $ar['feedImage'];
-////                    $main->likeCount = $ar['likeCount'];
-////                    $main->feedContent = $ar['feedContent'];
-////                    $main->feedSource = $ar['feedSource'];
-////                    $main->feedSourceTag = $ar['feedSourceTag'];
-////                    $main->feedGCM = $ar['feedGCM'];
-//                    $main->feedBirth = $ar['updated_at'];
-//                    $main->feedStatus = $ar['feedStatus'];
-////                    $main->feedRemark = $ar['feedRemark'];
-//
-//                    $main->save();
-//                }
-//                if($diff>0)
-//                {
-//                    return addUser::countGcm($diff);
-//                }
-//                return mainFeed::all();
-//
-//
-//            } else {
-//                foreach ($arr as $ar) {
-//                    $foundFeed = feeds::find($ar['_id']);
-//                    $foundFeed->feedStatus =
-//                        $foundFeed->save();
-//                    $main = new mainFeed;
-//                    $main->_id = $ar['_id'];
-////                    $main->category = $ar['category'];
-//                    $main->summarised = $ar['summarised'];
-////                    $main->addedBy = $ar['addedBy'];
-////                    $main->feedOwner = $ar['feedOwner'];
-////                    $main->feedSchedule = $ar['feedSchedule'];
-////                    $main->feedType = $ar['feedType'];
-////                    $main->trending = $ar['trending'];
-////                    $main->location = $ar['location'];
-////                    $main->feedDate = $ar['feedDate'];
-//                    $main->feedTitle = $ar['feedTitle'];
-////                    $main->feedImage = $ar['feedImage'];
-////                    $main->likeCount = $ar['likeCount'];
-////                    $main->feedContent = $ar['feedContent'];
-////                    $main->feedSource = $ar['feedSource'];
-////                    $main->feedSourceTag = $ar['feedSourceTag'];
-////                    $main->feedGCM = $ar['feedGCM'];
-//                    $main->feedBirth = $ar['updated_at'];
-//                    $main->feedStatus = "Published";
-////                    $main->feedRemark = $ar['feedRemark'];
-//                    $main->save();
-//                }
-//                if($diff>0)
-//                {
-//                    return addUser::countGcm($diff);
-//                }
-//                return mainFeed::all();
-//            }
-//        }
 
     }
 

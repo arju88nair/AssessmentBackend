@@ -64,12 +64,6 @@ Route::post('viewFeed','DashboardController@viewFeed');
 
 Route::post('accept','DashboardController@accept');
 
+Route::get('survey','DashboardController@viewSurvey');
 
-
-
-
-
-
-
-
-
+Route::post('addSurvey','DashboardController@addSurvey');

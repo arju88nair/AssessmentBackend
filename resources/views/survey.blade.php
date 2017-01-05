@@ -74,7 +74,11 @@
     .comments{
         word-wrap: break-word;
     }
-
+    .description{
+        word-wrap: break-word;
+        color: #737373;
+        font-size: 13px;
+    }
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
@@ -190,6 +194,14 @@
             margin-right: 0;
         }
     }
+
+.container .survey-form{
+    width: 100%;
+    padding: 3% 20% 0 20%;
+}
+.container .survey-form {
+
+}
 </style>
 <nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
     <div class="container-fluid">
@@ -252,34 +264,36 @@
                 <li id="setId" style="font-size: 1.2em">
                      <a href="survey"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp; &nbsp;Survey</a>
                 </li>
-
             </ul>
         </div>
     </div>
 
     <div class="container">
 
-        <ul id="ul">
-            <?php
-            foreach ($comments as $comment):
-            ?>
-            <li class="li">
-                <div style="float: left;">
-                    <span class="added">Added By :</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="addedUID"><?= $comment['userId'] ?></span>
-                </div>
-                <div style="float: right;">
-                    <span class="addedD">Added Date</span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="addedDate"><?= $comment['created_at'] ?></span>
-                </div>
-                <br><br><br>
-                <p class="comments"><a href="<?= $comment['comments'] ?>" target="_blank"><?= $comment['title'] ?></a></p>
-            </li>
-            <?php
-            endforeach;
-            ?>
-        </ul>
+          <div class="survey-form">
+            {{ Form::open(['url'=>'addSurvey']) }}
+
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pass1">Text</label>
+                    <input type="text" class="form-control" id="pass1" name="text" placeholder="Enter Text" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="surveyid">Survey ID</label>
+                    <input type="text" class="form-control" id="surveyid" name="surveyID" placeholder="Enter Survey ID" required>
+                    <small id="surveyid" class="form-text text-muted"><b style="color: #ff0000">*</b> Survey Id will be same as it is.</small>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" value="Submit">
+                    <span style="font-size: 13px; color: #06B53C;"> <?php echo Session::get('message'); ?> </span>
+                  </div>
+
+            {{ Form::close() }}
+          </div>
+
     </div>
     <!-- /#page-content-wrapper -->
 </div>

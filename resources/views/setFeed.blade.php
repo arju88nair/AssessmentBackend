@@ -4,8 +4,10 @@
     <title>Publish Shot</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -36,7 +38,7 @@
             list-style-type: none;
             margin: 0;
             padding: 5px 0 0 0;
-            overflow-x:hidden;
+            overflow-x: hidden;
         }
 
         hr.vertical {
@@ -56,22 +58,26 @@
             padding: 8px;
             font-size: 1.2em;
             background-color: white;
-            border:thin solid lightgrey;
+            border: thin solid lightgrey;
         }
 
         #sortable2 li {
             margin: 0 5px 5px 5px;
             padding: 5px;
             font-size: 1.2em;
-            border:thin solid lightgrey;
+            border: thin solid lightgrey;
             background-color: khaki;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#Shareitem").click(function (e) {
+                var text = $('#textField').val();
+                if(text == ""){
+                    alert("Don't let it be empty!")
+                    return false;
+                }
                 var liIds = $('#sortable1 li').map(function (i, n) {
                     return $(n).attr('id');
                 }).get().join(',');
@@ -79,11 +85,14 @@
                 $.ajax({
                     type: "POST",
                     url: "saveSetFeed",
-                    data: {"ids": liIds},
+                    data: {"ids": liIds, "text": text},
                     success: function (response) {
                         console.log(response);
+                        $('#myModal').modal('hide');
                         $('#success').show();
-                        window.setTimeout(function(){location.reload()},500)
+                        window.setTimeout(function () {
+                            location.reload()
+                        }, 500)
                     },
                     error: function (response) {
                         console.log(response);
@@ -316,20 +325,23 @@
 <nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
+            <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"><span class="glyphicon glyphicon-list"
+                                                                               aria-hidden="true"></span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li id="Mikrolearn" style="font-size: 1.8em"><a href="addFeed"> Mikrolearn</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="loginAdmin"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a></li>
+                <li><a href="loginAdmin"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a>
+                </li>
             </ul>
             <!--             <form class="navbar-form navbar-right" action="#" method="GET">
                                <div class="input-group">
@@ -356,12 +368,20 @@
                 {{--</a>--}}
                 {{--</li>--}}
                 <li style="font-size: 1.2em">
-                    <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp; Add feeds</a>
+                    <a href="addFeed"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+                        Add feeds</a>
                 </li>
                 <li id="setId" style="font-size: 1.2em">
-                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish Shots</a>
+                    <a href="setFeed"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; &nbsp;Publish
+                        Shots</a>
                 </li>
-
+                <li id="setId" style="font-size: 1.2em">
+                    <a href="comments"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp; &nbsp;User
+                        Suggestions</a>
+                </li>
+                <li id="setId" style="font-size: 1.2em">
+                     <a href="survey"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp; &nbsp;Survey</a>
+                </li>                
 
             </ul>
         </div>
@@ -379,12 +399,14 @@
                 </div> -->
 
 
-
     <div id="container" style="background-color: #F0F2F5">
 
         <br>
-        <div id="help" style="text-align: center;font-weight: bold;font-size: 1.4em">Drag and drop to publish shots!</div>
+
+        <div id="help" style="text-align: center;font-weight: bold;font-size: 1.4em">Drag and drop to publish shots!
+        </div>
         <br>
+
         <div class="alert alert-success fade in" id="success">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Success!</strong> Shots have been updated.
@@ -394,12 +416,15 @@
             <strong>Error!</strong> Something went wrong.Refresh and try again.
         </div>
         <div id="wrapper">
-            <button id="Shareitem"  class="btn btn-primary btn-lg btn-block" type="button" style="width:78%">Publish Shots</button>
+            <button class="btn btn-primary btn-lg btn-block" type="button" style="width:78%" data-toggle="modal"
+                    data-target="#myModal">Enter the text
+            </button>
 
         </div>
 
         <div class="col1 col-md-6" style="margin-left: 3%;padding-top: 2%">
             <h4 style="">Approved Shots</h4>
+
             <div class="col2 col-lg-12" style=" height:400px;padding-top: 1%;">
 
                 <ul id="sortable2" class="connectedSortable" style="    margin-top: -5px;"></ul>
@@ -425,7 +450,7 @@
                                                                                 style="margin-left: 2%;font-weight: bold"><?= $page['feedTitle'] ?> </span>
                         &nbsp;
                         <div><span id="date"
-                                   style="font-size: 80%;margin-left: 8%">Updated on 
+                                   style="font-size: 80%;margin-left: 8%">Updated on
                                 <?= date('F Y d h:i:s A', strtotime($page['published_at'])); ?>
                                 </span><span
                                     id="added" style="font-size: 80%">&nbsp; By <?= $page['summarised'] ?></span></div>
@@ -441,6 +466,34 @@
 
             </div>
             <div class="col-lg-5"></div>
+
+
+            {{--Input modal --}}
+
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal Header</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="text">Enter the text to be displayed
+                                </label>
+                                <input type="text" id="textField" class="form-control" name="text" maxlength="100" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="Shareitem" type="button" class="btn btn-primary">Publish Shots</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
         <script>
             var items = '<?php
@@ -448,7 +501,7 @@ echo json_encode($other,JSON_HEX_APOS);
 ?>';
             console.log(items);
             var pager = {};
-            items=items.replace(/\\n/g, "\\n")
+            items = items.replace(/\\n/g, "\\n")
                     .replace(/\\'/g, "\\'")
                     .replace(/\\"/g, '\\"')
                     .replace(/\\&/g, "\\&")
@@ -458,9 +511,9 @@ echo json_encode($other,JSON_HEX_APOS);
                     .replace(/\\/g, "\\\\")
                     .replace(/\\f/g, "\\f");
             // remove non-printable and other non-valid JSON chars
-            items = items.replace(/[\u0000-\u0019]+/g,"");
+            items = items.replace(/[\u0000-\u0019]+/g, "");
             pager.items = JSON.parse(items);
-            pager.itemsPerPage =10;
+            pager.itemsPerPage = 10;
             pagerInit(pager);
             function bindList() {
                 var pgItems = pager.pagedItems[pager.currentPage];
@@ -468,7 +521,7 @@ echo json_encode($other,JSON_HEX_APOS);
                 for (var i = 0; i < pgItems.length; i++) {
                     for (var key in pgItems[i]) {
                         var option = $('<li class="ui-state-highlight" id=' + pgItems[i]['_id'] + '>');
-                        option.html("<span id=\"title\" style=\"margin-left: 2%;font-weight: bold\">"+pgItems[i]["feedTitle"]+"</span>&nbsp;<div> <span id=\"date\" style=\"font-size: 80%;margin-left: 8%\">Updated on "+pgItems[i]["updated_at"]+"</span><span id=\"added\" style=\"font-size: 80%\">&nbsp; By "+pgItems[i]["summarised"]+"</span></div> ");
+                        option.html("<span id=\"title\" style=\"margin-left: 2%;font-weight: bold\">" + pgItems[i]["feedTitle"] + "</span>&nbsp;<div> <span id=\"date\" style=\"font-size: 80%;margin-left: 8%\">Updated on " + pgItems[i]["updated_at"] + "</span><span id=\"added\" style=\"font-size: 80%\">&nbsp; By " + pgItems[i]["summarised"] + "</span></div> ");
                     }
                     $("#sortable2").append(option);
                 }
@@ -522,7 +575,7 @@ echo json_encode($other,JSON_HEX_APOS);
 <!-- /#wrapper -->
 
 <script type="text/javascript">
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
